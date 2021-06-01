@@ -18,7 +18,9 @@ Tested Besder camera has a separate button installed which, when pressed, defaul
 Inside the box that arrived there was the camera itself, a screw to fix a camera to a certain point and ***User Manual*** in english language. Within the user manual there were instructions how to set up the camera for the first time. Turns out, I needed to download ***ICSee*** app to my smartphone to do that. First time configuration requires the user to connect to a Wi-Fi network. By default the IP address of the camera in the Local Area Network is set dynamically, although it is possible to set a static IP address of `192.168.0.10`.
 
 # Technical Information
+Gathering of technical information about tested ip camera.
 ## Open ports
+Open ports of a tested ip camera - TCP and UDP ports.
 ### TCP scan
 To discover open ports of the camera I have used `nmap` tool. The command to find TCP ports and determine their purpose was `nmap -v -sS -sV -sC -p- X.X.X.X`, where `X.X.X.X` is IP address of a camera. The scan was conducted with root privilleges. Meaning of flags is commented below:
 ```
@@ -26,7 +28,7 @@ To discover open ports of the camera I have used `nmap` tool. The command to fin
 -sS		Stealth scan. Fast, accurate and non-intrusive test of a selected target.
 -sV		Version scan. Used to detect versions of services running on IP Camera.
 -sC		Scripts scan. Uses a default set of `nmap` scripts.
--p-		Check all 65536 TCP ports if they are open.
+-p-		Check all 65535 TCP ports if they are open.
 ```
 
 Results of TCP scan with `nmap` are presented below:
