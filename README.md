@@ -102,7 +102,7 @@ Indeed, the webpage was not working as intented, displaying only a single line o
 Anyway, after that I tried to log into the `NETSurveillance WEB` control panel. After pressing the login button it takes suspiciously long time to start any login activity. So I decided to inspect the webpage's code. I had found a `Javascript` login function which had a very _"interesting"_ feature - a 2 second timer, which activates after pressing the login button. To be honest, I am not sure about the purpose of this delay. Maybe it is to make the device look slower than it actually is, especially in comparison to higher end models that the company is offering. But that is just speculation.
 
 # Network communication analysis
-For analyzing network traffic I have carried out a `Man in the Middle` attack using `Ettercap` tool and itercepted all the traffic between ip camera, smartphone, Windows 10 virtual computer inside Virtualbox and router. All devices were connected to the internet via Wi-Fi network. The scheme of analyzed devices is shown below.
+For analyzing network traffic I have carried out a `Man in the Middle` attack using `Ettercap` tool and intercepted all the traffic between ip camera, smartphone, Windows 10 virtual computer inside Virtualbox and router. All devices were connected to the internet via Wi-Fi network. The scheme of analyzed devices is shown below.
 
 ## Communication with a control panel in a web browser
 After logging in the `NETSurveillance WEB` control panel all the data between laptop and camera is sent through port `34567` and is obfuscated with what looks like a bunch of different length `MD5` hashes and separated by either `+` or `/` symbol. I have not found out yet what is the exact process of data obfuscation but I plan to do it later on.
@@ -111,7 +111,7 @@ After logging in the `NETSurveillance WEB` control panel all the data between la
 As I have mentioned before, during the security analysis all network devices were connected to a Wireless Local Area Network. Still, I managed to capture a fair bit of communication with various servers providing cloud services.
 Throughout the whole security testing that I have done, the camera sent a bunch of UDP datagrams to various IP addresses. Those datagrams contained camera's serial number. I was not able to determine their purpose.
 Firstly the camera does a DNS resolution with an `Amazon AWS` server located in Germany, although the packages sent have data about some Chinese DNS servers with their IP addresses. I may assume that the DNS address is chosen based on camera's location. I might as well test it with a VPN someday.
-After that camera sends a HTTP POST request to an `Amazon AWS` server with some interesting data.
+After that camera sends a HTTP POST request to an `Amazon AWS` server with some interesting data. The request was formatted by me to be more readable.
 ```
 POST / HTTP/1.1
 Host: 3.126.12.232
