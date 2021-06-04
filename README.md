@@ -2,7 +2,7 @@
 For the final project of my Bachelor's studies I have chosen to investigate what security vulnerabilities and issues can be found within various IP camera models. And for this purpose I have bought ***Besder 6024PB-XMA501*** IP Camera from AliExpress. It has 5MP sensor is one of the cheaper ones you can find there and I thought to give it a try and bought it with hopes of finding some potentially _"interesting"_ stuff to put into my final project. My hopes were fulfilled and after the security investigation that I have done while writing my final project I decided to do a more troughout research and post it here.
 
 # Analysis methodology
-The whole security analysis of the IP camera was conducted within Arch Linux operating system on a laptop. Plan of analysis is as follows:
+The whole security analysis of the IP camera was conducted within Arch Linux operating system on an Acer laptop. Plan of analysis is as follows:
 1. Factory reset of the camera.
 2. Initial setup of the camera.
 3. Technical information about analyzed camera discovery - open ports, OS version, etc.
@@ -31,7 +31,7 @@ To discover open ports of the camera I have used `nmap` tool. The command to fin
 -p-		Check all 65535 TCP ports if they are open.
 ```
 
-Results of TCP scan with `nmap` are presented below:
+Results of TCP port scan with `nmap` are presented below:
 ```
 PORT      STATE SERVICE       VERSION
 80/tcp    open  http
@@ -77,12 +77,12 @@ The scan found ***5*** open ***TCP*** ports in Besder 6024PB-XMA501 camera:
 5. Port `34567` is used for `dhanalakshmi` service. It is a data port which is used for transmitting and recieving data when the user connects to the camera either from a computer or a smartphone. I will elaborate on this specific port a bit more in later sections.
 
 ### UDP scan
-Next is UDP scan. For this scan I have used the same `nmap` tool with added `-sU` flag. Although this time I have set the program to scan only 1000 most popular ports as UDP scanning is a lot slower than TCP scan. The command used there was `nmap -v -sU -sV X.X.X.X`, where `X.X.X.X` is IP address of the camera. The scan was run with root privilleges. Results of the scan are presented below.
+Next is open UDP port scan. For this scan I have used the same `nmap` tool with added `-sU` flag. Although this time I have set the program to scan only 1000 most popular ports as UDP scanning is a lot slower than TCP scan. The command used there was `nmap -v -sU -sV X.X.X.X`, where `X.X.X.X` is IP address of the camera. The scan was run with root privilleges. Results of the scan are presented below.
 ```
 PORT     STATE         SERVICE      VERSION
 3702/udp open|filtered ws-discovery
 ```
-The scan found ***1*** open ***UDP*** port - `ws-discovery`, which stands for web service discovery. It is used for locating services within the devices connected via Local Area Network.
+The scan found ***1*** open ***UDP*** port - `ws-discovery`, which stands for ***web service discovery***. It is used for locating services within the devices connected via Local Area Network.
 
 ## OS Detection
 Using `nmap` tool with `-O` flag I was able to determine the Operating System and it's version running on the analyzed Besder IP Camera. The scan result is presented below.
@@ -97,14 +97,16 @@ As it can be seen from the result, Besder ip camera is regarded as a `general pu
 # Control Panel in a Web Browser
 This is the time when some really interesting things start to show up. I have tried to access the control panel of the camera in `Mozilla Firefox` browser within my Arch Linux install... And I was greeted with this nice pop-up window saying that my browser is too new and that some features would not work properly. Also, there was a request that I should download Firefox version `51` from 2017.
 
-<img align="center" src="img/Browser_too_new.png" alt="Pop-up saying that my browser is too new to render camera's control panel">
+![Pop-up saying that my browser is too new for rendering the control panel](img/Browser_too_new.png)
 
-Indeed, the webpage was not working as intented, displaying only a single line of text and a button to download `NewActive.exe` plugin. It does not look like a good idea... Luckily, I have `Windows 10` virtual machine installed within `Virtualbox` environment, so I have switched to that for further web browser testing. Tried a few other of the most popular browsers - all gave the same pop-up asking to download an ancient versions of these browsers. Turns out that the `NETSurveillance WEB`, used for controlling the camera, was only functional within the good old `Internet Explorer` browser with `ActiveX` plugin installed and activated. Neither of these I would want to run on my main machine...
+Indeed, the webpage was not working as intented, displaying only a single line of text and a button to download `NewActive.exe` plugin. It does not look like a good idea to download any .exe files that a webpage, which requires an ancient version of web browser installed, asks me to download... Anyways, I have a Windows 10` virtual machine installed within a `Virtualbox` environment, so I have switched to that for further testing of a web interface. Tried a few other of the most popular browsers - all gave the same pop-up asking to download old versions of those browsers. Turns out that the `NETSurveillance WEB`, used for controlling the camera, was only functional within the "good old" `Internet Explorer` browser with `ActiveX` plugin installed and activated. Neither of these I would want to constantly run on my main machine...
 
-Anyway, after that I tried to log into the `NETSurveillance WEB` control panel. After pressing the login button it takes suspiciously long time to start any login activity. So I decided to inspect the webpage's code. I had found a `Javascript` login function which had a very _"interesting"_ feature - a 2 second timer, which activates after pressing the login button. To be honest, I am not sure about the purpose of this delay. Maybe it is to make the device look slower than it actually is, especially in comparison to higher end models that the company is offering. But that is just speculation.
+Anyway, I tried to log into the `NETSurveillance WEB` control panel. After pressing the login button it takes suspiciously long time to start any login activity. So I decided to inspect the webpage's code. And there I had found a `Javascript` login function which had a very _"interesting"_ feature - a 2 second timer, which activates ***after*** pressing the login button. To be honest, I am not sure about the purpose of this delay. One idea that I have is that it is used to make the device look slower than it actually is, especially in comparison to higher end models that the company is offering. But that is just speculation from my side.
 
 # Network communication analysis
-For analyzing network traffic I have carried out a `Man in the Middle` attack using `Ettercap` tool and intercepted all the traffic between ip camera, smartphone, Windows 10 virtual computer inside Virtualbox and router. All devices were connected to the internet via Wi-Fi network. The scheme of analyzed devices is shown below.
+For analyzing network traffic associated with the camera I have carried out a `Man in the Middle` cyberattack using `Ettercap` tool and intercepted all the traffic between ip camera, smartphone, Windows 10 virtual computer within Virtualbox and the router. All devices were connected to the internet via ***Wi-Fi*** local area network. The scheme of devices used during analysis is shown below.
+
+![Network analysis scheme](img/Network_analysis_sheme.png)
 
 ## Communication with a control panel in a web browser
 After logging in the `NETSurveillance WEB` control panel all the data between laptop and camera is sent through port `34567` and is obfuscated with what looks like a bunch of different length `MD5` hashes and separated by either `+` or `/` symbol. I have not found out yet what is the exact process of data obfuscation but I plan to do it later on.
@@ -112,8 +114,11 @@ After logging in the `NETSurveillance WEB` control panel all the data between la
 # Communication With Cloud Services
 As I have mentioned before, during the security analysis all network devices were connected to a Wireless Local Area Network. Still, I managed to capture a fair bit of communication with various servers providing cloud services.
 Throughout the whole security testing that I have done, the camera sent a bunch of UDP datagrams to various IP addresses. Those datagrams contained camera's serial number. I was not able to determine their purpose.
+Firstly I have connected to the camera from web interface, then from smartphone.
+
+## Connecting from web interface
 Firstly the camera does a DNS resolution with an `Amazon AWS` server located in Germany, although the packages sent have data about some Chinese DNS servers with their IP addresses. I may assume that the DNS address is chosen based on camera's location. I might as well test it with a VPN someday.
-After that camera sends a HTTP POST request to an `Amazon AWS` server with some interesting data. The request was formatted by me to be more readable.
+After that camera sends a HTTP POST request to an `Amazon AWS` server with some interesting data. All the following requests were formatted by me to be more readable.
 ```
 POST / HTTP/1.1
 Host: 3.126.12.232
