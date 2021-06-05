@@ -95,20 +95,23 @@ OS details: Linux 3.2 - 3.16
 As it can be seen from the result, Besder ip camera is regarded as a `general purpose` device and is running Linux OS with a likely version of `Linux 3.2 - 3.16`.
 
 # Control Panel in a Web Browser
+
 This is the time when some really interesting things start to show up. I have tried to access the control panel of the camera in `Mozilla Firefox` browser within my Arch Linux install... And I was greeted with this nice pop-up window saying that my browser is too new and that some features would not work properly. Also, there was a request that I should download Firefox version `51` from 2017.
 
-![Pop-up saying that my browser is too new for rendering the control panel](img/Browser_too_new.png)
+![Pop-up saying that my browser is too new for rendering the control panel](/img/Browser_too_new.png)
 
 Indeed, the webpage was not working as intented, displaying only a single line of text and a button to download `NewActive.exe` plugin. It does not look like a good idea to download any .exe files that a webpage, which requires an ancient version of web browser installed, asks me to download... Anyways, I have a Windows 10` virtual machine installed within a `Virtualbox` environment, so I have switched to that for further testing of a web interface. Tried a few other of the most popular browsers - all gave the same pop-up asking to download old versions of those browsers. Turns out that the `NETSurveillance WEB`, used for controlling the camera, was only functional within the "good old" `Internet Explorer` browser with `ActiveX` plugin installed and activated. Neither of these I would want to constantly run on my main machine...
 
-Anyway, I tried to log into the `NETSurveillance WEB` control panel. After pressing the login button it takes suspiciously long time to start any login activity. So I decided to inspect the webpage's code. And there I had found a `Javascript` login function which had a very _"interesting"_ feature - a 2 second timer, which activates ***after*** pressing the login button. To be honest, I am not sure about the purpose of this delay. One idea that I have is that it is used to make the device look slower than it actually is, especially in comparison to higher end models that the company is offering. But that is just speculation from my side.
+Anyway, I tried to log into the `NETSurveillance WEB` control panel. After pressing the login button it takes suspiciously long time to start any login activity. So I decided to inspect the webpage's code. And there I had found a `Javascript` `login function which had a very _"interesting"_ feature - a 2 second timer, which activates ***after*** pressing the login button. To be honest, I am not sure about the purpose of this delay. One idea that I have is that it is used to make the device look slower than it actually is, especially in comparison to higher end models that the company is offering. But that is just speculation from my side.
 
 # Network communication analysis
+
 For analyzing network traffic associated with the camera I have carried out a `Man in the Middle` cyberattack using `Ettercap` tool and intercepted all the traffic between ip camera, smartphone, Windows 10 virtual computer within Virtualbox and the router. All devices were connected to the internet via ***Wi-Fi*** local area network. The scheme of devices used during analysis is shown below.
 
-![Network analysis scheme](img/Network_analysis_sheme.png)
+![Network analysis scheme](/img/Network_analysis_scheme.png)
 
 ## Communication with a control panel in a web browser
+
 After logging in the `NETSurveillance WEB` control panel all the data between laptop and camera is sent through port `34567` and is obfuscated with what looks like a bunch of different length `MD5` hashes and separated by either `+` or `/` symbol. I have not found out yet what is the exact process of data obfuscation but I plan to do it later on.
 
 # Communication With Cloud Services
