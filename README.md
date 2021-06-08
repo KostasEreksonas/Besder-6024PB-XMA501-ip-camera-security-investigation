@@ -326,7 +326,7 @@ Connection: keep-alive
 			{
 				"module":"runtime",
 				"interval":1800,
-				"want":["cpu","mem","bat","reboot","wakeup"]
+				"want":["cpu","mem","bat","reboot","wakeup"]V
 			},
 			{
 				"module":"xmcloud",
@@ -342,7 +342,7 @@ Connection: keep-alive
 }
 ```
 
-Last thing that I have captured is camera's communication with an update server:
+Last thing that I have captured is camera's communication with an update server:b
 
 ```
 /list HTTP/1.1
@@ -455,7 +455,7 @@ Content-Length: 265
 					"AgentServerPort":"6611",
 					"ClientToken":"SAME_CLIENT_TOKEN",
 					"DestPort":"34567",
-					"SessionId":"SAME_MD5_HASH"
+		
 				},
 
 			"Header":
