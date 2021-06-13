@@ -18,12 +18,12 @@ Tested Besder camera has a separate button installed which, when pressed, defaul
 Inside the box that arrived there was the camera itself, a screw to fix a camera to a certain point and ***User Manual*** in english language. Within the user manual there were instructions how to set up the camera for the first time. Turns out, I needed to download ***ICSee*** app to my smartphone to do that. First time configuration requires the user to connect to a Wi-Fi network. By default the IP address of the camera in the Local Area Network is set dynamically, although it is possible to set a static IP address of `192.168.0.10`.
 
 # Technical Information
-Gathering of technical information about tested ip camera.
+In this section I am presenting results of gathering technical data and information about tested Besder IP camera.
 
 ## Open ports
-Open ports of a tested ip camera - TCP and UDP ports.
+In this subsection I am presenting found open ports of a tested Besder IP camera. During the analysis search for both ***TCP*** and ***UDP*** open ports was conducted.
 
-### TCP scan
+### TCP port scan
 To discover open ports of the camera I have used `nmap` tool. The command to find TCP ports and determine their purpose was `nmap -v -sS -sV -sC -p- X.X.X.X`, where `X.X.X.X` is IP address of a camera. The scan was conducted with root privilleges. Meaning of flags is commented below:
 
 ```
@@ -81,7 +81,7 @@ The scan found ***5*** open ***TCP*** ports in Besder 6024PB-XMA501 camera:
 4. Port `12901` was open during analysis, though `nmap` was not able to determine it's purpose.
 5. Port `34567` is used for `dhanalakshmi` service. It is a data port which is used for transmitting and recieving data when the user connects to the camera either from a computer or a smartphone. I will elaborate on this specific port a bit more in later sections.
 
-### UDP scan
+### UDP port scan
 Next is open UDP port scan. For this scan I have used the same `nmap` tool with added `-sU` flag. Although this time I have set the program to scan only 1000 most popular ports as UDP scanning is a lot slower than TCP scan. The command used there was `nmap -v -sU -sV X.X.X.X`, where `X.X.X.X` is IP address of the camera. The scan was run with root privilleges. Results of the scan are presented below.
 
 ```
