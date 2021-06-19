@@ -1,4 +1,4 @@
-Table of contents
+Table of Contents
 =================
 * [Prerequisite](#Prerequisite)
 * [Analysis methodology](#Analysis-methodology)
