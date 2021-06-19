@@ -1,3 +1,24 @@
+Table of contents
+=================
+* [Prerequisite](#Prerequisite)
+* [Analysis methodology](#Analysis_methodology)
+* [Factory reset](#Factory_reset)
+* [Initial Setup](#Initial_Setup)
+* [Technical Information](#Technical_Information)
+ * [Open ports](#Open_ports)
+  * [TCP port scan](#TCP_port_scan)
+  * [UDP port scan](#UDP_port_scan)
+  * [OS Detection](#OS_Detection)
+* [Control Panel in a Web Browser](#Control_Panel_in_a_Web_Browser)
+* [Network communication analysis](#Network_communication_analysis)
+ * [Communication with a control panel in a web browser](#Communication_with_a_control_panel_in_a_web_browser)
+* [Communication With Cloud Services](#Communication_With_Cloud_Services)
+ * [Connecting from web interface](#Connecting_from_web_interface)
+ * [Connecting to Besder camera from ICSee app on a smartphone](#Connecting_to_Besder_camera_from_ICSee_app_on_a_smartphone)
+* [Data security](#Data_security)
+* [Conclusion](#Conclusion)
+* [Further work](#Further_work)
+
 # Prerequisite
 For the final project of my Bachelor's studies I have chosen to investigate what security vulnerabilities and issues can be found within various IP camera models. And for this purpose I have bought ***Besder 6024PB-XMA501*** IP Camera from AliExpress. It has 5MP sensor is one of the cheaper ones you can find there and I thought to give it a try and bought it with hopes of finding some potentially _"interesting"_ stuff to put into my final project. My hopes were fulfilled and after the security investigation that I have done while writing my final project I decided to do a more troughout research and post it here.
 
