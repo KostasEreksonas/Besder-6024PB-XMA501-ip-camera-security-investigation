@@ -495,7 +495,7 @@ Content-Length: 265
 All further communication is sent through the second AWS server and is encrypted/obfuscated. The communication between smartphone and the second AWS serveris encrypted using `TLS` protocol and communication between the server and camera is obfuscated using MD5 algorithm.
 
 # Data security
-As I have mentioned before, all of the data was sent via port `34567` and the data is obfuscated with what looks like a bunch of different length MD5 hashes, separated by `+` or `/` symbol.
+As I have mentioned before, all of the data was sent via port `34567` and the data is obfuscated with what looks like a bunch of different length MD5 hashes, separated by `+` or `/` symbol. It might be possible to reverse engineer the function used for data obfuscation, although for that I would need to retrieve the firmware of the camera. I will elaborate on this more in the next section.
 
 # Conclusion
 During this analysis I have found open ports, running services, OS version and other technical information about the camera. After that I tested camera control capabilities within a control panel in a web browser. Later communication with cloud servers and services was analyzed. Lastly, the security and encryption/obfuscation of sent data was checked.
