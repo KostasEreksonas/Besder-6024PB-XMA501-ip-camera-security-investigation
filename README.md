@@ -498,6 +498,17 @@ All further communication is sent through the second AWS server and is encrypted
 # Data security
 As I have mentioned before, all of the data was sent via port `34567` and the data is obfuscated with what looks like a bunch of different length MD5 hashes, separated by `+` or `/` symbol. It might be possible to reverse engineer the function used for data obfuscation, although for that I would need to retrieve the firmware of the camera. I will elaborate on this more in the next section.
 
+# Potential vulnerabilities
+In this section I will present potential vulnerabilities within the tested Besder camera. The exploits and their descriptions were taken from [cve.mitre.org](https://cve.mitre.org/) website and the found vulnerabilities were associated with ***Xongmai XMeye P2P*** cloud services.
+
+1. ***CVE-2017-16725*** - A Stack-based Buffer Overflow issue was discovered in Xiongmai Technology IP Cameras and DVRs using the NetSurveillance Web interface. The stack-based buffer overflow vulnerability has been identified, which may allow an attacker to execute code remotely or crash the device. After rebooting, the device restores itself to a more vulnerable state in which Telnet is accessible.
+2. ***CVE-2017-7577*** -	XiongMai uc-httpd has directory traversal allowing the reading of arbitrary files via a "GET ../" HTTP request.
+3. ***CVE-2018-10088*** - Buffer overflow in XiongMai uc-httpd 1.0.0 has unspecified impact and attack vectors, a different vulnerability than CVE-2017-16725.
+4. ***CVE-2018-17915*** - All versions of Hangzhou Xiongmai Technology Co., Ltd XMeye P2P Cloud Server do not encrypt all device communication. This includes the XMeye service and firmware update communication. This could allow an attacker to eavesdrop on video feeds, steal XMeye login credentials, or impersonate the update server with malicious update code.
+5. ***CVE-2018-17917*** - All versions of Hangzhou Xiongmai Technology Co., Ltd XMeye P2P Cloud Server may allow an attacker to use MAC addresses to enumerate potential Cloud IDs. Using this ID, the attacker can discover and connect to valid devices using one of the supported apps.
+6. ***CVE-2018-17919*** - All versions of Hangzhou Xiongmai Technology Co., Ltd XMeye P2P Cloud Server may allow an attacker to use an undocumented user account "default" with its default password to login to XMeye and access/view video streams.
+7. ***CVE-2019-11878*** - An issue was discovered on XiongMai Besder IP20H1 V4.02.R12.00035520.12012.047500.00200 cameras. An attacker on the same local network as the camera can craft a message with a size field larger than 0x80000000 and send it to the camera, related to an integer overflow or use of a negative number. This then crashes the camera for about 120 seconds.
+
 # Camera's firmware
 As I have said before, in this section I will elaborate on the topic of firmware of Besder camera. There are multiple ways to retrieve the firmware of a IP camera:
 1. Download it from the official website of the camera's manufacturer, if the firmware is available there;
