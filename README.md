@@ -19,6 +19,7 @@ Table of Contents
 	* [Connecting from web interface](#Connecting-from-web-interface)
 	* [Connecting to Besder camera from ICSee app on a smartphone](#Connecting-to-Besder-camera-from-ICSee-app-on-a-smartphone)
 * [Data security](#Data-security)
+* [Camera's firmware](#Camera's-firmware)
 * [Conclusion](#Conclusion)
 * [Further work](#Further-work)
 
