@@ -497,6 +497,17 @@ All further communication is sent through the second AWS server and is encrypted
 # Data security
 As I have mentioned before, all of the data was sent via port `34567` and the data is obfuscated with what looks like a bunch of different length MD5 hashes, separated by `+` or `/` symbol. It might be possible to reverse engineer the function used for data obfuscation, although for that I would need to retrieve the firmware of the camera. I will elaborate on this more in the next section.
 
+# Camera's firmware
+As I have said before, in this section I will elaborate on the topic of firmware of Besder camera. There are multiple ways to retrieve the firmware of a IP camera:
+1. Download it from the official website of the camera's manufacturer, if the firmware is available there;
+2. Retrieve the firmware from the device by some sort of a ***soft*** method, for example:
+	* locate the firmware within the camera's control interface - separate program or a web interface, like a `NetSurveillance WEB` used in tested Besder camera;
+	* find the firmware by gaining access to the camera's shell by connecting to one of the open ports that have a terminal service running on top of them, if there are any (like `telnet` or a ***telnet-like*** service running on a port `9527` found in some older (mostly those released before [Mirai malware](https://en.wikipedia.org/wiki/Mirai_(malware))) surveillance devices and also giving shell access to a device);
+	* find the firmware by exploiting some known vulnerabilities within the device.
+3. Retrieve the firmware from the device by some sort of a ***hard*** method, for example:
+	* JTAG;
+	* Serial console.
+
 # Conclusion
 During this analysis I have found open ports, running services, OS version and other technical information about the camera. After that I tested camera control capabilities within a control panel in a web browser. Later communication with cloud servers and services was analyzed. Lastly, the security and encryption/obfuscation of sent data was checked.
 
