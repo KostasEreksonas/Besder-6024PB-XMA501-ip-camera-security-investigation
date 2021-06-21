@@ -509,6 +509,15 @@ As I have said before, in this section I will elaborate on the topic of firmware
 	* JTAG;
 	* Serial console.
 
+Now I will go through the listed possibilities and try to determine what things I could do further to retrieve the firmware of the device:
+1. As far as I have checked, there is no posibility to download the firmware for `Besder 6024PB-XMA501` IP camera over the internet. One interesting thing that I have noticed was that I could not find the exact model of my camera. There are some other `Besder 6024PB` cameras, but none ending with `XMA501`.
+2. The `NETSurveillance WEB` interface for controlling the camera has option to update the camera's firmware, which downloads the update, if it is available, and then automatically applies it. Also it is possible to apply the update manually with a file from a local drive, although I was not able to find an option to save the firmware file to my local drive, so there's that.
+3. Talking about hard _"hacking"_ methods, I do not have the tools for that at the moment, so it is not a possibility as of now.
+4. As mentioned in previous section, I was able to find some vulnerabilities that _might_ affect this Besder camera, although I would need to test them against the device to prove if those vulnerabilities could be used for obtaining the firmware.
+5. Last part is the part that includes open ports. There are ***no*** open ports that could be used for gaining shell access, namely ports `23`, `9527` and, by some reports that I have found, `9530`. So, no luck there.
+
+Although it might also be possible to retrieve the firmware from the ***update server*** that the camera is communicating with as the `JSON` formatted update request is sent in plain text. For that I will set up a ***VPN*** and come back for further testing.
+
 # Conclusion
 During this analysis I have found open ports, running services, OS version and other technical information about the camera. After that I tested camera control capabilities within a control panel in a web browser. Later communication with cloud servers and services was analyzed. Lastly, the security and encryption/obfuscation of sent data was checked.
 
