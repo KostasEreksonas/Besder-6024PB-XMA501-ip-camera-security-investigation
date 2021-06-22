@@ -20,7 +20,7 @@ Table of Contents
 	* [Connecting to Besder camera from ICSee app on a smartphone](#Connecting-to-Besder-camera-from-ICSee-app-on-a-smartphone)
 * [Data security](#Data-security)
 * [Potential vulnerabilities](#Potential-vulnerabilities)
-* [Camera's firmware](#Camera's-firmware)
+* [Camera firmware](#Camera-firmware)
 * [Conclusion](#Conclusion)
 * [Further work](#Further-work)
 
@@ -510,8 +510,8 @@ In this section I will present potential vulnerabilities within the tested Besde
 6. ***CVE-2018-17919*** - All versions of Hangzhou Xiongmai Technology Co., Ltd XMeye P2P Cloud Server may allow an attacker to use an undocumented user account "default" with its default password to login to XMeye and access/view video streams.
 7. ***CVE-2019-11878*** - An issue was discovered on XiongMai Besder IP20H1 V4.02.R12.00035520.12012.047500.00200 cameras. An attacker on the same local network as the camera can craft a message with a size field larger than 0x80000000 and send it to the camera, related to an integer overflow or use of a negative number. This then crashes the camera for about 120 seconds.
 
-# Camera's firmware
-As I have said before, in this section I will elaborate on the topic of firmware of Besder camera. There are multiple ways to retrieve the firmware of a IP camera:
+# Camera firmware
+As I have mentioned before, in this section I will elaborate on the topic of firmware of Besder camera. There are multiple ways to retrieve the firmware of a IP camera:
 1. Download it from the official website of the camera's manufacturer, if the firmware is available there;
 2. Retrieve the firmware from the device by some sort of a ***soft*** method, for example:
 	* locate the firmware within the camera's control interface - separate program or a web interface, like a `NetSurveillance WEB` used in tested Besder camera;
