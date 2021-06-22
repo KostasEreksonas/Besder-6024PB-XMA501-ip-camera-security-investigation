@@ -518,8 +518,8 @@ As I have mentioned before, in this section I will elaborate on the topic of fir
 	* find the firmware by gaining access to the camera's shell by connecting to one of the open ports that have a terminal service running on top of them, if there are any (like `telnet` or a ***telnet-like*** service running on a port `9527` found in some older (mostly those released before [Mirai malware](https://en.wikipedia.org/wiki/Mirai_(malware))) surveillance devices and also giving shell access to a device);
 	* find the firmware by exploiting some known vulnerabilities within the device.
 3. Retrieve the firmware from the device by some sort of a ***hard*** method, for example:
-	* JTAG;
-	* Serial console.
+	* ***JTAG***;
+	* ***Serial console***.
 
 Now I will go through the listed possibilities and try to determine what things I could do further to retrieve the firmware of the device:
 1. As far as I have checked, there is no posibility to download the firmware for `Besder 6024PB-XMA501` IP camera over the internet. One interesting thing that I have noticed was that I could not find the exact model of my camera. There are some other `Besder 6024PB` cameras, but none ending with `XMA501`.
