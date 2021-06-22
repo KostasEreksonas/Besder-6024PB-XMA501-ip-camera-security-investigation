@@ -156,7 +156,7 @@ Firstly I have connected to the camera from web interface, then from smartphone.
 Firstly the camera does a DNS resolution with an `Amazon AWS` server located in Germany, although the packages sent have data about some Chinese DNS servers with their IP addresses. I may assume that the DNS address is chosen based on camera's location. I might as well test it with a VPN someday.
 After that camera sends a `HTTP POST` request to an `Amazon AWS` server with some data. Besides info about camera's geographical location and communication port, this request contains authentication code and serial number of the camera. Both of these are identical 16 charachter long hexadecimal strings. Thesecan be used for a variety of nefarious purposes.
 
-***This and all of the following requests were formatted by me to be more readable.***
+***This and all of the following requests were formatted by me for better readability.***
 
 ```
 POST / HTTP/1.1
