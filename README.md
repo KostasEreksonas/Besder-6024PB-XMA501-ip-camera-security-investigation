@@ -149,6 +149,7 @@ Indeed, the webpage was not working as intented, displaying only a single line o
 Anyway, I tried to log into the `NETSurveillance WEB` control panel. After pressing the login button it takes suspiciously long time to start any login activity. So I decided to inspect the webpage's code. And there I had found a `Javascript` login function which had a very _"interesting"_ feature - a 2 second timer, which activates ***after*** pressing the login button. To be honest, I am not sure about the purpose of this delay. One idea that I have is that it is used to make the device look slower than it actually is, especially in comparison to higher end models that the company is offering. But that is just speculation from my side.
 
 ## A further investigation of a control panel of an IP camera
+
 ***Added on 26/06/2021***
 
 Using ***Wireshark*** tool I have examined the data stream between `Besder 6024PB-XMA501` IP camera and `Windows 10` install within virtual machine. What I have found is that when the connection request is sent from the browser within virtual machine to the surveillance camera, multiple files of the IP camera `NETSurveillance WEB` control panel's webpage are sent. One file that looked the most interesting to me was ***m.jsp*** file, containing `Javascript` code. In this particular file was the following lines:
