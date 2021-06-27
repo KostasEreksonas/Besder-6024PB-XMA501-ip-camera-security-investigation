@@ -152,7 +152,7 @@ Anyway, I tried to log into the `NETSurveillance WEB` control panel. After press
 
 ***Added on 26/06/2021***
 
-Using ***Wireshark*** tool I have examined the data stream between `Besder 6024PB-XMA501` IP camera and `Windows 10` install within virtual machine. What I have found is that when the connection request is sent from the browser within virtual machine to the surveillance camera, multiple files of the IP camera `NETSurveillance WEB` control panel's webpage are sent. One file that looked the most interesting to me was ***m.jsp*** file, containing `Javascript` code. In this particular file was the following lines:
+Using ***Wireshark*** tool I have examined the data stream between `Besder 6024PB-XMA501` IP camera and `Windows 10` install within virtual machine. What I have found is that when the connection request is sent from the browser within virtual machine to the surveillance camera, multiple files of the IP camera `NETSurveillance WEB` control panel's webpage are sent. One file that looked the most interesting to me was ***m.jsp*** file, containing some `Javascript` code. In this particular file was the following lines:
 
 ```
 val(function(p, a, c, k, e, d) {
