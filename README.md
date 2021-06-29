@@ -52,7 +52,7 @@ Inside the box that arrived there was the camera itself, a screw to fix a camera
 
 # Technical Information
 
-In this section I am presenting results of gathering technical data and information about tested Besder IP camera.
+In this section I am presenting results of gathering technical data and information about tested Besder IP camera. To gather the technical information `nmap` tool is used.
 
 ## Open ports
 
