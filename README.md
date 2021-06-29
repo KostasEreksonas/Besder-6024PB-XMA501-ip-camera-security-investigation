@@ -29,6 +29,8 @@ Table of Contents
 
 For the final project of my Bachelor's studies I have chosen to investigate what security vulnerabilities and issues can be found within various IP camera models. And for this purpose I have bought ***Besder 6024PB-XMA501*** IP Camera from AliExpress. It has 5MP sensor is one of the cheaper ones you can find there and I thought to give it a try and bought it with hopes of finding some potentially _"interesting"_ stuff to put into my final project. My hopes were fulfilled and after the security investigation that I have done while writing my final project I decided to do a more troughout research and post it here.
 
+![Image of the camera](/img/Besder.jpg)
+
 # Analysis methodology
 
 The whole security analysis of the IP camera was conducted within Arch Linux operating system on an Acer laptop. Plan of analysis is as follows:
