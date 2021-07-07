@@ -565,6 +565,12 @@ Since there is no authentication required for sending the request to the update 
 
 ## Connecting to Besder camera from ICSee app on a smartphone
 
+### Connection schema
+
+In this subsection I will present the schema of communication between the smartphone, Besder camera and Amazon AWS servers sitting between these devices.
+
+### Exchanged requests
+
 Firstly, `HTTP POST` request is sent from a smartphone to an `Amazon AWS` server. It contains serial number of the camera I wanted to connect to, among other things. Request's purpose is to ask for a new connection with `MSG_CLI_NEED_CON_REQ` query. The AWS server sends `HTTP OK` response to the smartphone. It contains IP address of a ***second*** Amazon AWS server and it's port that is used for communicating.
 
 ```
