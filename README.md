@@ -581,7 +581,7 @@ Since there is no authentication required for sending the request to the update 
 
 In this subsection I will present the schema of communication between the smartphone, Besder camera and Amazon AWS servers sitting between these devices.
 
-![Communication between smartphone and IP Camera via cloud](/img/Communication between smartphone and IP Camera via cloud.png)
+![Communication between smartphone and IP Camera via cloud](/img/Communication_between_smartphone_and_IP_Camera_via_cloud.png)
 
 ### Exchanged queries Smartphone->AWS->Camera
 
