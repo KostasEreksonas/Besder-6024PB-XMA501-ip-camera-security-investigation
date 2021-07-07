@@ -290,7 +290,7 @@ Although this might be useful later on, when I will try to figure out the exact 
 
 For analyzing network traffic associated with the camera I have carried out a `Man in the Middle` cyberattack using `Ettercap` tool and intercepted all the traffic between ip camera, smartphone, Windows 10 virtual computer within Virtualbox and the router. All devices were connected to the internet via ***Wi-Fi*** local area network. The scheme of devices used during analysis is shown below.
 
-![Network analysis scheme](/img/Network_analysis_scheme.png)
+![Network analysis scheme](/img/MITM_analysis_scheme.png)
 
 ## Communication with a control panel in a web browser
 
@@ -304,6 +304,12 @@ For cloud services the camera uses ***XMEye Cloud***.
 Firstly I have connected to the camera from web interface, then from smartphone.
 
 ## Connecting from web interface
+
+### Connection schema
+
+In this subsection I will present the schema for connecting to the Besder IP Camera from the `NETSurveillance WEB` network interface. For this purpose I have used `Virtualbox` virtualization software, where I have installed ***Windows 10*** as a Guest OS. The schema of connection between the Windows 10 virtual machine and Besder IP Camera is presented below:
+
+![Connection_between_VM_and_IP_Camera_in_LAN](Connection_between_VM_and_IP_Camera_in_LAN.png)
 
 Firstly the camera does a DNS resolution with an `Amazon AWS` server located in Germany, although the packages sent have data about some Chinese DNS servers with their IP addresses. I may assume that the DNS address is chosen based on camera's location. I might as well test it with a VPN someday.
 After that camera sends a `HTTP POST` request to an `Amazon AWS` server with some data. Besides info about camera's geographical location and communication port, this request contains authentication code and serial number of the camera. Both of these are identical 16 charachter long hexadecimal strings. Thesecan be used for a variety of nefarious purposes.
