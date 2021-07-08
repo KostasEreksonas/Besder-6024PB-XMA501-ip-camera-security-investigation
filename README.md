@@ -18,11 +18,11 @@ Table of Contents
 	* [Communication with a control panel in a web browser](#Communication-with-a-control-panel-in-a-web-browser)
 * [Communication With Cloud Services](#Communication-With-Cloud-Services)
 	* [Connecting from web interface](#Connecting-from-web-interface)
-		+ [Connection scheme VM->Camera](#Connection_scheme_VM_-_>_Camera)
-		+ [Exchanged queries VM->Camera](#Exchanged_queries_VM_-_>_Camera)
+		+ [Connection scheme VM->Camera](#Connection-scheme-VM->-Camera)
+		+ [Exchanged queries VM->Camera](#Exchanged-queries-VM->-Camera)
 	* [Connecting to Besder camera from ICSee app on a smartphone](#Connecting-to-Besder-camera-from-ICSee-app-on-a-smartphone)
-		+ [Connection scheme Smartphone->AWS->Camera](#Connection_scheme_Smartphone_-_>_AWS_-_>_Camera)
-		+ [Exchanged queries Smartphone->AWS->Camera](#Exchanged_queries_Smartphone_-_>_AWS_-_>_Camera)
+		+ [Connection scheme Smartphone->AWS->Camera](#Connection-scheme-Smartphone->-AWS->-Camera)
+		+ [Exchanged queries Smartphone->AWS->Camera](#Exchanged-queries-Smartphone->-AWS->-Camera)
 * [Data security](#Data-security)
 * [Potential vulnerabilities](#Potential-vulnerabilities)
 * [Camera firmware](#Camera-firmware)
@@ -311,7 +311,7 @@ Firstly I have connected to the camera from web interface, then from smartphone.
 
 ## Connecting from web interface
 
-### Connection scheme VM_Camera
+### Connection scheme VM > Camera
 
 In this subsection I will present the schema for connecting to the Besder IP Camera from the `NETSurveillance WEB` network interface. For this purpose I have used `Virtualbox` virtualization software, where I have installed ***Windows 10*** as a Guest OS. The schema of connection between the Windows 10 virtual machine and Besder IP Camera is presented below:
 
@@ -319,7 +319,7 @@ In this subsection I will present the schema for connecting to the Besder IP Cam
 
 You can find a [drawio scheme file here](/schemes/Connection_between_VM_and_IP_Camera_in_LAN.drawio)
 
-### Exchanged queries VM->Camera
+### Exchanged queries VM > Camera
 
 Firstly the camera does a DNS resolution with an `Amazon AWS` server located in Germany, although the packages sent have data about some Chinese DNS servers with their IP addresses. I may assume that the DNS address is chosen based on camera's location. I might as well test it with a VPN someday.
 After that camera sends a `HTTP POST` request to an `Amazon AWS` server with some data. Besides info about camera's geographical location and communication port, this request contains authentication code and serial number of the camera. Both of these are identical 16 charachter long hexadecimal strings. Thesecan be used for a variety of nefarious purposes.
@@ -581,7 +581,7 @@ Since there is no authentication required for sending the request to the update 
 
 ## Connecting to Besder camera from ICSee app on a smartphone
 
-### Connection scheme Smartphone_-_>_AWS_-_>_Camera
+### Connection scheme Smartphone > AWS > Camera
 
 In this subsection I will present the schema of communication between the smartphone, Besder camera and Amazon AWS servers sitting between these devices.
 
@@ -589,7 +589,7 @@ In this subsection I will present the schema of communication between the smartp
 
 You can find a [drawio scheme file here](/schemes/Communication_between_smartphone_and_IP_Camera_via_cloud.drawio)
 
-### Exchanged queries Smartphone->AWS->Camera
+### Exchanged queries Smartphone > AWS > Camera
 
 Firstly, `HTTP POST` request is sent from a smartphone to an `Amazon AWS` server. It contains serial number of the camera I wanted to connect to, among other things. Request's purpose is to ask for a new connection with `MSG_CLI_NEED_CON_REQ` query. The AWS server sends `HTTP OK` response to the smartphone. It contains IP address of a ***second*** Amazon AWS server and it's port that is used for communicating.
 
