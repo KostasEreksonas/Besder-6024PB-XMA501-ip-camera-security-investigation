@@ -307,7 +307,7 @@ After logging in the `NETSurveillance WEB` control panel all the data between la
 As I have mentioned before, during the security analysis all network devices were connected to a Wireless Local Area Network. Still, I managed to capture a fair bit of communication with various servers providing cloud services.
 Throughout the whole security testing that I have done, the camera sent a bunch of UDP datagrams to various IP addresses. Those datagrams contained camera's serial number. I was not able to determine their purpose.
 For cloud services the camera uses ***XMEye Cloud***.
-Firstly I have connected to the camera from web interface, then from smartphone.
+Firstly I have connected to the camera from web interface within virtual machine with `Windows 10` guest OS installed, then from a smartphone with ***ICSee*** app.
 
 ## Connecting from web interface
 
