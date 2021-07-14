@@ -37,7 +37,8 @@ For the final project of my Bachelor's studies I have chosen to investigate what
 
 # Analysis methodology
 
-The whole security analysis of the IP camera was conducted within Arch Linux operating system on an Acer laptop. Plan of analysis is as follows:
+The whole security analysis of the IP camera was conducted within ***Arch Linux*** operating system on an ***Acer*** laptop. Plan of analysis is as follows:
+
 1. Factory reset of the camera.
 2. Initial setup of the camera.
 3. Technical information about analyzed camera discovery - open ports, OS version, etc.
@@ -48,7 +49,9 @@ The whole security analysis of the IP camera was conducted within Arch Linux ope
 
 # Factory reset
 
-Tested Besder camera has a separate button installed which, when pressed, defaults settings of the camera.
+Tested Besder camera has a separate button/dongle installed which, when pressed, defaults settings of the camera. There is also separate dongles for connecting power cord and ethernet cable. You can see it in the picture below.
+
+![Camera dongles](/img/Camera_dongles.jpg)
 
 # Initial Setup
 
