@@ -1,5 +1,7 @@
 # Besder 6024PB-XMA501 IP camera security analysis
 
+A cybersecurity analysis of a Besder 6024PB-XMA501 IP camera that started as a project for the final project of Bachelor's studies.
+
 Table of Contents
 =================
 * [Besder 6024PB-XMA501 IP camera security analysis](#Besder-6024PB-XMA501-IP-camera-security-analysis)
