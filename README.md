@@ -301,7 +301,7 @@ For analyzing network traffic associated with the camera I have carried out a `M
 
 ![Network analysis scheme](/img/MITM_analysis_scheme.png)
 
-You can find a [drawio scheme file here](/schemes/MITM_analysis_scheme.drawio)
+You can find a [drawio scheme file here](/schematics/MITM_analysis_scheme.drawio)
 
 ## Communication with a control panel in a web browser
 
@@ -322,7 +322,7 @@ In this subsection I will present the schema for connecting to the Besder IP Cam
 
 ![Connection_between_VM_and_IP_Camera_in_LAN](/img/Connection_between_VM_and_IP_Camera_in_LAN.png)
 
-You can find a [drawio scheme file here](/schemes/Connection_between_VM_and_IP_Camera_in_LAN.drawio)
+You can find a [drawio scheme file here](/schematics/Connection_between_VM_and_IP_Camera_in_LAN.drawio)
 
 ### Exchanged queries between virtual machine and IP Camera
 
@@ -592,7 +592,7 @@ In this subsection I will present the schema of communication between the smartp
 
 ![Communication between smartphone and IP Camera via cloud](/img/Communication_between_smartphone_and_IP_Camera_via_cloud.png)
 
-You can find a [drawio scheme file here](/schemes/Communication_between_smartphone_and_IP_Camera_via_cloud.drawio)
+You can find a [drawio scheme file here](/schematics/Communication_between_smartphone_and_IP_Camera_via_cloud.drawio)
 
 ### Exchanged queries between smartphone and AWS cloud server and IP Camera
 
