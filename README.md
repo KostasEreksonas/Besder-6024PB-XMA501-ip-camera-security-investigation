@@ -33,50 +33,50 @@ Table of Contents
 
 # Prerequisite
 
-For the final project of my Bachelor's studies I have chosen to investigate what security vulnerabilities and issues can be found within various IP camera models. And for this purpose I have bought ***Besder 6024PB-XMA501*** IP Camera from AliExpress. It has 5MP sensor is one of the cheaper ones you can find there and I thought to give it a try and bought it with hopes of finding some potentially _"interesting"_ stuff to put into my final project. My hopes were fulfilled and after the security investigation that I have done while writing my final project I decided to do a more troughout research and post it here.
+For the final project of my Bachelor's studies I have decided to investigate  security vulnerabilities and issues that might be present within various IP camera models. One of the cameras that I have investigated was ***Besder 6024PB-XMA501*** IP Camera - one of the cheaper cameras that can be found from AliExpress. I thought to give it a try and bought it with hopes of finding some potentially _"interesting"_ stuff to put into my final project. My hopes were fulfilled and after the security investigation that I have done while writing my final project I decided to make some minor corrections to the analysis and post the full research here.
 
 ![Image of the camera](/img/Besder.jpg)
 
 # Analysis methodology
 
-The whole security analysis of the IP camera was conducted within ***Arch Linux*** operating system on an ***Acer*** laptop. Plan of analysis is as follows:
+The whole security analysis of the IP camera was conducted from my custom ***Arch Linux*** operating system installon. Plan of my analysis is as follows:
 
 1. Factory reset of the camera.
 2. Initial setup of the camera.
-3. Technical information about analyzed camera discovery - open ports, OS version, etc.
+3. Technical and network information discovery about the camera - open ports, OS version, etc.
 4. Test camera control capabilities within a control panel in a web browser.
-5. Test camera's communication with cloud services.
+5. Analyze camera's communication with cloud services.
 6. Check the security of transmited data.
 7. Conclusion of analysis' results.
 
 # Factory reset
 
-Tested Besder camera has a separate button/dongle installed which, when pressed, defaults settings of the camera. There is also separate dongles for connecting power cord and ethernet cable. You can see it in the picture below.
+Tested Besder camera has a separate button installed which, when pressed, defaults settings of the Besder camera. There is also a port for connecting ethernet cable and a socket for connecting power cord. You can see it in the picture below.
 
 ![Camera dongles](/img/Camera_dongles.jpg)
 
 # Initial Setup
 
-Inside the box that arrived there was the camera itself, a screw to fix a camera to a certain point and ***User Manual*** in english language. Within the user manual there were instructions how to set up the camera for the first time. Turns out, I needed to download ***ICSee*** app to my smartphone to do that. First time configuration requires the user to connect to a Wi-Fi network. By default the IP address of the camera in the Local Area Network is set dynamically, although it is possible to set a static IP address of `192.168.0.10`.
+Inside the box that arrived there was the camera itself, a screw to fix a camera to a certain place and a ***User Manual*** in english language. Within the user manual there were instructions how to set up the camera for the first time. Turns out, I needed to download ***ICSee*** app to my smartphone to do that. First time configuration requires the user to connect to a Wi-Fi network. By default during the initial install the IP address of the camera in the Local Area Network is set dynamically, although it is possible to set a static IP address of `192.168.0.10`.
 
 # Technical Information
 
-In this section I am presenting results of gathering technical data and information about tested Besder IP camera. To gather the technical information `nmap` tool is used.
+In this section I am presenting results of gathering technical data and networking information about ***Besder 6024PB-XMA501*** IP camera. For gathering the technical information `nmap` tool is used.
 
 ## Open ports
 
-In this subsection I am presenting found open ports of a tested Besder IP camera. During the analysis search for both ***TCP*** and ***UDP*** open ports was conducted.
+In this subsection I am presenting the list of open ports that I have found in a tested Besder IP camera. During the analysis search for both ***TCP*** and ***UDP*** open ports was conducted.
 
 ### TCP port scan
 
-To discover open ports of the camera I have used `nmap` tool. The command to find TCP ports and determine their purpose was `nmap -v -sS -sV -sC -p- X.X.X.X`, where `X.X.X.X` is IP address of a camera. The scan was conducted with root privilleges. Meaning of flags is commented below:
+As I have mentioned before, `nmap` tool was used for this information gathering procedure. The command to find TCP ports and determine their purpose was `nmap -v -sS -sV -sC -p- X.X.X.X`, where `X.X.X.X` is IP address of a camera. The scan was conducted with ***root*** privilleges. Purpose of used flags is explained below:
 
 ```
 -v		Verbosity. Gives more information about what the scan is doing.
 -sS		Stealth scan. Fast, accurate and non-intrusive test of a selected target.
--sV		Version scan. Used to detect versions of services running on IP Camera.
--sC		Scripts scan. Uses a default set of `nmap` scripts.
--p-		Check all 65535 TCP ports if they are open.
+-sV		Version scan. Used to detect versions of services running on specific open ports of IP Camera.
+-sC		Scripts scan. Uses a default set of most common `nmap` scripts.
+-p-		Check all 65535 TCP ports for if they are open.
 ```
 
 Results of TCP port scan with `nmap` are presented below:
@@ -120,26 +120,26 @@ PORT      STATE SERVICE       VERSION
 ```
 
 The scan found ***5*** open ***TCP*** ports in Besder 6024PB-XMA501 camera:
-1. Port `80` is a HTTP port and is used for communicating with `NETSurveillance WEB` web interface, which is intended for managing the IP Camera from an internet browser.
-2. Port `554` is a RTSP port with version `H264DVR rtspd 1.0` and could be used for retrieving the video stream from the camera with a specific URL which I have not figured out yet. Although I reckon login credentials would be neccesary there.
-3. Port `8899` is detected as `ospf-lite` and as far as I could tell it could be used as an ONVIF-compliant port for.
-4. Port `12901` was open during analysis, though `nmap` was not able to determine it's purpose.
-5. Port `34567` is used for `dhanalakshmi` service. It is a data port which is used for transmitting and recieving data when the user connects to the camera either from a computer or a smartphone. I will elaborate on this specific port a bit more in later sections. For now I will note that basically all communication done via this port is ***obfuscated*** with something that looks like a bunch of ***MD5*** hashes that might be compressed in some way as they differ in length.
+1. Port `80` is a ***HTTP*** port and is used for communicating with `NETSurveillance WEB` web interface, which is intended for managing the IP Camera from an instance of preferred internet browser.
+2. Port `554` is a ***RTSP*** port with version `H264DVR rtspd 1.0` and could be used for retrieving the video stream from the camera with a specific URL which I have not figured out yet. Although I reckon login credentials would be neccesary there.
+3. Port `8899` has a service running that is detected as an  `ospf-lite` service and as far as I could find information about it, it could be used as an ONVIF-compliant port ["for effective interoperability of IP-based physical security products"](https://www.onvif.org/).
+4. Port `12901` was also open during analysis, although `nmap` was not able to determine what service was running on this specific port.
+5. Port `34567` is controlled by a service called `dhanalakshmi`. It is a data port which is used for transmitting and recieving data when the user connects to the camera either from a computer or a smartphone trough a proxy cloud server. I will elaborate on this specific port a bit more in later sections. For now I will note that basically all communication done via this port is either ***encrypted*** or ***obfuscated*** by some means that I have not figured out yet.
 
 ### UDP port scan
 
-Next is open UDP port scan. For this scan I have used the same `nmap` tool with added `-sU` flag. Although this time I have set the program to scan only 1000 most popular ports as UDP scanning is a lot slower than TCP scan. The command used there was `nmap -v -sU -sV X.X.X.X`, where `X.X.X.X` is IP address of the camera. The scan was run with root privilleges. Results of the scan are presented below.
+For the task of scanning and searching for open UDP ports I have used `-sU` flag within the `nmap` tool. Although this time I have set the program to scan only 1000 most popular ports as UDP port scanning is a lot slower than TCP scan (as for why, one can read part of Nmap documentation about UDP scanning [here](https://nmap.org/book/scan-methods-udp-scan.html)). The command used there was `nmap -v -sU -sV X.X.X.X`, where `X.X.X.X` is IP address of the camera. The scan was run with ***root*** privilleges. Results of the scan are presented below.
 
 ```
 PORT     STATE         SERVICE      VERSION
 3702/udp open|filtered ws-discovery
 ```
 
-The scan found ***1*** open ***UDP*** port - `ws-discovery`, which stands for ***web service discovery***. It is used for locating services within the devices connected via Local Area Network.
+The scan found ***1*** open ***UDP*** port on which `ws-discovery` service was running. The service `ws-discovery` stands for ***web service discovery*** and is used for locating services within the devices connected via Local Area Network.
 
 ## OS Detection
 
-Using `nmap` tool with `-O` flag I was able to determine the Operating System and it's version running on the analyzed Besder IP Camera. The scan result is presented below.
+Using `nmap` tool with `-O` flag I was able to determine the Operating System and it's version running on the analyzed Besder 6024PB-XMA501 IP Camera. The scan result is presented below.
 
 ```
 Device type: general purpose
@@ -151,19 +151,21 @@ OS details: Linux 3.2 - 3.16
 As it can be seen from the result, Besder ip camera is regarded as a `general purpose` device and is running Linux OS with a likely version of `Linux 3.2 - 3.16`.
 
 # Control Panel in a Web Browser
-This is the time when some really interesting things start to show up. I have tried to access the control panel of the camera in `Mozilla Firefox` browser within my Arch Linux install... And I was greeted with this nice pop-up window saying that my browser is too new and that some features would not work properly. Also, there was a request that I should download Firefox version `51` from 2017.
+This is the time when some really interesting things start to show up. I have tried to access the control panel of the camera in at the time the newest version of `Mozilla Firefox` browser within my Arch Linux install... Just to be greeted with this nice pop-up window saying that my browser is ***too new*** and that some features would not work properly and I was requested to download Firefox browser version `51` or earliear. For a reference, Firefox 51 was released in ***January of 2017***.
 
 ![Pop-up saying that my browser is too new for rendering the control panel](/img/Browser_too_new.png)
 
-Indeed, the webpage was not working as intented, displaying only a single line of text and a button to download `NewActive.exe` plugin. It does not look like a good idea to download any .exe files that a webpage, which requires an ancient version of web browser installed, asks me to download... Anyways, I have a `Windows 10` virtual machine installed within a `Virtualbox` environment, so I have switched to that for further testing of a web interface. Tried a few other of the most popular browsers - all gave the same pop-up asking to download old versions of those browsers. Turns out that the `NETSurveillance WEB`, used for controlling the camera, was only functional within the "good old" `Internet Explorer` browser with `ActiveX` plugin installed and activated. Neither of these I would want to constantly run on my main machine...
+Indeed, the webpage was not working as intented, displaying only a single line of text and a button to download `NewActive.exe` installerfile. It does not seem like a good idea for me to download any .exe files that a webpage, which requires an ancient version of web browser installed, asks me to download...
 
-Anyway, I tried to log into the `NETSurveillance WEB` control panel. After pressing the login button it takes suspiciously long time to start any login activity. So I decided to inspect the webpage's code. And there I had found a `Javascript` login function which had a very _"interesting"_ feature - a 2 second timer, which activates ***after*** pressing the login button. To be honest, I am not sure about the purpose of this delay. One idea that I have is that it is used to make the device look slower than it actually is, especially in comparison to higher end models that the company is offering. But that is just speculation from my side.
+Anyways, I have a `Windows 10` virtual machine installed within a `VirtualBox` environment, so I have switched to that for further testing of a Besder camera's web interface. Tried a few other of the most popular browsers like Chrome, Opera and Edge - all gave me the same pop-up asking to download old versions of those browsers. Turns out that the `NETSurveillance WEB`, used for controlling the camera, requires `ActiveX` plugin for proper functioning and the only browser that displayed the `NETSurveillanceWEB` inteface correctly was the "good old" `Internet Explorer` browser with `ActiveX` plugin installed and enabled. That "might" cause some problems with security of this particular camera and computing devices connected to it, but I will not elaborate on this further ***for now***.
+
+So, I have tried to log into the `NETSurveillance WEB` control panel. After pressing the login button it takes a couple of seconds to start any login activity. To figure out why, I decided to inspect the webpage's code. And there I had found a `Javascript` login function which had a very _"interesting"_ feature added - a 2 second timer, which activates ***after*** pressing the login button. To be honest, I am not sure about the purpose of this delay. One idea that I have is that it is used to make this particular device look slower than it actually is, especially in comparison to higher end models that the company is offering. But that is just speculation from my side.
 
 ## A further investigation of a control panel of an IP camera
 
 ***Added on 26/06/2021***
 
-Using ***Wireshark*** tool I have examined the data stream between `Besder 6024PB-XMA501` IP camera and `Windows 10` install within virtual machine. What I have found is that when the connection request is sent from the browser within virtual machine to the surveillance camera, multiple files of the IP camera `NETSurveillance WEB` control panel's webpage are sent. One file that looked the most interesting to me was ***m.jsp*** file, containing some `Javascript` code. In this particular file was the following lines:
+Using ***Wireshark*** tool I have examined the data stream between `Besder 6024PB-XMA501` IP camera and a `NETSurveillanceWEB` web interface within `Windows 10` virtual machine. What I have found is that when the connection request is sent from the browser within the virtual machine to the surveillance camera, the surveillance camera sends multiple `.html`, `.css` and `.js` files of the `NETSurveillance WEB` control panel are sent to the browser. One file that looked the most interesting to me was ***m.jsp*** file, containing some `Javascript` code. In this particular file was the following `packed function`:
 
 ```
 val(function(p, a, c, k, e, d) {
@@ -194,7 +196,7 @@ After I have done some research, I have found that this is a javascript ***packe
 
 Anyway, I have found [Strictly Software's Javascript unpacker tool](https://www.strictly-software.com/unpacker/), which I have used to previously mentioned code and it unpacked to a javascript code, which was well over a couple of thousand lines.
 
-Turns out, it is a ***Javascript framework*** called `MooTools` and it is used within the control panel of the analyzed Besder IP camera. In this particular camera, a standart collection of [MooTools v1.11](https://searchcode.com/total-file/3397713/%20festos/admin/includes/tiny_mce/plugins/kfm/j/mootools.v1.11/mootools.v1.11.js/) utilities is used. It is mostly different functions of Javascript, but one is particualrly interesting and it is a `Hash` function, which is presented below:
+Turns out, it is a ***Javascript framework*** called `MooTools` and it is used within the control panel of the Besder 6024PB-XMA501 IP camera. In this particular camera, a standart collection of [MooTools v1.11](https://searchcode.com/total-file/3397713/%20festos/admin/includes/tiny_mce/plugins/kfm/j/mootools.v1.11/mootools.v1.11.js/) utilities is used. It is mostly different functions of Javascript, but one is particualrly interesting for me and it is a function called `Hash`, which is presented below:
 
 ```
 var Hash = new Class({
@@ -291,45 +293,47 @@ Hash.Cookie.Methods = {};
 Hash.Cookie.implement(Hash.Cookie.Methods);
 ```
 
-There are a few ***hash-related*** functions, although I have not yet figured how exactly do they work or how they are used when I actually connect to the IP camera and start communicating with it from my virtual machine.
+There are a few ***hash-related*** sub-functions, although I have not yet figured how exactly do they work or how they are used when I actually connect to the IP camera and start communicating with it from my virtual machine.
 
-Although this might be useful later on, when I will try to figure out the exact way of how the data sent between devices is obfuscated.
+One of my guesses are that this `Hash` function might be used to craft login session cookies, as well as encrypting and / or obfuscating communication data sent via port `34567`.
+
+This might be useful later on, if I try to figure out the exact way of how the data sent between devices is encrypted or obfuscated.
 
 # Network communication analysis
 
-For analyzing network traffic associated with the camera I have carried out a `Man in the Middle` cyberattack using `Ettercap` tool and intercepted all the traffic between ip camera, smartphone, Windows 10 virtual computer within Virtualbox and the router. All devices were connected to the internet via ***Wi-Fi*** local area network. The scheme of devices used during analysis is shown below.
+For analyzing network traffic associated with the camera I have carried out a `Man in the Middle` cyberattack using `Ettercap` tool and intercepted all the traffic between a Besder 6024PB-XMA501 IP camera, a smartphone, Windows 10 virtual computer within Virtualbox and the TPLINK TL-WR841N router (for which I have conducted a separate cybersecurity research [here](https://github.com/KostasEreksonas/tp-link-tl-wr841n-security-analysis)). All devices were connected to the internet via ***Wireless Local Area Network (WLAN)***. The scheme of devices used during analysis is shown below.
 
 ![Network analysis scheme](/img/MITM_analysis_scheme.png)
 
-You can find a [drawio scheme file here](/schematics/MITM_analysis_scheme.drawio)
+You can find a [drawio scheme file for this here](/schematics/MITM_analysis_scheme.drawio)
 
 ## Communication with a control panel in a web browser
 
-After logging in the `NETSurveillance WEB` control panel all the data between laptop and camera is sent through port `34567` and is obfuscated with what looks like a bunch of different length `MD5` hashes and separated by either `+` or `/` symbol. I have not found out yet what is the exact process of data obfuscation but I plan to do it later on.
+After logging in the `NETSurveillance WEB` control panel all the data between laptop and camera is sent through port `34567` and is encrypted. I have not found out yet what is the exact process of data encryption but I may do it some time in the future.
 
 # Communication With Cloud Services
 
 As I have mentioned before, during the security analysis all network devices were connected to a Wireless Local Area Network. Still, I managed to capture a fair bit of communication with various servers providing cloud services.
-Throughout the whole security testing that I have done, the camera sent a bunch of UDP datagrams to various IP addresses. Those datagrams contained camera's serial number. I was not able to determine their purpose.
-For cloud services the camera uses ***XMEye Cloud***.
+Throughout the whole security testing that I have done, the camera sent a bunch of UDP datagrams to various remote IP addresses. Those datagrams contained camera's serial number for some reason and I was not able to determine their purpose yet.
+As a cloud services provider for the camera ***XMEye Cloud*** is used.
 Firstly I have connected to the camera from web interface within virtual machine with `Windows 10` guest OS installed, then from a smartphone with ***ICSee*** app.
 
 ## Connecting from web interface
 
 ### Connection scheme between virtual machine and IP Camera
 
-In this subsection I will present the schema for connecting to the Besder IP Camera from the `NETSurveillance WEB` network interface. For this purpose I have used `Virtualbox` virtualization software, where I have installed ***Windows 10*** as a Guest OS. The schema of connection between the Windows 10 virtual machine and Besder IP Camera is presented below:
+In this subsection I will present the schema for connecting to the Besder IP Camera from the `NETSurveillance WEB` network interface. For this purpose I have used `Virtualbox` virtualization software, where I have installed ***Windows 10*** as a Guest OS. The schematics of the connection between the Windows 10 virtual machine and Besder IP Camera is presented below:
 
 ![Connection_between_VM_and_IP_Camera_in_LAN](/img/Connection_between_VM_and_IP_Camera_in_LAN.png)
 
-You can find a [drawio scheme file here](/schematics/Connection_between_VM_and_IP_Camera_in_LAN.drawio)
+You can find a [drawio scheme file for this here](/schematics/Connection_between_VM_and_IP_Camera_in_LAN.drawio)
 
 ### Exchanged queries between virtual machine and IP Camera
 
 Firstly the camera does a DNS resolution with an `Amazon AWS` server located in Germany, although the packages sent have data about some Chinese DNS servers with their IP addresses. I may assume that the DNS address is chosen based on camera's location. I might as well test it with a VPN someday.
-After that camera sends a `HTTP POST` request to an `Amazon AWS` server with some data. Besides info about camera's geographical location and communication port, this request contains authentication code and serial number of the camera. Both of these are identical 16 charachter long hexadecimal strings. Thesecan be used for a variety of nefarious purposes.
+After that camera sends a `HTTP POST` request to an `Amazon AWS` server with some data. Besides info about camera's geographical location and communication port, this request contains authentication code and a serial number of the Besder camera. Both of these are identical 16 charachter long hexadecimal strings. These can be used for a variety of nefarious purposes, for example DDoS'ing the specific device, connected to the cloud server or illegaly connecting to camera's video feed and viewing it and / or tampering with it.
 
-***This and all of the following requests were formatted by me for better readability.***
+***This and all of the following HTTP requests were formatted by me for better readability.***
 
 ```
 POST / HTTP/1.1
@@ -492,7 +496,7 @@ content-length: 214
 }
 ```
 
-Later the camera sends HTTP POST request to `logsvr.xmcsrv.net` and reports it's capabilities to the server for whatever reason:
+Later the camera sends `HTTP POST` request to `logsvr.xmcsrv.net` and reports it's capabilities to the server for whatever reason:
 
 ```
 POST /getcfg HTTP/1.1
@@ -582,7 +586,7 @@ Connection: keep-alive
 X-Application-Context: application:production
 ```
 
-Since there is no authentication required for sending the request to the update server checking for new firmware versions and downloading them, it makes me wonder if I could impersonate the ip camera and download the firmware from there...
+Since there is no authentication required for sending the request to the update server checking for new firmware versions and downloading them, it makes me wonder if I could impersonate the IP camera and download the camera's firmware from there for some reverse engineering attempts...
 
 ## Connecting to Besder camera from ICSee app on a smartphone
 
@@ -592,11 +596,11 @@ In this subsection I will present the schema of communication between the smartp
 
 ![Communication between smartphone and IP Camera via cloud](/img/Communication_between_smartphone_and_IP_Camera_via_cloud.png)
 
-You can find a [drawio scheme file here](/schematics/Communication_between_smartphone_and_IP_Camera_via_cloud.drawio)
+You can find a [drawio scheme file for this here](/schematics/Communication_between_smartphone_and_IP_Camera_via_cloud.drawio)
 
 ### Exchanged queries between smartphone and AWS cloud server and IP Camera
 
-Firstly, `HTTP POST` request is sent from a smartphone to an `Amazon AWS` server. It contains serial number of the camera I wanted to connect to, among other things. Request's purpose is to ask for a new connection with `MSG_CLI_NEED_CON_REQ` query. The AWS server sends `HTTP OK` response to the smartphone. It contains IP address of a ***second*** Amazon AWS server and it's port that is used for communicating.
+Firstly, `HTTP POST` request is sent from a smartphone to an `Amazon AWS` server. It contains serial number of the camera I wanted to connect to, among other things. Request's purpose is to ask for a new connection with a different `Amazon AWS`server by calling `MSG_CLI_NEED_CON_REQ` query. The AWS server sends `HTTP OK` response to the smartphone. It contains IP address of a ***second*** Amazon AWS server and it's port that is used for communicating.
 
 ```
 POST / HTTP/1.1
@@ -649,7 +653,7 @@ Content-Length: 203
 }
 ```
 
-The `HTTP POST` request containing IP address and communication port of ***second*** AWS server is sent to the IP camera.
+The `HTTP POST` request containing IP address and communication port of ***second*** AWS server is also sent to the IP camera.
 
 ```
 POST / HTTP/1.1
@@ -681,11 +685,11 @@ All further communication is sent through the second AWS server and is encrypted
 
 # Data security
 
-As I have mentioned before, all of the data was sent via port `34567` and the data is obfuscated with what looks like a bunch of different length MD5 hashes, separated by `+` or `/` symbol. It might be possible to reverse engineer the function used for data obfuscation, although for that I would need to retrieve the firmware of the camera. I will elaborate on this more in the next section.
+As I have mentioned before, all of the data was sent via port `34567` and the data is encrypted and I have not yet figured out what exact encryption method is used and how it works, so I will leave it as a task that I might be doing some time in the future.
 
 # Potential vulnerabilities
 
-In this section I will present potential vulnerabilities within the tested Besder camera. The exploits and their descriptions were taken from [cve.mitre.org](https://cve.mitre.org/) website and the found vulnerabilities were associated with ***Xongmai XMeye P2P*** cloud services.
+In this section I will present potential vulnerabilities within the tested Besder 6024PB-XMA501 camera. The exploits and their descriptions were found and taken from [cve.mitre.org](https://cve.mitre.org/) website and the found vulnerabilities were associated with ***Xongmai XMeye P2P*** cloud services.
 
 1. ***[CVE-2017-16725](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-16725)*** - A Stack-based Buffer Overflow issue was discovered in Xiongmai Technology IP Cameras and DVRs using the NetSurveillance Web interface. The stack-based buffer overflow vulnerability has been identified, which may allow an attacker to execute code remotely or crash the device. After rebooting, the device restores itself to a more vulnerable state in which Telnet is accessible.
 2. ***[CVE-2017-7577](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-7577)*** -	XiongMai uc-httpd has directory traversal allowing the reading of arbitrary files via a "GET ../" HTTP request.
