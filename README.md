@@ -301,7 +301,7 @@ This might be useful later on, if I try to figure out the exact way of how the d
 
 # Network communication analysis
 
-For analyzing network traffic associated with the camera I have carried out a `Man in the Middle` cyberattack using `Ettercap` tool and intercepted all the traffic between a Besder 6024PB-XMA501 IP camera, a smartphone, Windows 10 virtual computer within Virtualbox and the TPLINK TL-WR841N router (for which I have conducted a separate cybersecurity research [here](https://github.com/KostasEreksonas/tp-link-tl-wr841n-security-analysis)). All devices were connected to the internet via ***Wireless Local Area Network (WLAN)***. The scheme of devices used during analysis is shown below.
+For analyzing network traffic associated with the camera I have carried out a ***Man in the Middle*** cyberattack using `Ettercap` tool and intercepted all the traffic between a Besder 6024PB-XMA501 IP camera, a smartphone, Windows 10 virtual computer within Virtualbox and the TPLINK TL-WR841N router (for which I have conducted a separate cybersecurity research [here](https://github.com/KostasEreksonas/tp-link-tl-wr841n-security-analysis)). All devices were connected to the internet via ***Wireless Local Area Network (WLAN)***. The scheme of devices used during analysis is shown below.
 
 ![Network analysis scheme](/img/MITM_analysis_scheme.png)
 
