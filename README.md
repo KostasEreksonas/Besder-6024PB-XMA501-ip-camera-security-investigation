@@ -69,7 +69,7 @@ In this subsection I am presenting the list of open ports that I have found in a
 
 ### TCP port scan
 
-As I have mentioned before, `nmap` tool was used for this information gathering procedure. The command to find TCP ports and determine their purpose was `nmap -v -sS -sV -sC -p- X.X.X.X`, where `X.X.X.X` is IP address of a camera. The scan was conducted with ***root*** privilleges. Purpose of used flags is explained below:
+As I have mentioned before, `nmap` tool was used for this information gathering procedure. The command to find TCP ports and determine their purpose was `nmap -v -sS -sV -sC -p- X.X.X.X`, where `X.X.X.X` is IP address of the Besder camera. The scan was conducted with ***root*** privilleges. Purpose of used flags is explained below:
 
 ```
 -v		Verbosity. Gives more information about what the scan is doing.
