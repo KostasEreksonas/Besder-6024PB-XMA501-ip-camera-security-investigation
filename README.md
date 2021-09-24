@@ -726,7 +726,10 @@ During this analysis I have found open ports, running services, OS version and o
 
 # Further work
 
-Below I will list the things that I plan to try to further accomplish with the security testing of this camera:
-1. Impersonate the IP camera and download the camera's firmware from cloud service.
-2. Use special tools to analyze the downloaded firmware and reverse engineer the code.
-3. Most importantly - find the function that is used for obfuscating the sent data and reverse engineer the algorithm used for this function.
+Below I will provide a list of the things that I plan to further accomplish with the security testing of Besder camera:
+1. Impersonate the IP camera and download the camera's firmware from cloud service provider.
+2. Use special tools to analyze the downloaded firmware and try to reverse engineer the code.
+3. Find the function that is used for encrypting the sent data and reverse engineer the algorithm used for this function.
+4. Inspect the code for potential security risks.
+5. Verify if the found security risks have valid cyber attack vectors.
+6. Provide a solution to mitigate the proven security risks if there are any.
