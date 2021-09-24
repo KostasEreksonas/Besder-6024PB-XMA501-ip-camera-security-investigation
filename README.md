@@ -139,7 +139,7 @@ The scan found ***1*** open ***UDP*** port on which `ws-discovery` service was r
 
 ## OS Detection
 
-Using `nmap` tool with `-O` flag I was able to determine the Operating System and it's version running on the analyzed Besder 6024PB-XMA501 IP Camera. The full command for this scan was `nmap -v -sS -sV -O` and the results of this scan are presented below.
+Using `nmap` tool with `-O` flag I was able to determine the Operating System and it's version running on the analyzed Besder 6024PB-XMA501 IP Camera. The full command for this scan was `nmap -v -sS -sV -O X.X.X.X`, where `X.X.X.X` is an IP address of the Besder IP camera. The results of this scan are presented below.
 
 ```
 Device type: general purpose
