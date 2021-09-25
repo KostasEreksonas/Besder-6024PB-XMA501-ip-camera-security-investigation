@@ -1,6 +1,6 @@
 # Besder 6024PB-XMA501 IP camera security analysis
 
-A cybersecurity analysis of a Besder 6024PB-XMA501 IP camera that started as a project for the final project of Bachelor's studies.
+A cybersecurity analysis of a Besder 6024PB-XMA501 IP camera that started as the final project of my Bachelor's studies.
 
 Table of Contents
 =================
@@ -127,7 +127,7 @@ The scan found ***5*** open ***TCP*** ports in Besder 6024PB-XMA501 camera:
 4. Port `12901` was also open during analysis, although `nmap` was not able to determine what service was running on this specific port.
 5. Port `34567` is controlled by a service called `dhanalakshmi`. It is a data port which is used for transmitting and recieving data when the user connects to the camera either from a computer or a smartphone trough a proxy cloud server. I will elaborate on this specific port a bit more in later sections. For now I will note that most of the communication done via this port is ***encrypted*** or ***obfuscated*** using SSL.
 
-***Note:*** a quick Google search of the `http-favicon: Unknown favicon MD5: EC9D1C872C50DD7DA7D826D9C85FC158` lead to a numerous reports of possible malware and strange behaviour of a few different IP camera models (albeit older than the IP camera model tested in this analysis).
+***Note:*** a quick Google search of the MD5 hash of the http-favicon `EC9D1C872C50DD7DA7D826D9C85FC158` lead to a [numerous reports of possible malware and strange behaviour of a few different IP camera models](https://www.google.com/search?q=EC9D1C872C50DD7DA7D826D9C85FC158&source=lmns&bih=935&biw=1908&client=firefox-b-d&hl=en-US&sa=X&ved=2ahUKEwir_s28-ZnzAhWN_CoKHTXyBAMQ_AUoAHoECAEQAA) (albeit older than the IP camera model tested in this analysis).
 
 ### UDP port scan
 
@@ -728,7 +728,7 @@ Now I will go through the listed possibilities and try to determine what things 
 4. As mentioned in previous section, I was able to find some vulnerabilities that _might_ affect this Besder camera, although I would need to test them against the device to prove if those vulnerabilities could be used for obtaining the firmware.
 5. Last part is the part that includes open ports. There are ***no*** open ports that could be used for gaining shell access, namely ports `23`, `9527` and, by some reports that I have found, `9530`. So, no luck there.
 
-Although it might also be possible to retrieve the firmware from the ***update server*** that the camera is communicating with as the `JSON` formatted update request and answer are sent in plain text and no re-authentication of the user is required to perform this action. For that I will set up a ***VPN*** and come back for further testing.
+Although it might also be possible to retrieve the firmware from the ***update server*** that the camera is communicating with as the `JSON` formatted update request and answer both are sent in plain text and no re-authentication of the user is required to perform this action. For that I will set up a ***VPN*** and come back for further testing.
 
 # Conclusion
 
