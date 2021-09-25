@@ -61,7 +61,7 @@ Inside the box that arrived there was the camera itself, a screw to fix a camera
 
 # Technical Information
 
-In this section I am presenting results of gathering technical data and networking information about ***Besder 6024PB-XMA501*** IP camera. For gathering the technical information `nmap` tool is used.
+In this section I will present the technical data and networking information about ***Besder 6024PB-XMA501*** IP camera. For gathering this information I have used the `nmap` tool.
 
 ## Open ports
 
