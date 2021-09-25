@@ -40,7 +40,7 @@ For the final project of my Bachelor's studies I have decided to investigate  se
 
 # Analysis methodology
 
-The whole security analysis of the IP camera was conducted from my custom ***Arch Linux*** operating system installon. Plan of my analysis is as follows:
+The whole security analysis of the IP camera was conducted from my custom ***Arch Linux*** operating system installation. Plan of my analysis is as follows:
 
 1. Factory reset of the camera.
 2. Initial setup of the camera.
