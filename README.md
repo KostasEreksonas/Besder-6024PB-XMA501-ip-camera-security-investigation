@@ -127,6 +127,8 @@ The scan found ***5*** open ***TCP*** ports in Besder 6024PB-XMA501 camera:
 4. Port `12901` was also open during analysis, although `nmap` was not able to determine what service was running on this specific port.
 5. Port `34567` is controlled by a service called `dhanalakshmi`. It is a data port which is used for transmitting and recieving data when the user connects to the camera either from a computer or a smartphone trough a proxy cloud server. I will elaborate on this specific port a bit more in later sections. For now I will note that most of the communication done via this port is ***encrypted*** or ***obfuscated*** using SSL.
 
+Note: a quick Google search of the `http-favicon: Unknown favicon MD5: EC9D1C872C50DD7DA7D826D9C85FC158` lead to a numerous reports of possible malware and strange behaviour of a few different IP camera models (albeit older than the IP camera model tested in this analysis).
+
 ### UDP port scan
 
 For the task of scanning and searching for open UDP ports I have used `-sU` flag within the `nmap` tool. Although this time I have set the program to scan only 1000 most popular ports as UDP port scanning is a lot slower than TCP scan (as for why, one can read part of Nmap documentation about UDP scanning [here](https://nmap.org/book/scan-methods-udp-scan.html)). The command used there was `nmap -v -sU -sV X.X.X.X`, where `X.X.X.X` is IP address of the camera. The scan was run with ***root*** privilleges. Results of the scan are presented below.
