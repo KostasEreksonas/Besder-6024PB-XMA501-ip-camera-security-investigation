@@ -728,7 +728,7 @@ Now I will go through the listed possibilities and try to determine what things 
 4. As mentioned in previous section, I was able to find some vulnerabilities that _might_ affect this Besder camera, although I would need to test them against the device to prove if those vulnerabilities could be used for obtaining the firmware.
 5. Last part is the part that includes open ports. There are ***no*** open ports that could be used for gaining shell access, namely ports `23`, `9527` and, by some reports that I have found, `9530`. So, no luck there.
 
-Although it might also be possible to retrieve the firmware from the ***update server*** that the camera is communicating with as the `JSON` formatted update request is sent in plain text. For that I will set up a ***VPN*** and come back for further testing.
+Although it might also be possible to retrieve the firmware from the ***update server*** that the camera is communicating with as the `JSON` formatted update request and answer are sent in plain text and no re-authentication of the user is required to perform this action. For that I will set up a ***VPN*** and come back for further testing.
 
 # Conclusion
 
