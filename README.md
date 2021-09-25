@@ -124,7 +124,7 @@ The scan found ***5*** open ***TCP*** ports in Besder 6024PB-XMA501 camera:
 2. Port `554` is a ***RTSP*** port with version `H264DVR rtspd 1.0` and could be used for retrieving the video stream from the camera with a specific URL which I have not figured out yet. Although I reckon login credentials would be neccesary there.
 3. Port `8899` has a service running that is detected as an  `ospf-lite` service and as far as I could find information about it, it could be used as an ONVIF-compliant port ["for effective interoperability of IP-based physical security products"](https://www.onvif.org/).
 4. Port `12901` was also open during analysis, although `nmap` was not able to determine what service was running on this specific port.
-5. Port `34567` is controlled by a service called `dhanalakshmi`. It is a data port which is used for transmitting and recieving data when the user connects to the camera either from a computer or a smartphone trough a proxy cloud server. I will elaborate on this specific port a bit more in later sections. For now I will note that basically all communication done via this port is either ***encrypted*** or ***obfuscated*** by some means that I have not figured out yet.
+5. Port `34567` is controlled by a service called `dhanalakshmi`. It is a data port which is used for transmitting and recieving data when the user connects to the camera either from a computer or a smartphone trough a proxy cloud server. I will elaborate on this specific port a bit more in later sections. For now I will note that most of the communication done via this port is ***encrypted*** or ***obfuscated*** using SSL.
 
 ### UDP port scan
 
@@ -162,7 +162,7 @@ Anyways, I have a `Windows 10` virtual machine installed within a `VirtualBox` e
 So, I have tried to log into the `NETSurveillance WEB` control panel. After pressing the login button it takes a couple of seconds to start any login activity. To figure out why, I decided to inspect the webpage's code. And there I had found a `Javascript` login function which had a very _"interesting"_ feature added - a 2 second timer, which activates ***after*** pressing the login button. To be honest, I am not sure about the purpose of this delay. One idea that I have is that it is used to make this particular device look slower than it actually is, especially in comparison to higher end models that the company is offering. But that is just speculation from my side.
 
 ## A further investigation of a control panel of an IP camera
-
+*
 ***Added on 26/06/2021***
 
 Using ***Wireshark*** tool I have examined the data stream between `Besder 6024PB-XMA501` IP camera and a `NETSurveillanceWEB` web interface within `Windows 10` virtual machine. What I have found is that when the connection request is sent from the browser within the virtual machine to the surveillance camera, the surveillance camera sends multiple `.html`, `.css` and `.js` files of the `NETSurveillance WEB` control panel are sent to the browser. One file that looked the most interesting to me was ***m.jsp*** file, containing some `Javascript` code. In this particular file was the following `packed function`:
@@ -293,9 +293,7 @@ Hash.Cookie.Methods = {};
 Hash.Cookie.implement(Hash.Cookie.Methods);
 ```
 
-There are a few ***hash-related*** sub-functions, although I have not yet figured how exactly do they work or how they are used when I actually connect to the IP camera and start communicating with it from my virtual machine.
-
-One of my guesses are that this `Hash` function might be used to craft login session cookies, as well as encrypting and / or obfuscating communication data sent via port `34567`.
+There are a few ***hash-related*** sub-functions, although I have not yet figured how exactly do they work or how they are used when I actually connect to the IP camera and start communicating with it from my virtual machine. One of my guesses from inspecting the code are that this `Hash` function might be used to craft login session cookies.
 
 This might be useful later on, if I try to figure out the exact way of how the data sent between devices is encrypted or obfuscated.
 
@@ -309,7 +307,9 @@ You can find a [drawio scheme file for this here](/schematics/MITM_analysis_sche
 
 ## Communication with a control panel in a web browser
 
-After logging in the `NETSurveillance WEB` control panel all the data between laptop and camera is sent through port `34567` and is encrypted. I have not found out yet what is the exact process of data encryption but I may do it some time in the future.
+After logging in the `NETSurveillance WEB` control panel, the further information can be seen in ***plain text***:
+
+All the further communication between the laptop and Besder IP camera is encrypted with SSL protocol and formatted in Base64 format (one can read more about this in [data security](#Data-security) section).
 
 # Communication With Cloud Services
 
@@ -681,11 +681,14 @@ Content-Length: 265
 }
 ```
 
-All further communication is sent through the second AWS server and is encrypted/obfuscated. The communication between smartphone and the second AWS serveris encrypted using `TLS` protocol and communication between the server and camera is obfuscated using MD5 algorithm.
+All further communication between the smartphone and the Besder IP camera is carried out through the second Amazon AWS server and is encrypted. Communication between the smartphone and Amazon AWS server is encrypted by using `TLS v1.2` protocol and communication between the AWS server and Besder IP camera is encrypted using `SSL` protocol (although I am not sure about the protocol's version used on this end of communication and whether an older SSL or a more updated TLS protocol is used).
 
 # Data security
+***Updated 25/09/2021***
 
-As I have mentioned before, all of the data was sent via port `34567` and the data is encrypted and I have not yet figured out what exact encryption method is used and how it works, so I will leave it as a task that I might be doing some time in the future.
+While analyzing domain information of an Amazon AWS server with an IP address of `3.126.12.232`, which Besder 6024PB-XMA501 IP camera connects to, I have found a couple of Base64 encoded SSL certificates, the formatting of which ***matches*** the formatting of the data sent via Besder IP camera's TCP port `34567`. So it is probably safe to assume that some form of SSL encryption is used to hide the data that is being sent.
+
+Note: for analyzing domain information I was using utility called `whois`.
 
 # Potential vulnerabilities
 
