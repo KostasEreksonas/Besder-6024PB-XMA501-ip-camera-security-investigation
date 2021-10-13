@@ -26,7 +26,6 @@ Table of Contents
 		+ [Connection scheme between smartphone and AWS cloud server and IP Camera](#Connection-scheme-between-smartphone-and-AWS-cloud-server-and-IP-Camera)
 		+ [Exchanged queries between smartphone and AWS cloud server and IP Camera](#Exchanged-queries-between-smartphone-and-AWS-cloud-server-and-IP-Camera)
 * [Data security](#Data-security)
-* [Cloud server certificates](#Cloud-server-certificates)
 * [Potential vulnerabilities](#Potential-vulnerabilities)
 * [Camera firmware](#Camera-firmware)
 * [Conclusion](#Conclusion)
@@ -693,10 +692,6 @@ While analyzing domain information of an Amazon AWS server with an IP address of
 
 ***Note:*** for analyzing domain information I was using utility called `whois`.
 
-# Cloud server certificates
-
-In this section I will present the information about the certificates on all of the cloud servers to whom the Besder 6024PB-XMA501 IP camera connects.
-
 # Potential vulnerabilities
 
 In this section I will present potential vulnerabilities within the tested Besder 6024PB-XMA501 camera. The exploits and their descriptions were found and taken from [cve.mitre.org](https://cve.mitre.org/) website and the found vulnerabilities were associated with ***Xongmai XMeye P2P*** cloud services.
@@ -737,10 +732,9 @@ During this analysis I have found open ports, running services, OS version and o
 # Further work
 
 Below I will provide a list of the things that I plan to further accomplish with the security testing of Besder camera:
-1. Analyze encryption certificate information on all the cloud servers to whom the Besder IP camera connects.
+1. Intercept encrypted SSL traffic between IP camera (port 34567) and virtual machine.
 2. Impersonate the IP camera and download the camera's firmware from cloud service provider.
-2. Use special tools to analyze the downloaded firmware and try to reverse engineer the code.
-3. Find the function that is used for encrypting the sent data and reverse engineer the algorithm used for this function.
+3. Use special tools to analyze the downloaded firmware and try to reverse engineer the code.
 4. Inspect the code for potential security risks.
 5. Verify if the found security risks have valid cyber attack vectors.
-6. Provide a solution to mitigate the proven security risks if there are any.
+6. Provide a possible solution to mitigate the proven security risks if there are any.
