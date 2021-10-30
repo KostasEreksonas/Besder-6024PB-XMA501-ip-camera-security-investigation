@@ -2,6 +2,8 @@
 
 A cybersecurity analysis of a Besder 6024PB-XMA501 IP camera that started as the final project of my Bachelor's studies.
 
+A page of the Besder 6024PB-XMA501 Camera analysis hosted on Github Pages can be found by [following this link](https://kostasereksonas.github.io/Besder-6024PB-XMA501-ip-camera-security-investigation/).
+
 Table of Contents
 =================
 * [Besder 6024PB-XMA501 IP camera security analysis](#Besder-6024PB-XMA501-IP-camera-security-analysis)
