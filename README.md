@@ -32,6 +32,7 @@ Table of Contents
 * [Camera firmware](#Camera-firmware)
 * [Conclusion](#Conclusion)
 * [Further work](#Further-work)
+{:toc}
 
 # Prerequisite
 
