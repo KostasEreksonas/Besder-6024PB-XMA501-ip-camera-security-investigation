@@ -31,8 +31,6 @@ Table of Contents
 * [Potential vulnerabilities](#Potential-vulnerabilities)
 * [Camera firmware](#Camera-firmware)
 * [Conclusion](#Conclusion)
-* [Further work](#Further-work)
-{:toc}
 
 # Prerequisite
 
@@ -732,12 +730,3 @@ Although it might also be possible to retrieve the firmware from the ***update s
 
 During this analysis I have found open ports, running services, OS version and other technical information about the camera. After that I tested camera control capabilities within a control panel in a web browser. Later communication with cloud servers and services was analyzed. Lastly, the security and encryption/obfuscation of sent data was checked.
 
-# Further work
-
-Below I will provide a list of the things that I plan to further accomplish with the security testing of Besder camera:
-1. Intercept encrypted SSL traffic between IP camera (port 34567) and virtual machine.
-2. Impersonate the IP camera and download the camera's firmware from cloud service provider.
-3. Use special tools to analyze the downloaded firmware and try to reverse engineer the code.
-4. Inspect the code for potential security risks.
-5. Verify if the found security risks have valid cyber attack vectors.
-6. Provide a possible solution to mitigate the proven security risks if there are any.
