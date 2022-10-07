@@ -34,9 +34,10 @@ Table of Contents
 
 # Prerequisite
 
-For the final project of my Bachelor's studies I have decided to investigate  security vulnerabilities and issues that might be present within various IP camera models. One of the cameras that I have investigated was ***Besder 6024PB-XMA501*** IP Camera - one of the cheaper cameras that can be found from AliExpress. I thought to give it a try and bought it with hopes of finding some potentially _"interesting"_ stuff to put into my final project. My hopes were fulfilled and after the security investigation that I have done while writing my final project I decided to make some minor corrections to the analysis and post the full research here.
 
-![Image of the camera](/img/Besder.jpg)
+Security investigation of ***Besder 6024PB-XMA501*** IP Camera stated as a final project of my Bachelor's studies, which I decided to elaborate on and post it's findings here. The selected Besder camera is one of the cheaper ones that could be found using online reseller websites like AliExpress.
+
+![Camera](/img/Besder.jpg)
 
 # Analysis methodology
 
