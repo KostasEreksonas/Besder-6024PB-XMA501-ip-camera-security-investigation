@@ -8,8 +8,8 @@ Table of Contents
 =================
 * [Besder 6024PB-XMA501 IP camera security analysis](#Besder-6024PB-XMA501-IP-camera-security-analysis)
 * [Prerequisite](#Prerequisite)
-* [Analysis methodology](#Analysis-methodology)
-* [Factory reset](#Factory-reset)
+* [Analysis Methodology](#Analysis-Methodology)
+* [Factory Reset](#Factory-Reset)
 * [Initial Setup](#Initial-Setup)
 * [Technical Information](#Technical-Information)
 	* [Open ports](#Open-ports)
@@ -35,11 +35,11 @@ Table of Contents
 # Prerequisite
 
 
-Security investigation of ***Besder 6024PB-XMA501*** IP Camera stated as a final project of my Bachelor's studies, which I decided to elaborate on and post it's findings here. The selected Besder camera is one of the cheaper ones that could be found using online reseller websites like AliExpress.
+Security investigation of ***Bsder 6024PB-XMA501*** IP Camera stated as a final project of my Bachelor's studies, which I decided to elaborate on and post it's findings here. The selected Besder camera is one of the cheaper ones that could be found using online reseller websites like AliExpress.
 
 ![Camera](/img/Besder.jpg)
 
-# Analysis methodology
+# Analysis Methodology
 
 The whole security analysis of the IP camera was conducted from my custom ***Arch Linux*** operating system installation. Plan of my analysis is as follows:
 
@@ -51,7 +51,7 @@ The whole security analysis of the IP camera was conducted from my custom ***Arc
 6. Check the security of transmited data.
 7. Conclusion of analysis' results.
 
-# Factory reset
+# Factory Reset
 
 Tested Besder camera has a separate button installed which, when pressed, defaults settings of the Besder camera. There is also a port for connecting ethernet cable and a socket for connecting power cord. You can see it in the picture below.
 
