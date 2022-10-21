@@ -696,7 +696,7 @@ While analyzing domain information of an Amazon AWS server with an IP address of
 
 # Potential vulnerabilities
 
-In this section I will present potential vulnerabilities within the tested Besder 6024PB-XMA501 camera. The exploits and their descriptions were found and taken from [cve.mitre.org](https://cve.mitre.org/) website and the found vulnerabilities were associated with ***Xongmai XMeye P2P*** cloud services.
+In this section I will present potential [untested] vulnerabilities within the tested Besder 6024PB-XMA501 camera. The exploits and their descriptions were found and taken from [cve.mitre.org](https://cve.mitre.org/) website and the found vulnerabilities were associated with ***Xongmai XMeye P2P*** cloud services.
 
 1. ***[CVE-2017-16725](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-16725)*** - A Stack-based Buffer Overflow issue was discovered in Xiongmai Technology IP Cameras and DVRs using the NetSurveillance Web interface. The stack-based buffer overflow vulnerability has been identified, which may allow an attacker to execute code remotely or crash the device. After rebooting, the device restores itself to a more vulnerable state in which Telnet is accessible.
 2. ***[CVE-2017-7577](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-7577)*** -	XiongMai uc-httpd has directory traversal allowing the reading of arbitrary files via a "GET ../" HTTP request.
