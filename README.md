@@ -34,14 +34,13 @@ Table of Contents
 
 # Prerequisite
 
-
-Security investigation of ***Bsder 6024PB-XMA501*** IP Camera stated as a final project of my Bachelor's studies, which I decided to elaborate on and post it's findings here. The selected Besder camera is one of the cheaper ones that could be found using online reseller websites like AliExpress.
+Security investigation of Besder ***6024PB-XMA501*** IP Camera started as a final project of my Bachelor’s studies, which later evolved into this article. The selected Besder 6024PB-XMA501 camera is one of the cheaper IP camera models that could be found using online reseller websites.
 
 ![Camera](/img/Besder.jpg)
 
 # Analysis Methodology
 
-The whole security analysis of the IP camera was conducted from my custom ***Arch Linux*** operating system installation. Plan of my analysis is as follows:
+Security analysis of the Besder IP camera was conducted using a custom ***Arch Linux*** install. Plan of this security analysis is as follows:
 
 1. Factory reset of the camera.
 2. Initial setup of the camera.
@@ -53,7 +52,7 @@ The whole security analysis of the IP camera was conducted from my custom ***Arc
 
 # Factory Reset
 
-Tested Besder camera has a separate button installed which, when pressed, defaults settings of the Besder camera. There is also a port for connecting ethernet cable and a socket for connecting power cord. You can see it in the picture below.
+Besder 6024PB-XMA501 IP camera has a separate button installed which, when pressed, defaults settings of the tested Besder camera. There is also a port for connecting Ethernet cable and a socket for connecting power cord. It can be seen in the picture below:
 
 ![Camera dongles](/img/Camera_dongles.jpg)
 
@@ -63,15 +62,15 @@ Inside the box that arrived there was the camera itself, a screw to fix a camera
 
 # Technical Information
 
-In this section I will present the technical data and networking information about ***Besder 6024PB-XMA501*** IP camera. For gathering this information I have used the `nmap` tool.
+In this section the technical data and networking information about ***Besder 6024PB-XMA501*** IP camera is presented. For gathering this information `nmap` tool have been used.
 
 ## Open ports
 
-In this subsection I am presenting the list of open ports that I have found in a tested Besder IP camera. During the analysis search for both ***TCP*** and ***UDP*** open ports was conducted.
+Using `nmap` tool a list of open ***TCP*** and ***UDP*** ports on tested Besder IP camera have been compiled.
 
 ### TCP port scan
 
-As I have mentioned before, `nmap` tool was used for this information gathering procedure. The command to find TCP ports and determine their purpose was `nmap -v -sS -sV -sC -p- X.X.X.X`, where `X.X.X.X` is IP address of the Besder camera. The scan was conducted with ***root*** privilleges. Purpose of used flags is explained below:
+As mentioned before, `nmap` tool was used to gather information about open TCP ports. The command to find TCP ports with detailed information was as follows: `nmap -v -sS -sV -sC -p- X.X.X.X`, where `X.X.X.X` is IP address of the Besder camera. To collect full information, the scan was conducted with ***root*** privilleges. Detailed explanation of flags used for TCP port scanning is presented below:
 
 ```
 -v		Verbosity. Gives more information about what the scan is doing.
@@ -126,7 +125,7 @@ The scan found ***5*** open ***TCP*** ports in Besder 6024PB-XMA501 camera:
 2. Port `554` is a ***RTSP*** port with version `H264DVR rtspd 1.0` and could be used for retrieving the video stream from the camera with a specific URL which I have not figured out yet. Although I reckon login credentials would be neccesary there.
 3. Port `8899` has a service running that is detected as an  `ospf-lite` service and as far as I could find information about it, it could be used as an ONVIF-compliant port ["for effective interoperability of IP-based physical security products"](https://www.onvif.org/).
 4. Port `12901` was also open during analysis, although `nmap` was not able to determine what service was running on this specific port.
-5. Port `34567` is controlled by a service called `dhanalakshmi`. It is a data port which is used for transmitting and recieving data when the user connects to the camera either from a computer or a smartphone trough a proxy cloud server. I will elaborate on this specific port a bit more in later sections. For now I will note that most of the communication done via this port is ***encrypted*** or ***obfuscated*** using SSL.
+5. Port `34567` is controlled by a service called `dhanalakshmi`. It is a data port which is used for transmitting and recieving data when the user connects to the camera either from a computer or a smartphone trough a proxy cloud server. I will elaborate on this specific port a bit more in later sections. For now I will note that most of the communication done via this port is ***encrypted*** or ***obfuscated*** using Secure Sockets Layer - SSL.
 
 ***Note:*** a quick Google search of the MD5 hash of the http-favicon `EC9D1C872C50DD7DA7D826D9C85FC158` lead to a [numerous reports of possible malware and strange behaviour of a few different IP camera models](https://www.google.com/search?q=EC9D1C872C50DD7DA7D826D9C85FC158&source=lmns&bih=935&biw=1908&client=firefox-b-d&hl=en-US&sa=X&ved=2ahUKEwir_s28-ZnzAhWN_CoKHTXyBAMQ_AUoAHoECAEQAA) (albeit older than the IP camera model tested in this analysis).
 
@@ -143,7 +142,7 @@ The scan found ***1*** open ***UDP*** port on which `ws-discovery` service was r
 
 ## OS Detection
 
-Using `nmap` tool with `-O` flag I was able to determine the Operating System and it's version running on the analyzed Besder 6024PB-XMA501 IP Camera. The full command for this scan was `nmap -v -sS -sV -O X.X.X.X`, where `X.X.X.X` is an IP address of the Besder IP camera. The results of this scan are presented below.
+Using `nmap` tool with `-O` flag I was able to determine the Operating System and it's version running on the analyzed Besder 6024PB-XMA501 IP Camera. The full command for this scan was `nmap -v -sS -sV -O X.X.X.X`, where `X.X.X.X` is an IP address of the Besder IP camera. The results of this scan are presented below:
 
 ```
 Device type: general purpose
@@ -155,7 +154,7 @@ OS details: Linux 3.2 - 3.16
 As it can be seen from the result, Besder ip camera is regarded as a `general purpose` device and is running Linux OS with a likely version of `Linux 3.2 - 3.16`.
 
 # Control Panel in a Web Browser
-This is the time when some really interesting things start to show up. I have tried to access the control panel of the camera in at the time the newest version of `Mozilla Firefox` browser within my Arch Linux install... Just to be greeted with this nice pop-up window saying that my browser is ***too new*** and that some features would not work properly and I was requested to download Firefox browser version `51` or earliear. For a reference, Firefox 51 was released in ***January of 2017***.
+This is the time when some really interesting things start to show up. I have tried to access the control panel of the camera in at the time the newest version of `Mozilla Firefox` browser within my Arch Linux install... Just to be greeted with this nice pop-up window saying that my browser is ***too new*** and that some features would not work properly and I was requested to download Firefox browser version `51` or earlier. For a reference, Firefox 51 was released in ***January of 2017***.
 
 ![Pop-up saying that my browser is too new for rendering the control panel](/img/Browser_too_new.png)
 
