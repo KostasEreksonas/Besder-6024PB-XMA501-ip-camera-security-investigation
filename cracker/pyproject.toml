@@ -1,0 +1,10 @@
+[project]
+name = "cracker"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "onvif-zeep>=0.2.12",
+    "pysocks>=1.7.1",
+]

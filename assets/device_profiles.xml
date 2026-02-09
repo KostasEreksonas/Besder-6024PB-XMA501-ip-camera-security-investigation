@@ -1,0 +1,499 @@
+```xml
+  <s:Body>
+    <trt:GetProfilesResponse>
+      <trt:Profiles fixed="true" token="PROFILE_000">
+        <tt:Name>mainStream</tt:Name>
+        <tt:VideoSourceConfiguration token="V_SRC_000">
+          <tt:Name>V_SRC_CFG_000</tt:Name>
+          <tt:UseCount>3</tt:UseCount>
+          <tt:SourceToken>V_SRC_000</tt:SourceToken>
+          <tt:Bounds height="1944" width="2592" y="0" x="0"/>
+        </tt:VideoSourceConfiguration>
+        <tt:AudioSourceConfiguration token="A_SRC_CFG_000">
+          <tt:Name>A_SRC_CFG_000</tt:Name>
+          <tt:UseCount>2</tt:UseCount>
+          <tt:SourceToken>AudioSourceToken</tt:SourceToken>
+        </tt:AudioSourceConfiguration>
+        <tt:VideoEncoderConfiguration token="V_ENC_000">
+          <tt:Name>V_ENC_000</tt:Name>
+          <tt:UseCount>1</tt:UseCount>
+          <tt:Encoding>H264</tt:Encoding>
+          <tt:Resolution>
+            <tt:Width>2592</tt:Width>
+            <tt:Height>1944</tt:Height>
+          </tt:Resolution>
+          <tt:Quality>2</tt:Quality>
+          <tt:RateControl>
+            <tt:FrameRateLimit>12</tt:FrameRateLimit>
+            <tt:EncodingInterval>0</tt:EncodingInterval>
+            <tt:BitrateLimit>2560</tt:BitrateLimit>
+          </tt:RateControl>
+          <tt:H264>
+            <tt:GovLength>12</tt:GovLength>
+            <tt:H264Profile>Main</tt:H264Profile>
+          </tt:H264>
+          <tt:Multicast>
+            <tt:Address>
+              <tt:Type>IPv4</tt:Type>
+              <tt:IPv4Address>239.0.1.0</tt:IPv4Address>
+            </tt:Address>
+            <tt:Port>32002</tt:Port>
+            <tt:TTL>2</tt:TTL>
+            <tt:AutoStart>false</tt:AutoStart>
+          </tt:Multicast>
+          <tt:SessionTimeout>PT10S</tt:SessionTimeout>
+        </tt:VideoEncoderConfiguration>
+        <tt:AudioEncoderConfiguration token="A_ENC_000">
+          <tt:Name>A_ENC_000</tt:Name>
+          <tt:UseCount>2</tt:UseCount>
+          <tt:Encoding>G711</tt:Encoding>
+          <tt:Bitrate>128</tt:Bitrate>
+          <tt:SampleRate>8</tt:SampleRate>
+          <tt:Multicast>
+            <tt:Address>
+              <tt:Type>IPv4</tt:Type>
+              <tt:IPv4Address>239.0.1.0</tt:IPv4Address>
+            </tt:Address>
+            <tt:Port>32002</tt:Port>
+            <tt:TTL>2</tt:TTL>
+            <tt:AutoStart>false</tt:AutoStart>
+          </tt:Multicast>
+          <tt:SessionTimeout>PT10S</tt:SessionTimeout>
+        </tt:AudioEncoderConfiguration>
+        <tt:VideoAnalyticsConfiguration token="VideoAnalyticsToken0">
+          <tt:Name>VideoAnalytics</tt:Name>
+          <tt:UseCount>3</tt:UseCount>
+          <tt:AnalyticsEngineConfiguration>
+            <tt:AnalyticsModule Name="MyCellMotionModule" Type="tt:CellMotionEngine">
+              <tt:Parameters>
+                <tt:SimpleItem Name="Sensitivity" Value="50"/>
+                <tt:ElementItem Name="Layout">
+                  <tt:CellLayout Columns="7" Rows="7">
+                    <tt:Transformation>
+                      <tt:Translate x="-1.00" y="-1.00"/>
+                      <tt:Scale x="0.285714" y="0.285714"/>
+                    </tt:Transformation>
+                  </tt:CellLayout>
+                </tt:ElementItem>
+              </tt:Parameters>
+            </tt:AnalyticsModule>
+            <tt:AnalyticsModule Name="MyTamperDetecModule" Type="tt:TamperEngine">
+              <tt:Parameters>
+                <tt:SimpleItem Name="Sensitivity" Value="50"/>
+                <tt:ElementItem Name="Transformation">
+                  <tt:Transformation>
+                    <tt:Translate x="-1.000000" y="-1.000000"/>
+                    <tt:Scale x="0.002841" y="0.003472"/>
+                  </tt:Transformation>
+                </tt:ElementItem>
+                <tt:ElementItem Name="Field">
+                  <tt:PolygonConfiguration>
+                    <tt:Polygon>
+                      <tt:Point x="0" y="0"/>
+                      <tt:Point x="0" y="576"/>
+                      <tt:Point x="704" y="576"/>
+                      <tt:Point x="704" y="0"/>
+                    </tt:Polygon>
+                  </tt:PolygonConfiguration>
+                </tt:ElementItem>
+              </tt:Parameters>
+            </tt:AnalyticsModule>
+          </tt:AnalyticsEngineConfiguration>
+          <tt:RuleEngineConfiguration>
+            <tt:Rule Name="MyMotionDetectorRule" Type="tt:CellMotionDetector">
+              <tt:Parameters>
+                <tt:SimpleItem Name="MinCount" Value="5"/>
+                <tt:SimpleItem Name="AlarmOnDelay" Value="100"/>
+                <tt:SimpleItem Name="AlarmOffDelay" Value="100"/>
+                <tt:SimpleItem Name="ActiveCells" Value="+/8AgA=="/>
+              </tt:Parameters>
+            </tt:Rule>
+            <tt:Rule Name="MyTamperDetectorRule" Type="tt:TamperDetector">
+              <tt:Parameters>
+                <tt:ElementItem Name="Field">
+                  <tt:PolygonConfiguration>
+                    <tt:Polygon>
+                      <tt:Point x="0" y="0"/>
+                      <tt:Point x="0" y="576"/>
+                      <tt:Point x="704" y="576"/>
+                      <tt:Point x="704" y="0"/>
+                    </tt:Polygon>
+                  </tt:PolygonConfiguration>
+                </tt:ElementItem>
+              </tt:Parameters>
+            </tt:Rule>
+          </tt:RuleEngineConfiguration>
+        </tt:VideoAnalyticsConfiguration>
+        <tt:PTZConfiguration token="PTZConfigurationToken" MoveRamp="0" PresetRamp="0" PresetTourRamp="0">
+          <tt:Name>PTZConfiguration</tt:Name>
+          <tt:UseCount>3</tt:UseCount>
+          <tt:NodeToken>NODE_000</tt:NodeToken>
+          <tt:DefaultAbsolutePantTiltPositionSpace>http://www.onvif.org/ver10/tptz/PanTiltSpaces/PositionGenericSpace</tt:DefaultAbsolutePantTiltPositionSpace>
+          <tt:DefaultAbsoluteZoomPositionSpace>http://www.onvif.org/ver10/tptz/ZoomSpaces/PositionGenericSpace</tt:DefaultAbsoluteZoomPositionSpace>
+          <tt:DefaultRelativePanTiltTranslationSpace>http://www.onvif.org/ver10/tptz/PanTiltSpaces/TranslationGenericSpace</tt:DefaultRelativePanTiltTranslationSpace>
+          <tt:DefaultRelativeZoomTranslationSpace>http://www.onvif.org/ver10/tptz/ZoomSpaces/TranslationGenericSpace</tt:DefaultRelativeZoomTranslationSpace>
+          <tt:DefaultContinuousPanTiltVelocitySpace>http://www.onvif.org/ver10/tptz/PanTiltSpaces/VelocityGenericSpace</tt:DefaultContinuousPanTiltVelocitySpace>
+          <tt:DefaultContinuousZoomVelocitySpace>http://www.onvif.org/ver10/tptz/ZoomSpaces/VelocityGenericSpace</tt:DefaultContinuousZoomVelocitySpace>
+          <tt:DefaultPTZSpeed>
+            <tt:PanTilt x="0.5" y="0.5" space="http://www.onvif.org/ver10/tptz/PanTiltSpaces/GenericSpeedSpace"/>
+            <tt:Zoom x="0.5" space="http://www.onvif.org/ver10/tptz/ZoomSpaces/ZoomGenericSpeedSpace"/>
+          </tt:DefaultPTZSpeed>
+          <tt:DefaultPTZTimeout>PT5S</tt:DefaultPTZTimeout>
+          <tt:PanTiltLimits>
+            <tt:Range>
+              <tt:URI>http://www.onvif.org/ver10/tptz/PanTiltSpaces/PositionGenericSpace</tt:URI>
+              <tt:XRange>
+                <tt:Min>-1.0</tt:Min>
+                <tt:Max>1.0</tt:Max>
+              </tt:XRange>
+              <tt:YRange>
+                <tt:Min>-1.0</tt:Min>
+                <tt:Max>1.0</tt:Max>
+              </tt:YRange>
+            </tt:Range>
+          </tt:PanTiltLimits>
+          <tt:ZoomLimits>
+            <tt:Range>
+              <tt:URI>http://www.onvif.org/ver10/tptz/ZoomSpaces/PositionGenericSpace</tt:URI>
+              <tt:XRange>
+                <tt:Min>0.0</tt:Min>
+                <tt:Max>1.0</tt:Max>
+              </tt:XRange>
+            </tt:Range>
+          </tt:ZoomLimits>
+          <tt:Extension>
+            <tt:PTControlDirection>
+              <tt:EFlip>
+                <tt:Mode>OFF</tt:Mode>
+              </tt:EFlip>
+              <tt:Reverse>
+                <tt:Mode>OFF</tt:Mode>
+              </tt:Reverse>
+            </tt:PTControlDirection>
+          </tt:Extension>
+        </tt:PTZConfiguration>
+        <tt:Extension/>
+      </trt:Profiles>
+      <trt:Profiles fixed="true" token="PROFILE_001">
+        <tt:Name>subStream</tt:Name>
+        <tt:VideoSourceConfiguration token="V_SRC_000">
+          <tt:Name>V_SRC_CFG_000</tt:Name>
+          <tt:UseCount>3</tt:UseCount>
+          <tt:SourceToken>V_SRC_000</tt:SourceToken>
+          <tt:Bounds height="1944" width="2592" y="0" x="0"/>
+        </tt:VideoSourceConfiguration>
+        <tt:AudioSourceConfiguration token="A_SRC_CFG_000">
+          <tt:Name>A_SRC_CFG_000</tt:Name>
+          <tt:UseCount>2</tt:UseCount>
+          <tt:SourceToken>AudioSourceToken</tt:SourceToken>
+        </tt:AudioSourceConfiguration>
+        <tt:VideoEncoderConfiguration token="V_ENC_001">
+          <tt:Name>V_ENC_001</tt:Name>
+          <tt:UseCount>1</tt:UseCount>
+          <tt:Encoding>H264</tt:Encoding>
+          <tt:Resolution>
+            <tt:Width>704</tt:Width>
+            <tt:Height>576</tt:Height>
+          </tt:Resolution>
+          <tt:Quality>2</tt:Quality>
+          <tt:RateControl>
+            <tt:FrameRateLimit>12</tt:FrameRateLimit>
+            <tt:EncodingInterval>0</tt:EncodingInterval>
+            <tt:BitrateLimit>1024</tt:BitrateLimit>
+          </tt:RateControl>
+          <tt:H264>
+            <tt:GovLength>12</tt:GovLength>
+            <tt:H264Profile>Main</tt:H264Profile>
+          </tt:H264>
+          <tt:Multicast>
+            <tt:Address>
+              <tt:Type>IPv4</tt:Type>
+              <tt:IPv4Address>239.0.1.0</tt:IPv4Address>
+            </tt:Address>
+            <tt:Port>32002</tt:Port>
+            <tt:TTL>2</tt:TTL>
+            <tt:AutoStart>false</tt:AutoStart>
+          </tt:Multicast>
+          <tt:SessionTimeout>PT10S</tt:SessionTimeout>
+        </tt:VideoEncoderConfiguration>
+        <tt:AudioEncoderConfiguration token="A_ENC_000">
+          <tt:Name>A_ENC_000</tt:Name>
+          <tt:UseCount>2</tt:UseCount>
+          <tt:Encoding>G711</tt:Encoding>
+          <tt:Bitrate>128</tt:Bitrate>
+          <tt:SampleRate>8</tt:SampleRate>
+          <tt:Multicast>
+            <tt:Address>
+              <tt:Type>IPv4</tt:Type>
+              <tt:IPv4Address>239.0.1.0</tt:IPv4Address>
+            </tt:Address>
+            <tt:Port>32002</tt:Port>
+            <tt:TTL>2</tt:TTL>
+            <tt:AutoStart>false</tt:AutoStart>
+          </tt:Multicast>
+          <tt:SessionTimeout>PT10S</tt:SessionTimeout>
+        </tt:AudioEncoderConfiguration>
+        <tt:VideoAnalyticsConfiguration token="VideoAnalyticsToken0">
+          <tt:Name>VideoAnalytics</tt:Name>
+          <tt:UseCount>3</tt:UseCount>
+          <tt:AnalyticsEngineConfiguration>
+            <tt:AnalyticsModule Name="MyCellMotionModule" Type="tt:CellMotionEngine">
+              <tt:Parameters>
+                <tt:SimpleItem Name="Sensitivity" Value="50"/>
+                <tt:ElementItem Name="Layout">
+                  <tt:CellLayout Columns="7" Rows="7">
+                    <tt:Transformation>
+                      <tt:Translate x="-1.00" y="-1.00"/>
+                      <tt:Scale x="0.285714" y="0.285714"/>
+                    </tt:Transformation>
+                  </tt:CellLayout>
+                </tt:ElementItem>
+              </tt:Parameters>
+            </tt:AnalyticsModule>
+            <tt:AnalyticsModule Name="MyTamperDetecModule" Type="tt:TamperEngine">
+              <tt:Parameters>
+                <tt:SimpleItem Name="Sensitivity" Value="50"/>
+                <tt:ElementItem Name="Transformation">
+                  <tt:Transformation>
+                    <tt:Translate x="-1.000000" y="-1.000000"/>
+                    <tt:Scale x="0.002841" y="0.003472"/>
+                  </tt:Transformation>
+                </tt:ElementItem>
+                <tt:ElementItem Name="Field">
+                  <tt:PolygonConfiguration>
+                    <tt:Polygon>
+                      <tt:Point x="0" y="0"/>
+                      <tt:Point x="0" y="576"/>
+                      <tt:Point x="704" y="576"/>
+                      <tt:Point x="704" y="0"/>
+                    </tt:Polygon>
+                  </tt:PolygonConfiguration>
+                </tt:ElementItem>
+              </tt:Parameters>
+            </tt:AnalyticsModule>
+          </tt:AnalyticsEngineConfiguration>
+          <tt:RuleEngineConfiguration>
+            <tt:Rule Name="MyMotionDetectorRule" Type="tt:CellMotionDetector">
+              <tt:Parameters>
+                <tt:SimpleItem Name="MinCount" Value="5"/>
+                <tt:SimpleItem Name="AlarmOnDelay" Value="100"/>
+                <tt:SimpleItem Name="AlarmOffDelay" Value="100"/>
+                <tt:SimpleItem Name="ActiveCells" Value="+/8AgA=="/>
+              </tt:Parameters>
+            </tt:Rule>
+            <tt:Rule Name="MyTamperDetectorRule" Type="tt:TamperDetector">
+              <tt:Parameters>
+                <tt:ElementItem Name="Field">
+                  <tt:PolygonConfiguration>
+                    <tt:Polygon>
+                      <tt:Point x="0" y="0"/>
+                      <tt:Point x="0" y="576"/>
+                      <tt:Point x="704" y="576"/>
+                      <tt:Point x="704" y="0"/>
+                    </tt:Polygon>
+                  </tt:PolygonConfiguration>
+                </tt:ElementItem>
+              </tt:Parameters>
+            </tt:Rule>
+          </tt:RuleEngineConfiguration>
+        </tt:VideoAnalyticsConfiguration>
+        <tt:PTZConfiguration token="PTZConfigurationToken" MoveRamp="0" PresetRamp="0" PresetTourRamp="0">
+          <tt:Name>PTZConfiguration</tt:Name>
+          <tt:UseCount>3</tt:UseCount>
+          <tt:NodeToken>NODE_000</tt:NodeToken>
+          <tt:DefaultAbsolutePantTiltPositionSpace>http://www.onvif.org/ver10/tptz/PanTiltSpaces/PositionGenericSpace</tt:DefaultAbsolutePantTiltPositionSpace>
+          <tt:DefaultAbsoluteZoomPositionSpace>http://www.onvif.org/ver10/tptz/ZoomSpaces/PositionGenericSpace</tt:DefaultAbsoluteZoomPositionSpace>
+          <tt:DefaultRelativePanTiltTranslationSpace>http://www.onvif.org/ver10/tptz/PanTiltSpaces/TranslationGenericSpace</tt:DefaultRelativePanTiltTranslationSpace>
+          <tt:DefaultRelativeZoomTranslationSpace>http://www.onvif.org/ver10/tptz/ZoomSpaces/TranslationGenericSpace</tt:DefaultRelativeZoomTranslationSpace>
+          <tt:DefaultContinuousPanTiltVelocitySpace>http://www.onvif.org/ver10/tptz/PanTiltSpaces/VelocityGenericSpace</tt:DefaultContinuousPanTiltVelocitySpace>
+          <tt:DefaultContinuousZoomVelocitySpace>http://www.onvif.org/ver10/tptz/ZoomSpaces/VelocityGenericSpace</tt:DefaultContinuousZoomVelocitySpace>
+          <tt:DefaultPTZSpeed>
+            <tt:PanTilt x="0.5" y="0.5" space="http://www.onvif.org/ver10/tptz/PanTiltSpaces/GenericSpeedSpace"/>
+            <tt:Zoom x="0.5" space="http://www.onvif.org/ver10/tptz/ZoomSpaces/ZoomGenericSpeedSpace"/>
+          </tt:DefaultPTZSpeed>
+          <tt:DefaultPTZTimeout>PT5S</tt:DefaultPTZTimeout>
+          <tt:PanTiltLimits>
+            <tt:Range>
+              <tt:URI>http://www.onvif.org/ver10/tptz/PanTiltSpaces/PositionGenericSpace</tt:URI>
+              <tt:XRange>
+                <tt:Min>-1.0</tt:Min>
+                <tt:Max>1.0</tt:Max>
+              </tt:XRange>
+              <tt:YRange>
+                <tt:Min>-1.0</tt:Min>
+                <tt:Max>1.0</tt:Max>
+              </tt:YRange>
+            </tt:Range>
+          </tt:PanTiltLimits>
+          <tt:ZoomLimits>
+            <tt:Range>
+              <tt:URI>http://www.onvif.org/ver10/tptz/ZoomSpaces/PositionGenericSpace</tt:URI>
+              <tt:XRange>
+                <tt:Min>0.0</tt:Min>
+                <tt:Max>1.0</tt:Max>
+              </tt:XRange>
+            </tt:Range>
+          </tt:ZoomLimits>
+          <tt:Extension>
+            <tt:PTControlDirection>
+              <tt:EFlip>
+                <tt:Mode>OFF</tt:Mode>
+              </tt:EFlip>
+              <tt:Reverse>
+                <tt:Mode>OFF</tt:Mode>
+              </tt:Reverse>
+            </tt:PTControlDirection>
+          </tt:Extension>
+        </tt:PTZConfiguration>
+        <tt:Extension/>
+      </trt:Profiles>
+      <trt:Profiles fixed="true" token="PROFILE_002">
+        <tt:Name>snapStream</tt:Name>
+        <tt:VideoSourceConfiguration token="V_SRC_000">
+          <tt:Name>V_SRC_CFG_000</tt:Name>
+          <tt:UseCount>3</tt:UseCount>
+          <tt:SourceToken>V_SRC_000</tt:SourceToken>
+          <tt:Bounds height="1944" width="2592" y="0" x="0"/>
+        </tt:VideoSourceConfiguration>
+        <tt:VideoEncoderConfiguration token="V_ENC_002">
+          <tt:Name>V_ENC_002</tt:Name>
+          <tt:UseCount>1</tt:UseCount>
+          <tt:Encoding>JPEG</tt:Encoding>
+          <tt:Resolution>
+            <tt:Width>704</tt:Width>
+            <tt:Height>576</tt:Height>
+          </tt:Resolution>
+          <tt:Quality>3</tt:Quality>
+          <tt:RateControl>
+            <tt:FrameRateLimit>-3600</tt:FrameRateLimit>
+            <tt:EncodingInterval>0</tt:EncodingInterval>
+            <tt:BitrateLimit>512</tt:BitrateLimit>
+          </tt:RateControl>
+          <tt:Multicast>
+            <tt:Address>
+              <tt:Type>IPv4</tt:Type>
+              <tt:IPv4Address>239.0.1.0</tt:IPv4Address>
+            </tt:Address>
+            <tt:Port>32002</tt:Port>
+            <tt:TTL>2</tt:TTL>
+            <tt:AutoStart>false</tt:AutoStart>
+          </tt:Multicast>
+          <tt:SessionTimeout>PT10S</tt:SessionTimeout>
+        </tt:VideoEncoderConfiguration>
+        <tt:VideoAnalyticsConfiguration token="VideoAnalyticsToken0">
+          <tt:Name>VideoAnalytics</tt:Name>
+          <tt:UseCount>3</tt:UseCount>
+          <tt:AnalyticsEngineConfiguration>
+            <tt:AnalyticsModule Name="MyCellMotionModule" Type="tt:CellMotionEngine">
+              <tt:Parameters>
+                <tt:SimpleItem Name="Sensitivity" Value="50"/>
+                <tt:ElementItem Name="Layout">
+                  <tt:CellLayout Columns="7" Rows="7">
+                    <tt:Transformation>
+                      <tt:Translate x="-1.00" y="-1.00"/>
+                      <tt:Scale x="0.285714" y="0.285714"/>
+                    </tt:Transformation>
+                  </tt:CellLayout>
+                </tt:ElementItem>
+              </tt:Parameters>
+            </tt:AnalyticsModule>
+            <tt:AnalyticsModule Name="MyTamperDetecModule" Type="tt:TamperEngine">
+              <tt:Parameters>
+                <tt:SimpleItem Name="Sensitivity" Value="50"/>
+                <tt:ElementItem Name="Transformation">
+                  <tt:Transformation>
+                    <tt:Translate x="-1.000000" y="-1.000000"/>
+                    <tt:Scale x="0.002841" y="0.003472"/>
+                  </tt:Transformation>
+                </tt:ElementItem>
+                <tt:ElementItem Name="Field">
+                  <tt:PolygonConfiguration>
+                    <tt:Polygon>
+                      <tt:Point x="0" y="0"/>
+                      <tt:Point x="0" y="576"/>
+                      <tt:Point x="704" y="576"/>
+                      <tt:Point x="704" y="0"/>
+                    </tt:Polygon>
+                  </tt:PolygonConfiguration>
+                </tt:ElementItem>
+              </tt:Parameters>
+            </tt:AnalyticsModule>
+          </tt:AnalyticsEngineConfiguration>
+          <tt:RuleEngineConfiguration>
+            <tt:Rule Name="MyMotionDetectorRule" Type="tt:CellMotionDetector">
+              <tt:Parameters>
+                <tt:SimpleItem Name="MinCount" Value="5"/>
+                <tt:SimpleItem Name="AlarmOnDelay" Value="100"/>
+                <tt:SimpleItem Name="AlarmOffDelay" Value="100"/>
+                <tt:SimpleItem Name="ActiveCells" Value="+/8AgA=="/>
+              </tt:Parameters>
+            </tt:Rule>
+            <tt:Rule Name="MyTamperDetectorRule" Type="tt:TamperDetector">
+              <tt:Parameters>
+                <tt:ElementItem Name="Field">
+                  <tt:PolygonConfiguration>
+                    <tt:Polygon>
+                      <tt:Point x="0" y="0"/>
+                      <tt:Point x="0" y="576"/>
+                      <tt:Point x="704" y="576"/>
+                      <tt:Point x="704" y="0"/>
+                    </tt:Polygon>
+                  </tt:PolygonConfiguration>
+                </tt:ElementItem>
+              </tt:Parameters>
+            </tt:Rule>
+          </tt:RuleEngineConfiguration>
+        </tt:VideoAnalyticsConfiguration>
+        <tt:PTZConfiguration token="PTZConfigurationToken" MoveRamp="0" PresetRamp="0" PresetTourRamp="0">
+          <tt:Name>PTZConfiguration</tt:Name>
+          <tt:UseCount>3</tt:UseCount>
+          <tt:NodeToken>NODE_000</tt:NodeToken>
+          <tt:DefaultAbsolutePantTiltPositionSpace>http://www.onvif.org/ver10/tptz/PanTiltSpaces/PositionGenericSpace</tt:DefaultAbsolutePantTiltPositionSpace>
+          <tt:DefaultAbsoluteZoomPositionSpace>http://www.onvif.org/ver10/tptz/ZoomSpaces/PositionGenericSpace</tt:DefaultAbsoluteZoomPositionSpace>
+          <tt:DefaultRelativePanTiltTranslationSpace>http://www.onvif.org/ver10/tptz/PanTiltSpaces/TranslationGenericSpace</tt:DefaultRelativePanTiltTranslationSpace>
+          <tt:DefaultRelativeZoomTranslationSpace>http://www.onvif.org/ver10/tptz/ZoomSpaces/TranslationGenericSpace</tt:DefaultRelativeZoomTranslationSpace>
+          <tt:DefaultContinuousPanTiltVelocitySpace>http://www.onvif.org/ver10/tptz/PanTiltSpaces/VelocityGenericSpace</tt:DefaultContinuousPanTiltVelocitySpace>
+          <tt:DefaultContinuousZoomVelocitySpace>http://www.onvif.org/ver10/tptz/ZoomSpaces/VelocityGenericSpace</tt:DefaultContinuousZoomVelocitySpace>
+          <tt:DefaultPTZSpeed>
+            <tt:PanTilt x="0.5" y="0.5" space="http://www.onvif.org/ver10/tptz/PanTiltSpaces/GenericSpeedSpace"/>
+            <tt:Zoom x="0.5" space="http://www.onvif.org/ver10/tptz/ZoomSpaces/ZoomGenericSpeedSpace"/>
+          </tt:DefaultPTZSpeed>
+          <tt:DefaultPTZTimeout>PT5S</tt:DefaultPTZTimeout>
+          <tt:PanTiltLimits>
+            <tt:Range>
+              <tt:URI>http://www.onvif.org/ver10/tptz/PanTiltSpaces/PositionGenericSpace</tt:URI>
+              <tt:XRange>
+                <tt:Min>-1.0</tt:Min>
+                <tt:Max>1.0</tt:Max>
+              </tt:XRange>
+              <tt:YRange>
+                <tt:Min>-1.0</tt:Min>
+                <tt:Max>1.0</tt:Max>
+              </tt:YRange>
+            </tt:Range>
+          </tt:PanTiltLimits>
+          <tt:ZoomLimits>
+            <tt:Range>
+              <tt:URI>http://www.onvif.org/ver10/tptz/ZoomSpaces/PositionGenericSpace</tt:URI>
+              <tt:XRange>
+                <tt:Min>0.0</tt:Min>
+                <tt:Max>1.0</tt:Max>
+              </tt:XRange>
+            </tt:Range>
+          </tt:ZoomLimits>
+          <tt:Extension>
+            <tt:PTControlDirection>
+              <tt:EFlip>
+                <tt:Mode>OFF</tt:Mode>
+              </tt:EFlip>
+              <tt:Reverse>
+                <tt:Mode>OFF</tt:Mode>
+              </tt:Reverse>
+            </tt:PTControlDirection>
+          </tt:Extension>
+        </tt:PTZConfiguration>
+        <tt:Extension/>
+      </trt:Profiles>
+    </trt:GetProfilesResponse>
+  </s:Body>
+```
