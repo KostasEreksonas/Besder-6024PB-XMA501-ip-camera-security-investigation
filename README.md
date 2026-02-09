@@ -27,6 +27,11 @@ Table of Contents
     + [Brute Forcing Sofia Hash](#brute-forcing-sofia-hash)
   * [CVE-2024-3765 - Unauthorized Incorrect Access Control and Command Execution](#cve-2024-3765---unauthorized-incorrect-access-control-and-command-execution)
   * [Dissecting DVRIP/Sofia protocol in Wireshark](#dissecting-dvripsofia-protocol-in-wireshark)
+* [Resources](#resources)
+  * [Open-source Interfaces for Sofia/DVRIP Protocol](#open-source-interfaces-for-sofiadvrip-protocol)
+  * [Vulnerability Reports](#vulnerability-reports)
+  * [Vulnerability Proof of Concepts](#vulnerability-proof-of-concepts)
+  * [Other Information](#other-information)
 
 # Setup
 
@@ -805,3 +810,47 @@ Xiongmai uses a proprietary DVRIP/Sofia protocol for both controlling the camera
   2. Media is being sent in DVRIP packets with payload length of 8192 bytes.
 
 [Xiongmai DVRIP/Sofia dissector for Wireshark (written in Lua)](dissector/dvripWireshark.lua)
+
+# Resources
+
+## Open-source interfaces for Sofia/DVRIP protocol
+
+[python-dvr by OpenIPC](https://github.com/OpenIPC/python-dvr)
+
+[DVRIP by alexshpilkin](https://github.com/alexshpilkin/dvrip)
+
+[sofiactl by 667bdrm](https://gitlab.com/667bdrm/sofiactl)
+
+[python-netsurv by ekwoodrich](https://github.com/sofia-netsurv/python-netsurv)
+
+## Vulnerability reports
+
+[Jacob Baines - Xiongmai IoT Exploitation](https://www.vulncheck.com/blog/xiongmai-iot-exploitation)
+
+[Michael Imfeld - ROPing our way to RCE](https://modzero.com/en/blog/roping-our-way-to-rce/)
+
+[0day vulnerability (backdoor) in firmware for Xiongmai-based DVRs, NVRs and IP cameras](https://habr.com/en/articles/486856/)
+
+[CVE-2025-65856 Xiongmai XM530 IP Camera ONVIF Complete Authentication Bypass](https://github.com/LuisMirandaAcebedo/CVE-2025-65856)
+
+## Vulnerability proof-of-concepts
+
+[Xiongmai XM530 IP Camera Hardcoded RTSP Credentials Exposure](https://github.com/LuisMirandaAcebedo/CVE-2025-65857)
+
+[Xiongmai Devices Unauthorized Incorrect Access Control and Command Execution](https://github.com/netsecfish/xiongmai_incorrect_access_control)
+
+## Other information
+
+[Command and response codes](https://gist.github.com/ekwoodrich/a6d7b8db8f82adf107c3c366e61fd36f)
+
+[Xiongmai DVR API v1.0, Russian](https://github.com/OpenIPC/python-dvr/blob/master/doc/%D0%A1%D0%BE%D0%B3%D0%BB%D0%B0%D1%88%D0%B5%D0%BD%D0%B8%D0%B5%20%D0%BE%20%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D1%84%D0%B5%D0%B9%D1%81%D0%B5%20%D1%86%D0%B8%D1%84%D1%80%D0%BE%D0%B2%D0%BE%D0%B3%D0%BE%20%D0%B2%D0%B8%D0%B4%D0%B5%D0%BE%D1%80%D0%B5%D0%B3%D0%B8%D1%81%D1%82%D1%80%D0%B0%D1%82%D0%BE%D1%80%D0%B0%20XiongmaiV1.0.doc)
+
+[Xiongmai DVR API, 2013-01-11, Chinese](https://github.com/OpenIPC/python-dvr/blob/master/doc/%E9%9B%84%E8%BF%88%E6%95%B0%E5%AD%97%E8%A7%86%E9%A2%91%E5%BD%95%E5%83%8F%E6%9C%BA%E6%8E%A5%E5%8F%A3%E5%8D%8F%E8%AE%AE_V1.0.0.pdf)
+
+[DVR API, brief description, Chinese](https://github.com/OpenIPC/python-dvr/blob/master/doc/%E9%85%8D%E7%BD%AE%E4%BA%A4%E6%8D%A2%E6%A0%BC%E5%BC%8FV2.0.pdf)
+
+[NETIP video/audio payload protocol, Chinese](https://github.com/OpenIPC/python-dvr/blob/master/doc/%E7%A0%81%E6%B5%81%E5%B8%A7%E6%A0%BC%E5%BC%8F%E6%96%87%E6%A1%A3.pdf)
+
+[Testing of Numenworld IP camera](https://github.com/johndoe31415/numenworld-ipcam)
+
+[IP camera security horror (archived version on Wayback Machine)](https://web.archive.org/web/20200929143657/https://www.osm-s.com/en/2017/11/30/ip-camera-security-horror/)
