@@ -28,11 +28,16 @@ Table of Contents
     + [Brute Forcing Sofia Hash](#brute-forcing-sofia-hash)
   * [CVE-2024-3765 - Unauthorized Incorrect Access Control and Command Execution](#cve-2024-3765---unauthorized-incorrect-access-control-and-command-execution)
   * [Dissecting DVRIP/Sofia protocol in Wireshark](#dissecting-dvripsofia-protocol-in-wireshark)
+  * [Example 1: Keep-alive request and response sequence](#example-1-keep-alive-request-and-response-sequence)
+    + [Request](#request)
+    + [Response](#response)
+  * [Example 2: Starting media stream](#example-2-starting-media-stream)
 * [Resources](#resources)
   * [Open-source Interfaces for Sofia/DVRIP Protocol](#open-source-interfaces-for-sofiadvrip-protocol)
   * [Vulnerability Reports](#vulnerability-reports)
   * [Vulnerability Proof of Concepts](#vulnerability-proof-of-concepts)
   * [Other Information](#other-information)
+* [Conclusion](#conclusion)
 
 # Setup
 
@@ -850,6 +855,188 @@ The following is how this dissector looks in Wireshark:
 
 ![DVRIP/Sofia dissector in Wireshark](images/dvrip_request.png)
 
+## Example 1: Keep-alive request and response sequence
+
+### Request
+
+Request header: `ff00000001000000000000000000ee0335000000`:
+  1. Header: 0x00ff (255)
+  2. Request/response: 0x0000 (0)
+  3. Session ID: 0x0001 (1)
+  4. Sequence ID: 0x0000 (0) - first request packet
+  5. Unknown: 0x0000 (0)
+  6. Command Code: 0x03ee (1006)
+  7. Payload Length: 0x0035 (53)
+
+Request payload:
+
+```json
+{
+    "Name" : "KeepAlive",
+    "SessionID" : "0x00000001"
+}
+```
+
+### Response
+
+Response header: `ff01000001000000000000000000ef0343000000`:
+
+  1. Header: 0x00ff (255)
+  2. Request/response: 0x0001 (1)
+  3. Session ID: 0x0001 (1)
+  4. Sequence ID: 0x0000 (0) - first response packet
+  5. Unknown: 0x0000 (0)
+  6. Command Code: 0x03ef (1007)
+  7. Payload Length: 0x0043 (67)
+
+
+Response payload:
+
+```json
+{
+    "Name" : "KeepAlive",
+    "Ret" : 100,
+    "SessionID" : "0x00000001"
+}
+```
+
+## Example 2: Starting media stream
+
+Starting media stream via Sofia protocol is a three step process. It starts with a request with a following header - `ff000000060000000000000000008505b8000000` - that decodes to:
+  1. Header: 0x00ff (255)
+  2. Request/response: 0x0000 (0)
+  3. Session ID: 0x0006 (6)
+  4. Sequence ID: 0x0000 (0)
+  5. Unknown: 0x0000 (0)
+  6. Command Code: 0x0585 (1413)
+  7. Payload Length: 0x00b8 (184)
+
+With it is an attached payload:
+
+```json
+{
+    "Name" : "OPMonitor",
+    "OPMonitor" :
+    {
+      "Action" : "Claim",
+      "Parameter" :
+      {
+          "Channel" : 0,
+          "CombinMode" : "NONE",
+          "StreamType" : "Main",
+          "TransMode" : "TCP"
+      }
+    },
+  "SessionID" : "0x6"
+}
+```
+
+The IP camera responds with a DVRIP/Sofia packet that has the following header - `ff01000006000000010000000000860543000000`, decoding to:
+
+  1. Header: 0x00ff (255)
+  2. Request/response: 0x0001 (1)
+  3. Session ID: 0x0006 (6)
+  4. Sequence ID: 0x0001 (1)
+  5. Unknown: 0x0000 (0)
+  6. Command Code: 0x0586 (1414)
+  7. Payload Length: 0x0043 (67)
+
+And the following payload:
+
+```json
+{
+  "Name" : "OPMonitor",
+  "Ret" : 100,
+  "SessionID" : "0x00000006"
+}
+```
+
+Return code `100` indicates successful operation, after which the second request is being sent with a following header - `ff000000060000000000000000008205b8000000`:
+
+  1. Header: 0x00ff (255)
+  2. Request/response: 0x0000 (0)
+  3. Session ID: 0x0006 (6)
+  4. Sequence ID: 0x0000 (0)
+  5. Unknown: 0x0000 (0)
+  6. Command Code: 0x0582 (1410)
+  7. Payload Length: 0x00b8 (184)
+
+Payload of this header indicates start operation of a media stream:
+
+```json
+{
+  "Name" : "OPMonitor",
+  "OPMonitor" :
+  {
+    "Action" : "Start",
+    "Parameter" :
+    {
+      "Channel" : 0,
+      "CombinMode" : "NONE",
+      "StreamType" : "Main",
+      "TransMode" : "TCP"
+    }
+  },
+  "SessionID" : "0x6"
+}
+```
+
+Camera responds with a packet that has the following header - `ff01000006000000010000000000830543000000`:
+
+  1. Header: 0x00ff (255)
+  2. Request/response: 0x0001 (1)
+  3. Session ID: 0x0006 (6)
+  4. Sequence ID: 0x0001 (1)
+  5. Unknown: 0x0000 (0)
+  6. Command Code: 0x0583 (1411)
+  7. Payload Length: 0x0043 (67)
+
+Payload also indicates a successful operation:
+
+```json
+{
+  "Name" : "OPMonitor",
+  "Ret" : 100,
+  "SessionID" : "0x00000006"
+}
+```
+
+Finally, media channel title is taken from the camera. Packet header -  `ff00000006000000040000000000180438000000`:
+
+  1. Header: 0x00ff (255)
+  2. Request/response: 0x0000 (0)
+  3. Session ID: 0x0006 (6)
+  4. Sequence ID: 0x0004 (4)
+  5. Unknown: 0x0000 (0)
+  6. Command Code: 0x0418 (1048)
+  7. Payload Length: 0x0038 (56)
+
+Payload of this packet is the following:
+
+```json
+{
+  "Name" : "ChannelTitle",
+  "SessionID" : "0x00000006"
+}
+```
+
+Camera responds with a packet with media stream. Header - `ff01000006000000000000000000840500200000`:
+
+  1. Header: 0x00ff (255)
+  2. Request/response: 0x0001 (1)
+  3. Session ID: 0x0006 (6)
+  4. Sequence ID: 0x0000 (0)
+  5. Unknown: 0x0000 (0)
+  6. Command Code: 0x0584 (1412)
+  7. Payload Length: 0x2000 (8192)
+
+Media is being sent via port 34567 in DVRIP/Sofia protocol messages with payload length of `8192` bytes and includes:
+  1. Audio files (indicated by `0x000001fa` signature).
+  2. Video data:
+    * I-frames (indicated by `0x000001fc` signature).
+    * P-frames (indicated by `0x000001fd` signature).
+  3. Encoding metadata (unconfirmed, indicated by `0x000001f9` signature).
+
 # Resources
 
 ## Open-source interfaces for Sofia/DVRIP protocol
@@ -893,3 +1080,7 @@ The following is how this dissector looks in Wireshark:
 [Testing of Numenworld IP camera](https://github.com/johndoe31415/numenworld-ipcam)
 
 [IP camera security horror (archived version on Wayback Machine)](https://web.archive.org/web/20200929143657/https://www.osm-s.com/en/2017/11/30/ip-camera-security-horror/)
+
+# Conclusion
+
+In this part, a general security assesment was performed with reviewing existing vulnerabilities in Xiongmai DVRIP/Sofia binary and ONVIF implementation within a Besder 6024PB-XMA501 IP camera as well as previous efforts on reverse engineering a proprietary DVRIP/Sofia protcol. Main contributions of this article include newly created and updated exploits for existing vulnerabilities, a Sofia hash cracking tool (that supports only dictionary attacks as of now) and a Lua dissector of DVRIP/Sofia protocol for Wireshark.
