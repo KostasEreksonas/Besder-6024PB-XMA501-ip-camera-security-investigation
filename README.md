@@ -32,6 +32,7 @@ Table of Contents
     + [Request](#request)
     + [Response](#response)
   * [Example 2: Starting media stream](#example-2-starting-media-stream)
+* [Port 12901: Unknown service](#port-12901-unknown-service)
 * [Resources](#resources)
   * [Open-source Interfaces for Sofia/DVRIP Protocol](#open-source-interfaces-for-sofiadvrip-protocol)
   * [Vulnerability Reports](#vulnerability-reports)
@@ -1036,6 +1037,10 @@ Media is being sent via port 34567 in DVRIP/Sofia protocol messages with payload
     * I-frames (indicated by `0x000001fc` signature).
     * P-frames (indicated by `0x000001fd` signature).
   3. Encoding metadata (unconfirmed, indicated by `0x000001f9` signature).
+
+# Port 12901: Unknown service
+
+Nmap does not flag any service regarding this port and information online is scarce. It is mentioned in [one Github issue thread](https://github.com/tothi/hs-dvr-telnet/issues/3) but no concrete evidence for its function is provided.
 
 # Resources
 
