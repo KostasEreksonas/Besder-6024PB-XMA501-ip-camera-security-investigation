@@ -22,6 +22,7 @@ Table of Contents
     + [Individual Artifacts](#individual-artifacts)
     + [Login Function](#login-function)
     + [Configuration Script](#configuration-script)
+  * [CVE-2017-7577 - Directory traversal](#cve-2017-7577---directory-traversal)
 * [Port 34567: Reverse Engineering of Dhanalakshmi Service](#port-34567-reverse-engineering-of-dhanalakshmi-service)
   * [Password Hash Function](#password-hash-function)
     + [Brute Forcing Sofia Hash](#brute-forcing-sofia-hash)
@@ -640,7 +641,7 @@ Then returns a response (r). If `r == -11700` , an error screen is returned and 
 
 If response code is greater than 0, then media channel (audio, video) information of a camera is collected and a navigation menu is built, then 2 second timer to draw actual UI and load ActiveX controls, then the password variable is cleared and login screen hidden. Lastly, ActiveX saves password somewhere and prompts to select video stream (main or extra).
 
-## Configuration Script
+### Configuration Script
 
 Defined JavaScript objects specifying CSS layout for username/password fields and login button, followed by hardcoded locations for downloading NewActive.exe - a set of ActiveX methods for accessing and controlling the Besder IP camera.
 
@@ -683,6 +684,39 @@ var DownLoadAddr="hxxp[://]xmsecu[.]com:8080/ocx/NewActive[.]exe";
 var logoString='NetSurveillance';
 var copyright=2016;
 ```
+
+## CVE-2017-7577 - Directory traversal
+
+[CVE-2017-7577](https://nvd.nist.gov/vuln/detail/cve-2017-7577) is a Local File Inclusion (LFI) / Directory Traversal vulnerability, exploiting uc-httpd 1.0.0 HTTP daemon. While nmap scan does not provide the exact version of httpd running on Besder camera, let’s try this exploit using Burp.
+
+1. Capture the initial HTTP request:
+
+![Initial HTTP request](images/initial_http_request.png)
+
+2. Right-click on request → Do intercept → Response to this request.
+
+3. Change GET request to `GET ../../../../../etc/passwd HTTP/1.0`:
+
+![LFI payload](images/LFI_payload.png)
+
+4. Forward the request.
+
+5. It returns 404 error:
+
+```html
+<html>
+	<head>
+		<title>
+			404 File Not Found
+		</title>
+	</head>
+	<body>
+		The requested URL was not found on this server
+	</body>
+</html>
+```
+
+Payload did not work, CVE might be patched.
 
 # Port 34567: Reverse Engineering of Dhanalakshmi Service
 
@@ -808,8 +842,13 @@ Xiongmai uses a proprietary DVRIP/Sofia protocol for both controlling the camera
 * Payload:
   1. Camera controls are sent and responses are received as JSON objects with a length defined in payload length field.
   2. Media is being sent in DVRIP packets with payload length of 8192 bytes.
+* Camera control packets has a trailing newline character after JSON object (either `0x0a` or `0x000a`).
 
 [Xiongmai DVRIP/Sofia dissector for Wireshark (written in Lua)](dissector/dvripWireshark.lua)
+
+The following is how this dissector looks in Wireshark:
+
+![DVRIP/Sofia dissector in Wireshark](images/dvrip_request.png)
 
 # Resources
 
