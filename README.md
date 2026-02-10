@@ -31,10 +31,10 @@ Table of Contents
   * [Example 1: Keep-alive request and response sequence](#example-1-keep-alive-request-and-response-sequence)
     + [Request](#request)
     + [Response](#response)
-  * [Example 2: Starting media stream](#example-2-starting-media-stream)
+  * [Example 2: Starting Media Stream](#example-2-starting-media-stream)
 * [Port 12901: Unknown service](#port-12901-unknown-service)
 * [Resources](#resources)
-  * [Open-source Interfaces for Sofia/DVRIP Protocol](#open-source-interfaces-for-sofiadvrip-protocol)
+  * [Open-source Interfaces for DVRIP/Sofia Protocol](#open-source-interfaces-for-dvripsofia-protocol)
   * [Vulnerability Reports](#vulnerability-reports)
   * [Vulnerability Proof of Concepts](#vulnerability-proof-of-concepts)
   * [Other Information](#other-information)
@@ -215,9 +215,9 @@ OS and Service detection performed. Please report any incorrect results at https
 
 # ONVIF Capabilities
 
-Nmap flags this port as ospf-lite - [one experimental internet draft (that expired on November 6, 2010) can be found online](https://datatracker.ietf.org/doc/html/draft-thomas-reed-ospf-lite-01) regarding this protocol. It is mentioned that Internet Assigned Numbers Authority (IANA) has reserved port 8899 (both TCP and UDP) for ospf-lite, but no further information has been found yet.
+Nmap flags port 8899 as ospf-lite - [one experimental internet draft (that expired on November 6, 2010) can be found online](https://datatracker.ietf.org/doc/html/draft-thomas-reed-ospf-lite-01) regarding this protocol. It is mentioned that Internet Assigned Numbers Authority (IANA) has reserved port 8899 (both TCP and UDP) for ospf-lite, but no further information has been found yet.
 
-Anyways, for Besder/Xiongmai cameras TCP port 8899 is actually reserved for Open Network Video Interface Forum (ONVIF) service. Based on WIreshark capture for the exploits shown below, this camera uses `hsoap 2.8` library that implements Simple Object Access Protocol (SOAP) - XML-based messaging protocol for structured information exchange and device management.
+Anyways, for Besder/Xiongmai cameras TCP port 8899 is actually reserved for Open Network Video Interface Forum (ONVIF) service. Based on Wireshark capture for the exploits shown below, this camera uses `hsoap 2.8` library that implements Simple Object Access Protocol (SOAP) - XML-based messaging protocol for structured information exchange and device management.
 
 ***Note:*** ONVIF is not accessible while camera is not configured with ICSee app.
 
@@ -225,7 +225,7 @@ Anyways, for Besder/Xiongmai cameras TCP port 8899 is actually reserved for Open
 
 The **[CVE-2025-65857](https://nvd.nist.gov/vuln/detail/CVE-2025-65857)** id is given to this specific vulnerability, so let’s walk through it.
 
-Main thing to look for here is to try and dig up a Real-Time Streaming Protocol (RTSP) URI and check for unauthenticated access to live stream of the camera. It can be done either by using curl from (Linux) command line or onvif-zeep library for Python 3. Let’s try both methods.
+Main thing to look for here is to try and dig up an Uniform Resource Identifier (URI) for Real-Time Streaming Protocol (RTSP) and check for unauthenticated access to live stream of the camera. It can be done either by using curl from (Linux) command line or onvif-zeep library for Python 3. Let’s try both methods.
 
 ### Method 1: Curl
 
@@ -310,11 +310,11 @@ else
 fi
 ```
 
-Response is the following:
+Response is the following list of supported capabilities:
 
 [Supported Capabilities](assets/supported_capabilities.xml)
 
-Looking for RTSP, `http://<camera-ip>:8899/onvif/media_service` is a relevant endpoint. Next step is to query this endpoint with `GetProfiles` method - this method describes all available media stream configurations on the camera:
+Looking for RTSP URIs, `http://<camera-ip>:8899/onvif/media_service` is a relevant endpoint. Next step is to query this endpoint with `GetProfiles` method - this method describes all available media stream configurations on the camera:
 
 ```bash
 #!/bin/sh
@@ -341,6 +341,8 @@ else
 fi
 ```
 
+Which leads to the following device profiles:
+
 [Device Profiles](assets/device_profiles.xml)
 
 Now it is necessary to parse the XML output for a profile token which will be used to access the main RTSP stream. Parsing was done with `grep -A 1 trt:Profile <output>.xml` command - looking for the following string:
@@ -350,7 +352,7 @@ Now it is necessary to parse the XML output for a profile token which will be us
 <tt:Name>mainStream</tt:Name>
 ```
 
-Now, let’s use the token found with GetStreamUri method:
+Now, let’s use the token found with `GetStreamUri` method:
 
 ```bash
 #!/bin/sh
@@ -385,7 +387,7 @@ else
 fi
 ```
 
-The response I get is the following:
+The following response was sent:
 
 ```xml
   <s:Body>
@@ -400,18 +402,18 @@ The response I get is the following:
   </s:Body>
 ```
 
-The response gives RTSP URI with hardcoded credentials. Following the URI gives access to live stream of Besder IP camera:
+The response gives RTSP URI with hardcoded credentials and following it gives access to main live stream of Besder IP camera:
 
 ![Livestream of IP camera](images/livestream.png)
 
-### Method 2: Python script
+### Method 2: Python Script
 
-Use [python-onvif-zeep](https://github.com/FalkTannhaeuser/python-onvif-zeep) library. Script takes 4 positional arguments:
+Using [python-onvif-zeep](https://github.com/FalkTannhaeuser/python-onvif-zeep) library. Script takes 4 positional arguments:
 
 1. IP address
 2. ONVIF port
 3. Username (default: admin)
-4. Password (default: \<empty\>) - this field is required by Python ONVIF library, although exact value is irrelevant as it is not being checked anywhere. 
+4. Password (default: \<empty\>) - this field is required by Python ONVIF library, although exact value is irrelevant for the exploit as it is not being checked anywhere. 
 
 For Besder 6024PB-XMA501, default credentials are printed on the camera itself. [A sample script is provided at ONVIF_auth_bypass directory as xm_onvif_auth_bypass.py](ONVIF_auth_bypass/Python/xm_onvif_auth_bypass.py)
 
@@ -426,7 +428,7 @@ Note about credentials:
 
 # Port 80: Web application
 
-**NetsurveillanceWEB** application is running on port 80. Although, when trying to access it with Firefox, I am greeted with a message that I require Firefox version 51 (released in Jan 24, 2017) or earlier.
+**NetsurveillanceWEB** application is running on port 80. Although, when trying to access it with Firefox, I am greeted with a message that I require Firefox version 51 (released in Jan 24, 2017) or earlier:
 
 ![Browser too new](images/too_new.png)
 
@@ -466,7 +468,7 @@ Location: hxxps[://]ocx[.]jftechws[.]com/ocx/NewActive[.]exe
 </html>
 ```
 
-Following the redirect gives the following:
+Following the redirect gives the 404 Not Found error:
 
 ```bash
 curl -L -i -v hxxp[://]xmsecu[.]com:8080/ocx/NewActive[.]exe
@@ -500,11 +502,11 @@ Access-Control-Allow-Credentials: true
 </html>
 ```
 
-NewActive binary is not found. Luckily, Wayback machine has 56 captures of the URL. The snapshot from March 9, 2021 allows to download NewActive.exe - installer for Netsurveillance CMS. Setting this up and enabling ActiveX in Internet Explorer allows access to login page.
+NewActive binary is not found. Luckily, Wayback machine has 56 captures of the URL. The snapshot from March 9, 2021 allows to download NewActive[.]exe - installer for Netsurveillance CMS. Setting this up and enabling ActiveX in Internet Explorer allows access to login page:
 
 ![Login page](images/Login.png)
 
-Login credentials are `admin:<password created during setup on ICSee app>`. After successful login, NETSurveillanceWEB control panel opens and there is a possibility to choose either main media stream or extra (lower resolution) stream.
+Login credentials are `admin:<password created during setup on ICSee app>`. After successful login, NETSurveillanceWEB control panel opens and there is a possibility to choose either main media stream or extra (lower resolution) stream:
 
 ![Control panel](images/NETSurveillanceWEB_main.png)
 
@@ -572,7 +574,7 @@ Add `console.log(p);` before the return statement of packed function, open index
 
 ![Decoded MooTools](images/moo_tools.png)
 
-The code unpacks to MooTools v1.11 Javascript framework. Analyzing the framework and the NETSurveillanceWEB application itself is a subject for further research and out of scope for this article.
+The code unpacks to MooTools v1.11 Javascript framework. Analyzing the framework and the NETSurveillanceWEB application itself is a subject for further research and is out of scope for this article.
 
 ## Login Page
 
@@ -649,7 +651,7 @@ If response code is greater than 0, then media channel (audio, video) informatio
 
 ### Configuration Script
 
-Defined JavaScript objects specifying CSS layout for username/password fields and login button, followed by hardcoded locations for downloading NewActive.exe - a set of ActiveX methods for accessing and controlling the Besder IP camera.
+Defined JavaScript objects specifying CSS layout for username/password fields and login button, followed by hardcoded locations for downloading NewActive.exe - a set of ActiveX methods for accessing and controlling the Besder IP camera:
 
 ```js
 var InputName={
@@ -856,6 +858,8 @@ The following is how this dissector looks in Wireshark:
 
 ![DVRIP/Sofia dissector in Wireshark](images/dvrip_request.png)
 
+Following are a couple of examples on how does the dissector works on DVRIP/Sofia packets.
+
 ## Example 1: Keep-alive request and response sequence
 
 ### Request
@@ -901,7 +905,7 @@ Response payload:
 }
 ```
 
-## Example 2: Starting media stream
+## Example 2: Starting Media Stream
 
 Starting media stream via Sofia protocol is a three step process. It starts with a request with a following header - `ff000000060000000000000000008505b8000000` - that decodes to:
   1. Header: 0x00ff (255)
@@ -962,7 +966,7 @@ Return code `100` indicates successful operation, after which the second request
   6. Command Code: 0x0582 (1410)
   7. Payload Length: 0x00b8 (184)
 
-Payload of this header indicates start operation of a media stream:
+Payload of this header indicates start operation of the main media stream:
 
 ```json
 {
@@ -1044,7 +1048,7 @@ Nmap does not flag any service regarding this port and information online is sca
 
 # Resources
 
-## Open-source interfaces for Sofia/DVRIP protocol
+## Open Source Interfaces for DVRIP/Sofia Protocol
 
 [python-dvr by OpenIPC](https://github.com/OpenIPC/python-dvr)
 
@@ -1054,7 +1058,7 @@ Nmap does not flag any service regarding this port and information online is sca
 
 [python-netsurv by ekwoodrich](https://github.com/sofia-netsurv/python-netsurv)
 
-## Vulnerability reports
+## Vulnerability Reports
 
 [Jacob Baines - Xiongmai IoT Exploitation](https://www.vulncheck.com/blog/xiongmai-iot-exploitation)
 
@@ -1064,13 +1068,13 @@ Nmap does not flag any service regarding this port and information online is sca
 
 [CVE-2025-65856 Xiongmai XM530 IP Camera ONVIF Complete Authentication Bypass](https://github.com/LuisMirandaAcebedo/CVE-2025-65856)
 
-## Vulnerability proof-of-concepts
+## Vulnerability Proof of Concepts
 
 [Xiongmai XM530 IP Camera Hardcoded RTSP Credentials Exposure](https://github.com/LuisMirandaAcebedo/CVE-2025-65857)
 
 [Xiongmai Devices Unauthorized Incorrect Access Control and Command Execution](https://github.com/netsecfish/xiongmai_incorrect_access_control)
 
-## Other information
+## Other Information
 
 [Command and response codes](https://gist.github.com/ekwoodrich/a6d7b8db8f82adf107c3c366e61fd36f)
 
