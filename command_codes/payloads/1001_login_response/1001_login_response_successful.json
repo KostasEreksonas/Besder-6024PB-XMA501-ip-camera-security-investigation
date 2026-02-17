@@ -1,0 +1,8 @@
+{
+    "AliveInterval" : 30,
+    "ChannelNum" : 1,
+    "DeviceType " : "IPC",
+    "ExtraChannel" : 0,
+    "Ret" : 100,
+    "SessionID" : "0x00000001"
+}
