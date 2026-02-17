@@ -1,6 +1,17 @@
 # DVRIP_analysis
 A Wireshark dissector for DVRIP/Sofia protocol found in Xiongmai based IP cameras
 
+Table of Contents
+=================
+* [Test Device](#test-device)
+* [DVRIP/Sofia Commnd Message](#dvripsofia-command-message)
+* [Audio Header](#audio-header)
+* [I-Frame Header](#i-frame-header)
+* [P-Frame Header](#p-frame-header)
+* [E-Frame Header](#e-frame-header)
+
+# Test Device
+
 This dissector is based on a DVRIP Wireshark Dissector for Port 37777 (Dahua IP camera), which can be found here: https://github.com/r4bit999/dvrip-analysis/tree/master
 
 Tested on Besder 6024PB-XMA501 IP camera:
@@ -10,4 +21,42 @@ Model: XM530_50X50-WG_8M
 Firmware version: V5.00.R02.00030747.10010.349f17
 ```
 
-![XM dissection example](images/dvrip_request.png)
+# DVRIP/Sofia Command Message
+
+Header that is common to every DVRIP/Sofia message:
+![DVRIP header](images/DVRIP_header.png)
+
+DVRIP/Sofia command message with header and JSON payload:
+![DVRIP header in Wireshark](images/DVRIP_header_wireshark.png)
+
+# Audio Header
+
+Audio header:
+![DVRIP audio header](images/Audio_header.png)
+
+Audio packet in Wireshark:
+![DVRIP audio header in Wireshark](images/Audio_header_wireshark.png)
+
+# I-Frame Header
+
+I-Frame header:
+![DVRIP I-Frame header](images/Iframe_header.png)
+
+I-Frame in Wireshark:
+![DVRIP I-Frame in Wireshark](images/Iframe_header_wireshark.png)
+
+# P-Frame Header
+
+P-Frame header:
+![DVRIP P-Frame header](images/Pframe_header.png)
+
+P-Frame in Wireshark:
+![DVRIP P-Frame in Wireshark](images/Pframe_header_wireshark.png)
+
+# E-Frame Header
+
+E-Frame header:
+![DVRIP E-Frame header](images/Eframe_header.png)
+
+E-Frame in Wireshark:
+![DVRIP E-Frame in Wireshark](images/Eframe_header_wireshark.png)
