@@ -54,13 +54,24 @@ DVRIP_pframe_payload_length = ProtoField.uint16("dvrip.pframe_payload_length", "
 DVRIP_pframe_unknown_1 = ProtoField.uint16("dvrip.pframe_unknown_1", "Unknown 1", base.HEX_DEC)
 DVRIP_pframe_unknown_2 = ProtoField.uint32("dvrip.pframe_unknown_2", "Unknown 2", base.HEX_DEC)
 
--- Audio packet fields
+-- A-Frame (Audio) packet fields
 DVRIP_audio_signature = ProtoField.uint32("dvrip.audio_signature", "Audio signature", base.HEX_DEC)
 DVRIP_audio_unknown = ProtoField.uint16("dvrip.audio_unknown", "Audio unknown", base.HEX_DEC)
 DVRIP_audio_payload_length = ProtoField.uint16("dvrip.audio_payload_length", "Audio payload length", base.HEX_DEC)
 
+-- E-Frame (Encoding) packet fields
+DVRIP_eframe_signature = ProtoField.uint32("dvrip.eframe_signature", "Encoding signature", base.HEX_DEC)
+DVRIP_eframe_unknown_1 = ProtoField.uint32("dvrip.eframe_unknown_1", "Unknown Field 1", base.HEX_DEC)
+DVRIP_eframe_sequence_id = ProtoField.uint8("dvrip.eframe_sequence_id", "E-Frame sequence ID", base.HEX_DEC)
+DVRIP_eframe_unknown_2 = ProtoField.uint32("dvrip.eframe_unknown_2", "Unknown Field 2", base.HEX_DEC)
+DVRIP_eframe_unknown_3 = ProtoField.uint16("dvrip.eframe_unknown_3", "Unknown Field 3", base.HEX_DEC)
+DVRIP_eframe_unknown_4 = ProtoField.uint16("dvrip.eframe_unknown_4", "Unknown Field 4", base.HEX_DEC)
+DVRIP_eframe_unknown_5 = ProtoField.uint32("dvrip.eframe_unknown_5", "Unknown Field 5", base.HEX_DEC)
+DVRIP_eframe_unknown_6 = ProtoField.uint32("dvrip.eframe_unknown_6", "Unknown Field 6", base.HEX_DEC)
+
 -- List of DVRIP/Sofia protocol fields
 XM_proto.fields = {
+	-- DVRIP header fields
 	DVRIP_header,
 	DVRIP_req_resp,
 	DVRIP_header_unknown,
@@ -69,20 +80,33 @@ XM_proto.fields = {
 	DVRIP_unknown,
 	DVRIP_command_code,
 	DVRIP_payload_length,
+	-- DVRIP JSON payload fields
 	DVRIP_payload_JSON_RAW,
 	DVRIP_newline,
+	-- DVRIP I-Frame fields
 	DVRIP_iframe_signature,
 	DVRIP_iframe_unknown_1,
 	DVRIP_iframe_unknown_2,
 	DVRIP_iframe_payload_size,
 	DVRIP_iframe_unknown_3,
+	-- DVRIP P-Frame fields
 	DVRIP_pframe_signature,
 	DVRIP_pframe_payload_length,
 	DVRIP_pframe_unknown_1,
 	DVRIP_pframe_unknown_2,
+	-- DVRIP A-Frame (audio) fields
 	DVRIP_audio_signature,
 	DVRIP_audio_unknown,
-	DVRIP_audio_payload_length
+	DVRIP_audio_payload_length,
+	-- DVRIP E-Frame (encoding) fields
+	DVRIP_eframe_signature,
+	DVRIP_eframe_unknown_1,
+	DVRIP_eframe_sequence_id,
+	DVRIP_eframe_unknown_2,
+	DVRIP_eframe_unknown_3,
+	DVRIP_eframe_unknown_4,
+	DVRIP_eframe_unknown_5,
+	DVRIP_eframe_unknown_6
 }
 
 local function dvrip_get_len(tvb, pinfo, offset)
@@ -158,8 +182,6 @@ local function dvrip_dissect_one_pdu(tvb, pinfo, tree)
 				-- Add I-Frame to general tree
 				local itree = subtree:add(XM_proto, tvb(HEADER_LEN, tvb:len() - HEADER_LEN), "DVRIP I-Frame")
 				local itree_header = itree:add(XM_proto, tvb(HEADER_LEN, 20), "I-Frame Header")
-				-- I-Frame payload reconstruction
-				local iframe_length = tvb(HEADER_LEN + 12, 4):le_uint()
 				-- Populate I-Frame header fields
 				itree_header:add(DVRIP_iframe_signature, tvb(HEADER_LEN, 4))
 				itree_header:add_le(DVRIP_iframe_unknown_1, tvb(HEADER_LEN + 4, 4))
@@ -181,6 +203,19 @@ local function dvrip_dissect_one_pdu(tvb, pinfo, tree)
 				ptree_header:add(DVRIP_pframe_unknown_2, tvb(HEADER_LEN + 8, 4))
 				-- P-Frame payload
 				ptree:add(XM_proto, tvb(HEADER_LEN, tvb:len() - HEADER_LEN), "P-Frame")
+			elseif signature == 0x000001f9 then
+				-- Add E-Frame to general tree
+				local etree = subtree:add(XM_proto, tvb(HEADER_LEN, tvb:len() - HEADER_LEN), "DVRIP E-Frame")
+				local etree_header = etree:add(XM_proto, tvb(HEADER_LEN, 24), "E-Frame Header")
+				-- Populate E-Frame header fields
+				etree_header:add(DVRIP_eframe_signature, tvb(HEADER_LEN, 4))
+				etree_header:add(DVRIP_eframe_unknown_1, tvb(HEADER_LEN + 4, 4))
+				etree_header:add(DVRIP_eframe_sequence_id, tvb(HEADER_LEN + 8, 1))
+				etree_header:add(DVRIP_eframe_unknown_2, tvb(HEADER_LEN + 9, 3))
+				etree_header:add(DVRIP_eframe_unknown_3, tvb(HEADER_LEN + 12, 2))
+				etree_header:add(DVRIP_eframe_unknown_4, tvb(HEADER_LEN + 14, 2))
+				etree_header:add(DVRIP_eframe_unknown_5, tvb(HEADER_LEN + 16, 4))
+				etree_header:add(DVRIP_eframe_unknown_6, tvb(HEADER_LEN + 20, 4))
 			else
 				subtree:add(XM_proto, tvb(HEADER_LEN, tvb:len() - HEADER_LEN), "DVRIP Media (Continuation)")
 			end
@@ -193,7 +228,7 @@ function XM_proto.dissector(tvb, pinfo, tree)
 	if tvb:len() == 0 then
 		return
 	end
-	dissect_tcp_pdus(tvb, tree, 0, dvrip_get_len, dvrip_dissect_one_pdu, true)
+	dissect_tcp_pdus(tvb, tree, 20, dvrip_get_len, dvrip_dissect_one_pdu, true)
 end
 
 -- assigning protocol to port
