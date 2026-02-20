@@ -1,0 +1,28 @@
+{
+    "Name" : "SystemInfo",
+    "Ret" : 100,
+    "SessionID" : "0x00000006",
+    "SystemInfo" :
+    {
+        "AlarmInChannel" : 1,
+        "AlarmOutChannel" : 1,
+        "AudioInChannel" : 1,
+        "BuildTime" : "2020-11-24 16:47:14",
+        "CombineSwitch" : 0,
+        "DeviceModel" : "50X50-WG",
+        "DeviceRunTime" : "0x00002054",
+        "DigChannel" : 0,
+        "EncryptVersion" : "Unknown",
+        "ExtraChannel" : 0,
+        "HardWare" : "XM530_50X50-WG_8M",
+        "HardWareVersion" : "1.01",
+        "SerialNo" : "09d53d540f99b818",
+        "SoftWareVersion" : "V5.00.R02.00030747.10010.349f17.0000000",
+        "TalkInChannel" : 1,
+        "TalkOutChannel" : 1,
+        "UpdataTime" : "",
+        "UpdataType" : "0x00000000",
+        "VideoInChannel" : 1,
+        "VideoOutChannel" : 1
+    }
+}

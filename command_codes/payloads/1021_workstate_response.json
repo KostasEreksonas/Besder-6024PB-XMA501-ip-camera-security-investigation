@@ -1,0 +1,16 @@
+{
+    "Name" : "WorkState",
+    "Ret" : 100,
+    "SessionID" : "0x00000006",
+    "WorkState" :
+    {
+        "AlarmState" :
+        {
+            "AlarmIn" : "0x00000000",
+            "AlarmOut" : "0x00000000",
+            "VideoBlind" : "0x00000000",
+            "VideoLoss" : "0x00000000",
+            "VideoMotion" : "0x00000000"
+        }
+    }
+}
