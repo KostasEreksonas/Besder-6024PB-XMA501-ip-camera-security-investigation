@@ -1,0 +1,30 @@
+{
+    "Name" : "Uart.Comm",
+    "Ret" : 100,
+    "SessionID" : "0x00000006",
+    "Uart.Comm" :
+    [
+        {
+            "Attribute" :
+            [
+                115200,
+                "NONE",
+                8,
+                1
+            ],
+            "PortNo" : 1,
+            "ProtocolName" : "NONE"
+        },
+        {
+            "Attribute" :
+            [
+                115200,
+                "NONE",
+                8,
+                1
+            ],
+            "PortNo" : 1,
+            "ProtocolName" : "NONE"
+        }
+    ]
+}

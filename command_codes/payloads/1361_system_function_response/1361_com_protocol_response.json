@@ -1,0 +1,12 @@
+{
+    "ComProtocol" :
+    [
+        "NONE",
+        "GPS",
+        "InteractCmd",
+        "Transparent"
+    ],
+    "Name" : "ComProtocol",
+    "Ret" : 100,
+    "SessionID" : "0x00000006"
+}

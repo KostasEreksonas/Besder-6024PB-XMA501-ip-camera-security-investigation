@@ -1,0 +1,42 @@
+{
+    "Name" : "Simplify.Encode",
+    "Ret" : 100,
+    "SessionID" : "0x00000006",
+    "Simplify.Encode" :
+    [
+        {
+            "ExtraFormat" :
+            {
+                "AudioEnable" : true,
+                "Video" :
+                {
+                    "BitRate" : 1024,
+                    "BitRateControl" : "VBR",
+                    "Compression" : "H.264",
+                    "FPS" : 12,
+                    "GOP" : 1,
+                    "Quality" : 3,
+                    "Resolution" : "D1",
+                    "VirtualGOP" : 1
+                },
+                "VideoEnable" : true
+            },
+            "MainFormat" :
+            {
+                "AudioEnable" : true,
+                "Video" :
+                {
+                    "BitRate" : 2560,
+                    "BitRateControl" : "VBR",
+                    "Compression" : "H.264",
+                    "FPS" : 12,
+                    "GOP" : 1,
+                    "Quality" : 3,
+                    "Resolution" : "5M",
+                    "VirtualGOP" : 5
+                },
+                "VideoEnable" : true
+            }
+        }
+    ]
+}

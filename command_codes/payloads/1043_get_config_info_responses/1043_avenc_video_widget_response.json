@@ -1,0 +1,152 @@
+{
+    "AVEnc.VideoWidget" :
+    [
+        {
+            "ChannelTitle" :
+            {
+                "Name" : "Living room",
+                "SerialNo" : "20081125"
+            },
+            "ChannelTitleAttribute" :
+            {
+                "BackColor" : "0x40000000",
+                "EncodeBlend" : true,
+                "FrontColor" : "0xF0FFFFFF",
+                "PreviewBlend" : true,
+                "RelativePos" :
+                [
+                    160,
+                    7552,
+                    255,
+                    24
+                ]
+            },
+            "Covers" :
+            [
+                {
+                    "BackColor" : "0x40000000",
+                    "EncodeBlend" : false,
+                    "FrontColor" : "0xF0FFFFFF",
+                    "PreviewBlend" : false,
+                    "RelativePos" :
+                    [
+                        1024,
+                        1024,
+                        2048,
+                        2048
+                    ]
+                },
+                {
+                    "BackColor" : "0x40000000",
+                    "EncodeBlend" : false,
+                    "FrontColor" : "0xF0FFFFFF",
+                    "PreviewBlend" : false,
+                    "RelativePos" :
+                    [
+                        1024,
+                        1024,
+                        2048,
+                        2048
+                    ]
+                },
+                {
+                    "BackColor" : "0x40000000",
+                    "EncodeBlend" : false,
+                    "FrontColor" : "0xF0FFFFFF",
+                    "PreviewBlend" : false,
+                    "RelativePos" :
+                    [
+                        1024,
+                        1024,
+                        2048,
+                        2048
+                    ]
+                },
+                {
+                    "BackColor" : "0x40000000",
+                    "EncodeBlend" : false,
+                    "FrontColor" : "0xF0FFFFFF",
+                    "PreviewBlend" : false,
+                    "RelativePos" :
+                    [
+                        1024,
+                        1024,
+                        2048,
+                        2048
+                    ]
+                },
+                {
+                    "BackColor" : "0x40000000",
+                    "EncodeBlend" : false,
+                    "FrontColor" : "0xF0FFFFFF",
+                    "PreviewBlend" : false,
+                    "RelativePos" :
+                    [
+                        1024,
+                        1024,
+                        2048,
+                        2048
+                    ]
+                },
+                {
+                    "BackColor" : "0x40000000",
+                    "EncodeBlend" : false,
+                    "FrontColor" : "0xF0FFFFFF",
+                    "PreviewBlend" : false,
+                    "RelativePos" :
+                    [
+                        1024,
+                        1024,
+                        2048,
+                        2048
+                    ]
+                },
+                {
+                    "BackColor" : "0x40000000",
+                    "EncodeBlend" : false,
+                    "FrontColor" : "0xF0FFFFFF",
+                    "PreviewBlend" : false,
+                    "RelativePos" :
+                    [
+                        1024,
+                        1024,
+                        2048,
+                        2048
+                    ]
+                },
+                {
+                    "BackColor" : "0x40000000",
+                    "EncodeBlend" : false,
+                    "FrontColor" : "0xF0FFFFFF",
+                    "PreviewBlend" : false,
+                    "RelativePos" :
+                    [
+                        1024,
+                        1024,
+                        2048,
+                        2048
+                    ]
+                }
+            ],
+            "CoversNum" : 0,
+            "TimeTitleAttribute" :
+            {
+                "BackColor" : "0x40000000",
+                "EncodeBlend" : true,
+                "FrontColor" : "0xF0FFFFFF",
+                "PreviewBlend" : true,
+                "RelativePos" :
+                [
+                    7166,
+                    512,
+                    255,
+                    24
+                ]
+            },
+            "coversNum" : 0
+        }
+    ],
+    "Name" : "AVEnc.VideoWidget",
+    "Ret" : 100,
+    "SessionID" : "0x00000006"
+}

@@ -1,0 +1,27 @@
+{
+    "Camera" :
+    {
+        "Count" : 8,
+        "ElecLevel" : 50,
+        "IsFishLens" : 0,
+        "Luminance" : 0,
+        "Speeds" :
+        [
+            "0x00004E20",
+            "0x0000208D",
+            "0x00000FA0",
+            "0x000007D0",
+            "0x000003E8",
+            "0x000001F4",
+            "0x000000FA",
+            "0x00000064"
+        ],
+        "Status" : 0,
+        "SupportIntellDoubleLight" : 0,
+        "SupportPreventOverExpo" : 1,
+        "Version" : ""
+    },
+    "Name" : "Camera",
+    "Ret" : 100,
+    "SessionID" : "0x00000006"
+}

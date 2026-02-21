@@ -1,0 +1,35 @@
+{
+    "General.Location" :
+    {
+        "DSTEnd" :
+        {
+            "Day" : 26,
+            "Hour" : 0,
+            "Minute" : 0,
+            "Month" : 10,
+            "Week" : 0,
+            "Year" : 2026
+        },
+        "DSTRule" : "On",
+        "DSTStart" :
+        {
+            "Day" : 30,
+            "Hour" : 0,
+            "Minute" : 0,
+            "Month" : 3,
+            "Week" : 0,
+            "Year" : 2026
+        },
+        "DateFormat" : "YYMMDD",
+        "DateSeparator" : "-",
+        "IranCalendar" : 0,
+        "Language" : "English",
+        "TimeFormat" : "24",
+        "VideoFormat" : "PAL",
+        "Week" : null,
+        "WorkDay" : 62
+    },
+    "Name" : "General.Location",
+    "Ret" : 100,
+    "SessionID" : "0x00000006"
+}

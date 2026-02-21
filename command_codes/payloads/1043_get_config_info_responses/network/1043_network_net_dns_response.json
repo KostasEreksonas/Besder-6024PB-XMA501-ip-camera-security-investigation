@@ -1,0 +1,10 @@
+{
+    "Name" : "NetWork.NetDNS",
+    "NetWork.NetDNS" :
+    {
+        "Address" : "0x0100A8C0",
+        "SpareAddress" : "0x08080808"
+    },
+    "Ret" : 100,
+    "SessionID" : "0x00000006"
+}
