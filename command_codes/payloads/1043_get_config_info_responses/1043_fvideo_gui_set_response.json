@@ -1,0 +1,21 @@
+{
+    "Name" : "fVideo.GUISet",
+    "Ret" : 100,
+    "SessionID" : "0x00000006",
+    "fVideo.GUISet" :
+    {
+        "AlarmStateEnable" : true,
+        "CarInfo" : false,
+        "ChanStateBitRateEnable" : true,
+        "ChanStateLckEnable" : true,
+        "ChanStateMtdEnable" : true,
+        "ChanStateVlsEnable" : true,
+        "ChannelTitleEnable" : true,
+        "Deflick" : true,
+        "GPSInfo" : true,
+        "RecordStateEnable" : true,
+        "RemoteEnable" : true,
+        "TimeTitleEnable" : true,
+        "WindowAlpha" : 175
+    }
+}

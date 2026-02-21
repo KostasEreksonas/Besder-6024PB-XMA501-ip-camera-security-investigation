@@ -1,0 +1,15 @@
+{
+    "Name" : "OPMonitor",
+    "OPMonitor" :
+    {
+        "Action" : "Claim",
+        "Parameter" :
+        {
+            "Channel" : 0,
+            "CombinMode" : "NONE",
+            "StreamType" : "Main",
+            "TransMode" : "TCP"
+        }
+    },
+    "SessionID" : "0x6"
+}

@@ -1,0 +1,13 @@
+{
+    "MultiLanguage" :
+    [
+        "English",
+        "SimpChinese",
+        "Spanish",
+        "Portugal",
+        "ChineseEnglish"
+    ],
+    "Name" : "MultiLanguage",
+    "Ret" : 100,
+    "SessionID" : "0x00000006"
+}

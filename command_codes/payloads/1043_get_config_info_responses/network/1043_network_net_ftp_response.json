@@ -1,0 +1,20 @@
+{
+    "Name" : "NetWork.NetFTP",
+    "NetWork.NetFTP" :
+    {
+        "Directory" : "",
+        "Enable" : false,
+        "MaxFileLen" : 128,
+        "Server" :
+        {
+            "Address" : "0x00000000",
+            "Anonymity" : false,
+            "Name" : "FTP",
+            "Password" : "",
+            "Port" : 21,
+            "UserName" : ""
+        }
+    },
+    "Ret" : 100,
+    "SessionID" : "0x00000006"
+}

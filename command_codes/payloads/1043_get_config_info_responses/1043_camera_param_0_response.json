@@ -1,0 +1,35 @@
+{
+    "Camera.Param.[0]" :
+    {
+        "AeSensitivity" : 5,
+        "ApertureMode" : "0x00000000",
+        "BLCMode" : "0x00000000",
+        "DayNightColor" : "0x00000000",
+        "Day_nfLevel" : 3,
+        "DncThr" : 30,
+        "ElecLevel" : 50,
+        "EsShutter" : "0x00000002",
+        "ExposureParam" :
+        {
+            "LeastTime" : "0x00000100",
+            "Level" : 0,
+            "MostTime" : "0x00010000"
+        },
+        "GainParam" :
+        {
+            "AutoGain" : 1,
+            "Gain" : 50
+        },
+        "IRCUTMode" : 0,
+        "InfraredSwap" : 0,
+        "IrcutSwap" : 0,
+        "Night_nfLevel" : 3,
+        "PictureFlip" : "0x00000000",
+        "PictureMirror" : "0x00000000",
+        "RejectFlicker" : "0x00000000",
+        "WhiteBalance" : "0x00000000"
+    },
+    "Name" : "Camera.Param.[0]",
+    "Ret" : 100,
+    "SessionID" : "0x00000006"
+}

@@ -1,0 +1,148 @@
+{
+    "EncodeCapability" :
+    {
+        "ChannelMaxSetSync" : 0,
+        "CombEncodeInfo" :
+        [
+            {
+                "CompressionMask" : "0x00000000",
+                "Enable" : true,
+                "HaveAudio" : true,
+                "ResolutionMask" : "0x00000000",
+                "StreamType" : "MainStream"
+            },
+            {
+                "CompressionMask" : "0x00000000",
+                "Enable" : false,
+                "HaveAudio" : true,
+                "ResolutionMask" : "0x00000000",
+                "StreamType" : "ExtraStream2"
+            },
+            {
+                "CompressionMask" : "0x00000000",
+                "Enable" : false,
+                "HaveAudio" : true,
+                "ResolutionMask" : "0x00000000",
+                "StreamType" : "ExtraStream3"
+            },
+            {
+                "CompressionMask" : "0x00000000",
+                "Enable" : false,
+                "HaveAudio" : true,
+                "ResolutionMask" : "0x00000000",
+                "StreamType" : "ExtraStream4"
+            },
+            {
+                "CompressionMask" : "0x00000000",
+                "Enable" : false,
+                "HaveAudio" : true,
+                "ResolutionMask" : "0x00000000",
+                "StreamType" : "JPEGStream"
+            }
+        ],
+        "Compression" :
+        [
+            "0x00000000"
+        ],
+        "EncodeInfo" :
+        [
+            {
+                "CompressionMask" : "0x00000080",
+                "Enable" : true,
+                "HaveAudio" : true,
+                "ResolutionMask" : "0x00040000",
+                "StreamType" : "MainStream"
+            },
+            {
+                "CompressionMask" : "0x00000080",
+                "Enable" : true,
+                "HaveAudio" : true,
+                "ResolutionMask" : "0x00000009",
+                "StreamType" : "ExtraStream2"
+            },
+            {
+                "CompressionMask" : "0x00000000",
+                "Enable" : false,
+                "HaveAudio" : false,
+                "ResolutionMask" : "0x00000000",
+                "StreamType" : "ExtraStream3"
+            },
+            {
+                "CompressionMask" : "0x00000000",
+                "Enable" : false,
+                "HaveAudio" : false,
+                "ResolutionMask" : "0x00000000",
+                "StreamType" : "ExtraStream4"
+            },
+            {
+                "CompressionMask" : "0x00000080",
+                "Enable" : true,
+                "HaveAudio" : true,
+                "ResolutionMask" : "0x00000009",
+                "StreamType" : "JPEGStream"
+            }
+        ],
+        "ExImageSizePerChannel" :
+        [
+            "0x00000009"
+        ],
+        "ExImageSizePerChannelEx" :
+        [
+            [
+                "0x00000000",
+                "0x00000000",
+                "0x00000000",
+                "0x00000000",
+                "0x00000000",
+                "0x00000000",
+                "0x00000000",
+                "0x00000000",
+                "0x00000000",
+                "0x00000000",
+                "0x00000000",
+                "0x00000000",
+                "0x00000000",
+                "0x00000000",
+                "0x00000000",
+                "0x00000000",
+                "0x00000000",
+                "0x00000000",
+                "0x00000009",
+                "0x00000000",
+                "0x00000000",
+                "0x00000000",
+                "0x00000000",
+                "0x00000000",
+                "0x00000000",
+                "0x00000000",
+                "0x00000000",
+                "0x00000000",
+                "0x00000000",
+                "0x00000000",
+                "0x00000000",
+                "0x00000000"
+            ]
+        ],
+        "FourthStreamImageSize" :
+        [
+            "0x00000000"
+        ],
+        "ImageSizePerChannel" :
+        [
+            "0x00040000"
+        ],
+        "MaxBitrate" : 49152,
+        "MaxEncodePower" : 88780800,
+        "MaxEncodePowerPerChannel" :
+        [
+            "0x054AB000"
+        ],
+        "ThirdStreamImageSize" :
+        [
+            "0x00000000"
+        ]
+    },
+    "Name" : "EncodeCapability",
+    "Ret" : 100,
+    "SessionID" : "0x00000006"
+}

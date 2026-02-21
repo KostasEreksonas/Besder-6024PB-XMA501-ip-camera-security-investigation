@@ -1,0 +1,20 @@
+{
+    "Name" : "NetWork.NetNTP",
+    "NetWork.NetNTP" :
+    {
+        "Enable" : true,
+        "Server" :
+        {
+            "Address" : "0x00000000",
+            "Anonymity" : false,
+            "Name" : "time.windows.com",
+            "Password" : "",
+            "Port" : 123,
+            "UserName" : ""
+        },
+        "TimeZone" : 14,
+        "UpdatePeriod" : 10
+    },
+    "Ret" : 100,
+    "SessionID" : "0x00000006"
+}

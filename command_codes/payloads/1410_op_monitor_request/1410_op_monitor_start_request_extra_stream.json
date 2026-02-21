@@ -1,0 +1,15 @@
+{
+    "Name" : "OPMonitor",
+    "OPMonitor" :
+    {
+        "Action" : "Start",
+        "Parameter" :
+        {
+            "Channel" : 0,
+            "CombinMode" : "NONE",
+            "StreamType" : "Extra1",
+            "TransMode" : "TCP"
+        }
+    },
+    "SessionID" : "0x6"
+}

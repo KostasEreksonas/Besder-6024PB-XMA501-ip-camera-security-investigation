@@ -1,0 +1,22 @@
+{
+    "Name" : "NetWork.NetCommon",
+    "NetWork.NetCommon" :
+    {
+        "GateWay" : "0x0101A8C0",
+        "HostIP" : "0x0A01A8C0",
+        "HostName" : "LocalHost",
+        "HttpPort" : 80,
+        "MAC" : "00:12:41:cb:dd:1d",
+        "MaxBps" : 0,
+        "MonMode" : "TCP",
+        "SSLPort" : 8443,
+        "Submask" : "0x00FFFFFF",
+        "TCPMaxConn" : 10,
+        "TCPPort" : 34567,
+        "TransferPlan" : "Quality",
+        "UDPPort" : 34568,
+        "UseHSDownLoad" : false
+    },
+    "Ret" : 100,
+    "SessionID" : "0x00000006"
+}
