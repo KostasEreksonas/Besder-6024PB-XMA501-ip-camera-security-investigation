@@ -256,7 +256,6 @@ local function dvrip_dissect_one_pdu(tvb, pinfo, tree)
 					frame.bytes_collected = frame.bytes_collected + payload_length
 					frame.payload:append(tvb(HEADER_LEN, payload_length):bytes())
 					if frame.bytes_collected == frame.bytes_needed then
-						-- print(pinfo.number, frame.key, frame.payload:len())
 						frame.key = nil
 						frame.bytes_needed = 0
 						frame.bytes_collected = 0
