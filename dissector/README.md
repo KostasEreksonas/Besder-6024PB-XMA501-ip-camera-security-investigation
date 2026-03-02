@@ -21,7 +21,7 @@ Model: XM530_50X50-WG_8M
 Firmware version: V5.00.R02.00030747.10010.349f17
 ```
 
-Media frames are saved as bytes in `/tmp` directory (format: 'pinfo.number'_'frame_name').
+Media frames are saved as bytes in `/tmp` directory (file format: 'pinfo.number'_'frame_name').
 
 # DVRIP/Sofia Command Message
 

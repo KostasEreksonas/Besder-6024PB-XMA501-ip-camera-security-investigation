@@ -33,6 +33,9 @@ frame = {
 	sequence_packet_last = 0,
 }
 
+-- Time of capture start / open
+timestamp = os.time(os.date("!*t"))
+
 -- Reassemble multiple TCP packets into a single Protocol Data Unit (PDU)
 local tcp_dissect_pdus = Dissector.get("tcp_dissect_pdus")
 
@@ -190,7 +193,7 @@ local function dvrip_dissect_one_pdu(tvb, pinfo, tree)
 				-- Audio Frame payload
 				atree:add(XM_proto, tvb(HEADER_LEN, tvb:len() - HEADER_LEN), "A-Frame")
 				-- Save reconstructed frame in /tmp directory
-				local file_name = string.format("/tmp/%d_%s", pinfo.number, "A-Frame")
+				local file_name = string.format("/tmp/%d_%d_%s", timestamp, pinfo.number, "A-Frame")
 				local file = io.open(file_name, "wb")
 				file:write(tvb:raw(HEADER_LEN, tvb:len() - HEADER_LEN))
 				file:close()
@@ -219,7 +222,7 @@ local function dvrip_dissect_one_pdu(tvb, pinfo, tree)
 					frame.sequence_packet_last = sequence_id + packets_needed
 				else
 					-- Save reconstructed frame in /tmp directory
-					local file_name = string.format("/tmp/%d_%s", pinfo.number, "I-Frame")
+					local file_name = string.format("/tmp/%d_%d_%s", timestamp, pinfo.number, "I-Frame")
 					local file = io.open(file_name, "wb")
 					file:write(frame.payload:raw())
 					file:close()
@@ -250,7 +253,7 @@ local function dvrip_dissect_one_pdu(tvb, pinfo, tree)
 					frame.sequence_packet_last = sequence_id + packets_needed
 				else
 					-- Save reconstructed frame in /tmp directory
-					local file_name = string.format("/tmp/%d_%s", pinfo.number, "P-Frame")
+					local file_name = string.format("/tmp/%d_%d_%s", timestamp, pinfo.number, "P-Frame")
 					local file = io.open(file_name, "wb")
 					file:write(frame.payload:raw())
 					file:close()
@@ -269,17 +272,18 @@ local function dvrip_dissect_one_pdu(tvb, pinfo, tree)
 				etree_header:add(DVRIP_eframe_unknown_5, tvb(HEADER_LEN + 16, 4))
 				etree_header:add(DVRIP_eframe_unknown_6, tvb(HEADER_LEN + 20, 4))
 				-- Save reconstructed frame in /tmp directory
-				local file_name = string.format("/tmp/%d_%s", pinfo.number, "E-Frame")
+				local file_name = string.format("/tmp/%d_%d_%s", timestamp, pinfo.number, "E-Frame")
 				local file = io.open(file_name, "wb")
 				file:write(tvb:raw(HEADER_LEN, tvb:len() - HEADER_LEN))
 				file:close()
+				print()
 			else
 				if (frame.key == "I-Frame" or frame.key == "P-Frame") and pinfo.visited ~= true then
 					frame.bytes_collected = frame.bytes_collected + payload_length
 					frame.payload:append(tvb(HEADER_LEN, payload_length):bytes())
 					if frame.bytes_collected == frame.bytes_needed then
 						-- Save reconstructed frame in /tmp directory
-						local file_name = string.format("/tmp/%d_%s", pinfo.number, frame.key)
+						local file_name = string.format("/tmp/%d_%d_%s", timestamp, pinfo.number, frame.key)
 						local file = io.open(file_name, "wb")
 						file:write(frame.payload:raw())
 						file:close()
