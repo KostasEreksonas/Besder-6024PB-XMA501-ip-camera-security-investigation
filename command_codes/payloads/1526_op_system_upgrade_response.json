@@ -1,0 +1,16 @@
+{
+    "Name" : "OPSystemUpgrade",
+    "OPSystemUpgrade" :
+    {
+        "Hardware" : "XM530_50X50-WG_8M",
+        "LogoArea" :
+        {
+            "Begin" : "",
+            "End" : ""
+        },
+        "Serial" : "",
+        "Vendor" : "General"
+    },
+    "Ret" : 100,
+    "SessionID" : "0x00000001"
+}

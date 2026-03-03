@@ -38,5 +38,9 @@
 |EMPTY_REQ|1500|Empty request|[Empty request](payloads/1500_empty_request.json)|
 |EMPTY_RESP|1501|Empty response|[Empty response](payloads/1501_empty_response.json)|
 |EMPTY_REQ|1502|Empty request|[Empty request](payloads/1502_empty_request.json)|
+|OPSYSTEMUPGRADE_REQ|1525|System update request|[System update request](payloads/1525_op_system_upgrade_request.json)|
+|OPSYSTEMUPGRADE_RESP|1526|System upgrade response|[System update response](payloads/1526_op_system_upgrade_response.json)|
+|OPSNAP_REQ|1560|OP snapshot request|[OP snapshot request](payloads/1560_op_snapshot_request.json)|
+|OPSNAP_RESP|1561|OP snapshot response|Saved as jpeg image|
 |OPTimeSettingNoRTC_REQ|1590|OP time setting (no RTC)|[OP time setting w/o RTC](payloads/1590_op_time_setting_no_rtc_request.json)|
 |OPTimeSettingNoRTC_RESP|1591|OP time setting (no RTC)|[OP time setting w/o RTC](payloads/1591_op_time_setting_no_rtc_response.json)|
