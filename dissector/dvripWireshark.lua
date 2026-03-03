@@ -276,7 +276,13 @@ local function dvrip_dissect_one_pdu(tvb, pinfo, tree)
 				local file = io.open(file_name, "wb")
 				file:write(tvb:raw(HEADER_LEN, tvb:len() - HEADER_LEN))
 				file:close()
-				print()
+			elseif signature == 0xffd8ffe0 then -- JPEG file
+				subtree:add(XM_proto, tvb(HEADER_LEN, tvb:len() - HEADER_LEN), "DVRIP JPEG Image")
+				-- Save reconstructed image in /tmp directory
+				local file_name = string.format("/tmp/%d_%d_%s", timestamp, pinfo.number, "JPEG-Image")
+				local file = io.open(file_name, "wb")
+				file:write(tvb:raw(HEADER_LEN, tvb:len() - HEADER_LEN))
+				file:close()
 			else
 				if (frame.key == "I-Frame" or frame.key == "P-Frame") and pinfo.visited ~= true then
 					frame.bytes_collected = frame.bytes_collected + payload_length
