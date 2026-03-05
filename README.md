@@ -10,7 +10,7 @@ Table of Contents
 * [Device Discovery](#device-discovery)
 * [Port Scan](#port-scan)
 * [ONVIF Capabilities](#onvif-capabilities)
-	* [CVE-2025-65856 - exposing RTSP URIs with hardcoded credentials using GetStreamURI method](#cve-2025-65856---exposing-rtsp-uris-with-hardcoded-credentials-using-getstreamuri-method)
+	* [CVE-2025-65857 - exposing RTSP URIs with hardcoded credentials using GetStreamURI method](#cve-2025-65857---exposing-rtsp-uris-with-hardcoded-credentials-using-getstreamuri-method)
 		+ [Method 1: Curl](#method-1-curl)
 		+ [Method 2: Python Script](#method-2-python-script)
 * [Port 80: Web Application](#port-80-web-application)
@@ -221,7 +221,7 @@ Anyways, for Besder/Xiongmai cameras TCP port 8899 is actually reserved for Open
 
 ***Note:*** ONVIF is not accessible while camera is not configured with ICSee app.
 
-## CVE-2025-65856 - exposing RTSP URIs with hardcoded credentials using GetStreamUri method
+## CVE-2025-65857 - exposing RTSP URIs with hardcoded credentials using GetStreamUri method
 
 The **[CVE-2025-65857](https://nvd.nist.gov/vuln/detail/CVE-2025-65857)** id is given to this specific vulnerability, so let’s walk through it.
 
