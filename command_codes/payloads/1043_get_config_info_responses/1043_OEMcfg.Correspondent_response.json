@@ -1,0 +1,21 @@
+1043
+{
+  "Name": "OEMcfg.Correspondent",
+  "OEMcfg.Correspondent": {
+    "BrandInfo": "H264",
+    "FirmwareVersion": "V100",
+    "HardwareId": "00001",
+    "Model": "NVT",
+    "Port": 8899,
+    "Scope": [
+      "onvif:\\/\\/www.onvif.org\\/type\\/video_encoder",
+      "onvif:\\/\\/www.onvif.org\\/type\\/audio_encoder",
+      "onvif:\\/\\/www.onvif.org\\/hardware\\/IPC-model",
+      "onvif:\\/\\/www.onvif.org\\/location\\/country\\/china",
+      "onvif:\\/\\/www.onvif.org\\/name\\/NVT",
+      "onvif:\\/\\/www.onvif.org\\/Profile\\/Streaming"
+    ]
+  },
+  "Ret": 100,
+  "SessionID": "0x0000000b"
+}

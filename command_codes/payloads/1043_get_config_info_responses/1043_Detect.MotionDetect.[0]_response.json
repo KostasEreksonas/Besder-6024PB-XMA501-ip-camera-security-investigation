@@ -1,0 +1,406 @@
+1043
+{
+  "Detect.MotionDetect.[0]": {
+    "AlarmType": 0,
+    "Enable": true,
+    "EventHandler": {
+      "AlarmInfo": "",
+      "AlarmOutEnable": false,
+      "AlarmOutLatch": 10,
+      "AlarmOutMask": "0x00000000",
+      "BeepEnable": false,
+      "Dejitter": 0,
+      "EventLatch": 2,
+      "FTPEnable": false,
+      "LogEnable": false,
+      "MMSEnable": false,
+      "MailEnable": false,
+      "MatrixEnable": false,
+      "MatrixMask": "0x00000000",
+      "MessageEnable": false,
+      "MsgtoNetEnable": false,
+      "MultimediaMsgEnable": false,
+      "PtzEnable": true,
+      "PtzLink": [
+        [
+          "None",
+          0
+        ],
+        [
+          "None",
+          0
+        ],
+        [
+          "None",
+          0
+        ],
+        [
+          "None",
+          0
+        ],
+        [
+          "None",
+          0
+        ],
+        [
+          "None",
+          0
+        ],
+        [
+          "None",
+          0
+        ],
+        [
+          "None",
+          0
+        ],
+        [
+          "None",
+          0
+        ],
+        [
+          "None",
+          0
+        ],
+        [
+          "None",
+          0
+        ],
+        [
+          "None",
+          0
+        ],
+        [
+          "None",
+          0
+        ],
+        [
+          "None",
+          0
+        ],
+        [
+          "None",
+          0
+        ],
+        [
+          "None",
+          0
+        ],
+        [
+          "None",
+          0
+        ],
+        [
+          "None",
+          0
+        ],
+        [
+          "None",
+          0
+        ],
+        [
+          "None",
+          0
+        ],
+        [
+          "None",
+          0
+        ],
+        [
+          "None",
+          0
+        ],
+        [
+          "None",
+          0
+        ],
+        [
+          "None",
+          0
+        ],
+        [
+          "None",
+          0
+        ],
+        [
+          "None",
+          0
+        ],
+        [
+          "None",
+          0
+        ],
+        [
+          "None",
+          0
+        ],
+        [
+          "None",
+          0
+        ],
+        [
+          "None",
+          0
+        ],
+        [
+          "None",
+          0
+        ],
+        [
+          "None",
+          0
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ]
+      ],
+      "RecordEnable": true,
+      "RecordLatch": 10,
+      "RecordMask": "0x00000001",
+      "ShortMsgEnable": false,
+      "ShowInfo": false,
+      "ShowInfoMask": "0x00000000",
+      "SnapEnable": true,
+      "SnapShotMask": "0x00000001",
+      "TimeSection": [
+        [
+          "1 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00"
+        ],
+        [
+          "1 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00"
+        ],
+        [
+          "1 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00"
+        ],
+        [
+          "1 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00"
+        ],
+        [
+          "1 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00"
+        ],
+        [
+          "1 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00"
+        ],
+        [
+          "1 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00"
+        ]
+      ],
+      "TipEnable": false,
+      "TourEnable": false,
+      "TourMask": "0x00000000",
+      "VoiceEnable": false,
+      "VoiceTipInterval": 0,
+      "VoiceType": 24
+    },
+    "Level": 3,
+    "PIRCheckTime": 0,
+    "PirSensitive": 0,
+    "PirTimeSection": {
+      "PirTimeSectionOne": {
+        "Enable": false,
+        "WeekMask": 0
+      },
+      "PirTimeSectionTwo": {
+        "Enable": false,
+        "WeekMask": 0
+      }
+    },
+    "Region": [
+      "0xFFFFFFFF",
+      "0xFFFFFFFF",
+      "0xFFFFFFFF",
+      "0xFFFFFFFF",
+      "0xFFFFFFFF",
+      "0xFFFFFFFF",
+      "0xFFFFFFFF",
+      "0xFFFFFFFF",
+      "0xFFFFFFFF",
+      "0xFFFFFFFF",
+      "0xFFFFFFFF",
+      "0xFFFFFFFF",
+      "0xFFFFFFFF",
+      "0xFFFFFFFF",
+      "0xFFFFFFFF",
+      "0xFFFFFFFF",
+      "0xFFFFFFFF",
+      "0xFFFFFFFF",
+      "0xFFFFFFFF",
+      "0xFFFFFFFF",
+      "0xFFFFFFFF",
+      "0xFFFFFFFF",
+      "0xFFFFFFFF",
+      "0xFFFFFFFF",
+      "0xFFFFFFFF",
+      "0xFFFFFFFF",
+      "0xFFFFFFFF",
+      "0xFFFFFFFF",
+      "0xFFFFFFFF",
+      "0xFFFFFFFF",
+      "0xFFFFFFFF",
+      "0xFFFFFFFF"
+    ]
+  },
+  "Name": "Detect.MotionDetect.[0]",
+  "Ret": 100,
+  "SessionID": "0x00000002"
+}

@@ -1,0 +1,58 @@
+1043
+{
+  "Ability.VoiceTipType": {
+    "VoiceTip": [
+      {
+        "VoiceEnum": 24,
+        "VoiceText": "Bell Alarm"
+      },
+      {
+        "VoiceEnum": 520,
+        "VoiceText": "Alert area,please leave "
+      },
+      {
+        "VoiceEnum": 521,
+        "VoiceText": "Hazard area,keep out"
+      },
+      {
+        "VoiceEnum": 522,
+        "VoiceText": "No parking in this area"
+      },
+      {
+        "VoiceEnum": 523,
+        "VoiceText": "You have entered the monitoring area"
+      },
+      {
+        "VoiceEnum": 524,
+        "VoiceText": "Hello welcome"
+      },
+      {
+        "VoiceEnum": 525,
+        "VoiceText": "Do not touch valuables"
+      },
+      {
+        "VoiceEnum": 526,
+        "VoiceText": "Private sphere,no entry"
+      },
+      {
+        "VoiceEnum": 527,
+        "VoiceText": "Danger of depth, pay attention to safety"
+      },
+      {
+        "VoiceEnum": 528,
+        "VoiceText": "High danger,please don't climb"
+      },
+      {
+        "VoiceEnum": 529,
+        "VoiceText": "Howling alarm"
+      },
+      {
+        "VoiceEnum": 550,
+        "VoiceText": "The custom"
+      }
+    ]
+  },
+  "Name": "Ability.VoiceTipType",
+  "Ret": 100,
+  "SessionID": "0x0000000b"
+}

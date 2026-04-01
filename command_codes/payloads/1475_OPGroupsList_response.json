@@ -1,0 +1,47 @@
+1475
+{
+  "Groups": [
+    {
+      "AuthorityList": [
+        "ShutDown",
+        "ChannelTitle",
+        "DefaultConfig",
+        "Talk_01",
+        "IPCCamera",
+        "ImExport",
+        "Monitor_01",
+        "EncodeConfig",
+        "Account",
+        "SysInfo",
+        "QueryLog",
+        "DelLog",
+        "SysUpgrade",
+        "AutoMaintain",
+        "GeneralConfig",
+        "NetConfig",
+        "AlarmConfig",
+        "VideoConfig",
+        "RecordConfig",
+        "StorageManager",
+        "Replay_01",
+        "CommConfig",
+        "PtzConfig",
+        "PTZControl",
+        "ElecPTZControl"
+      ],
+      "Memo": "administrator group",
+      "Name": "admin"
+    },
+    {
+      "AuthorityList": [
+        "Monitor_01",
+        "Replay_01"
+      ],
+      "Memo": "user group",
+      "Name": "user"
+    }
+  ],
+  "Name": "Groups",
+  "Ret": 100,
+  "SessionID": "0x0000000b"
+}

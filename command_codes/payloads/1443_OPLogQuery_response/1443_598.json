@@ -1,0 +1,57 @@
+1443
+{
+  "Name": "OPLogQuery",
+  "OPLogQuery": [
+    {
+      "Data": "RS485",
+      "Position": 1048,
+      "Time": "2026-04-01 12:49:33",
+      "Type": "SaveConfig",
+      "User": "System"
+    },
+    {
+      "Data": "Comm",
+      "Position": 1049,
+      "Time": "2026-04-01 12:49:44",
+      "Type": "SaveConfig",
+      "User": "System"
+    },
+    {
+      "Data": "\\/mnt\\/idea1,ReadWrite",
+      "Position": 1050,
+      "Time": "2026-04-01 12:50:04",
+      "Type": "SetDriverType",
+      "User": "System"
+    },
+    {
+      "Data": "",
+      "Position": 1051,
+      "Time": "2026-04-01 12:50:56",
+      "Type": "AddUser",
+      "User": "nameuser"
+    },
+    {
+      "Data": "ExUserMap",
+      "Position": 1052,
+      "Time": "2026-04-01 12:50:58",
+      "Type": "SaveConfig",
+      "User": "System"
+    },
+    {
+      "Data": "",
+      "Position": 1053,
+      "Time": "2026-04-01 12:51:07",
+      "Type": "DeleteUser",
+      "User": "nameuser"
+    },
+    {
+      "Data": "ExUserMap",
+      "Position": 1054,
+      "Time": "2026-04-01 12:51:07",
+      "Type": "SaveConfig",
+      "User": "System"
+    }
+  ],
+  "Ret": 100,
+  "SessionID": "0x0000000b"
+}

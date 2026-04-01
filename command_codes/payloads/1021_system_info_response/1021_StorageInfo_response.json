@@ -1,0 +1,38 @@
+1021
+{
+  "Name": "StorageInfo",
+  "Ret": 100,
+  "SessionID": "0x0000000b",
+  "StorageInfo": [
+    {
+      "PartNumber": 2,
+      "Partition": [
+        {
+          "DirverType": 0,
+          "IsCurrent": true,
+          "LogicSerialNo": 0,
+          "NewEndTime": "2026-04-01 12:51:41",
+          "NewStartTime": "2021-03-01 15:26:10",
+          "OldEndTime": "2026-04-01 12:51:41",
+          "OldStartTime": "2021-03-01 15:26:10",
+          "RemainSpace": "0x000005ce",
+          "Status": 0,
+          "TotalSpace": "0x00007075"
+        },
+        {
+          "DirverType": 0,
+          "IsCurrent": false,
+          "LogicSerialNo": 65536,
+          "NewEndTime": "2026-03-23 02:36:35",
+          "NewStartTime": "2021-03-08 16:49:55",
+          "OldEndTime": "2026-03-23 02:36:35",
+          "OldStartTime": "2021-03-08 16:49:55",
+          "RemainSpace": "0x00000102",
+          "Status": 0,
+          "TotalSpace": "0x00000405"
+        }
+      ],
+      "PlysicalNo": 1
+    }
+  ]
+}

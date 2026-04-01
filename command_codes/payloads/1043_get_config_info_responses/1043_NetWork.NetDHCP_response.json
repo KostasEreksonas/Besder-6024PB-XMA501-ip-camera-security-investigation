@@ -1,0 +1,28 @@
+1043
+{
+  "Name": "NetWork.NetDHCP",
+  "NetWork.NetDHCP": [
+    {
+      "Enable": true,
+      "Interface": "eth0"
+    },
+    {
+      "Enable": false,
+      "Interface": "eth1"
+    },
+    {
+      "Enable": false,
+      "Interface": "eth2"
+    },
+    {
+      "Enable": false,
+      "Interface": "eth3"
+    },
+    {
+      "Enable": false,
+      "Interface": ""
+    }
+  ],
+  "Ret": 100,
+  "SessionID": "0x0000000b"
+}

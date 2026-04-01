@@ -1,0 +1,11 @@
+1043
+{
+  "AVEnc.SmartH264": [
+    {
+      "SmartH264": true
+    }
+  ],
+  "Name": "AVEnc.SmartH264",
+  "Ret": 100,
+  "SessionID": "0x0000000b"
+}

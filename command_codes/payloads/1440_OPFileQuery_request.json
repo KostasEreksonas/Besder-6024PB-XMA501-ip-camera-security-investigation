@@ -1,0 +1,14 @@
+1440
+{
+  "Name": "OPFileQuery",
+  "OPFileQuery": {
+    "BeginTime": "2026-04-01 00:00:00",
+    "Channel": 0,
+    "DriverTypeMask": "0x0000FFFF",
+    "EndTime": "2026-04-01 23:59:59",
+    "Event": "*",
+    "StreamType": "0x00000000",
+    "Type": "h264"
+  },
+  "SessionID": "0xb"
+}

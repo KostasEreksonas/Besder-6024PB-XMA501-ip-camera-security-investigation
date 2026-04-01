@@ -1,0 +1,18 @@
+1450
+{
+  "Name": "OPDefaultConfig",
+  "OPDefaultConfig": {
+    "Account": true,
+    "Alarm": true,
+    "CameraPARAM": true,
+    "CommPtz": true,
+    "Encode": true,
+    "Factory": false,
+    "General": true,
+    "NetCommon": true,
+    "NetServer": true,
+    "Preview": true,
+    "Record": true
+  },
+  "SessionID": "0xb"
+}

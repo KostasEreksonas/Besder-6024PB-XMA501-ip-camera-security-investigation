@@ -1,0 +1,157 @@
+1043
+{
+  "Detect.HumanDetection.[0]": {
+    "Enable": true,
+    "ObjectType": 0,
+    "PedFdrAlg": 0,
+    "PedRule": [
+      {
+        "Enable": true,
+        "RuleLine": {
+          "AlarmDirect": 2,
+          "Pts": {
+            "StartX": 100,
+            "StartY": 100,
+            "StopX": 8100,
+            "StopY": 8100
+          }
+        },
+        "RuleRegion": {
+          "AlarmDirect": 2,
+          "Pts": [
+            {
+              "X": 100,
+              "Y": 100
+            },
+            {
+              "X": 8100,
+              "Y": 100
+            },
+            {
+              "X": 8100,
+              "Y": 8100
+            },
+            {
+              "X": 100,
+              "Y": 8100
+            }
+          ],
+          "PtsNum": 4
+        },
+        "RuleType": 1
+      },
+      {
+        "Enable": false,
+        "RuleLine": {
+          "AlarmDirect": 2,
+          "Pts": {
+            "StartX": 100,
+            "StartY": 100,
+            "StopX": 8100,
+            "StopY": 8100
+          }
+        },
+        "RuleRegion": {
+          "AlarmDirect": 2,
+          "Pts": [
+            {
+              "X": 100,
+              "Y": 100
+            },
+            {
+              "X": 8100,
+              "Y": 100
+            },
+            {
+              "X": 8100,
+              "Y": 8100
+            },
+            {
+              "X": 100,
+              "Y": 8100
+            }
+          ],
+          "PtsNum": 4
+        },
+        "RuleType": 1
+      },
+      {
+        "Enable": false,
+        "RuleLine": {
+          "AlarmDirect": 2,
+          "Pts": {
+            "StartX": 100,
+            "StartY": 100,
+            "StopX": 8100,
+            "StopY": 8100
+          }
+        },
+        "RuleRegion": {
+          "AlarmDirect": 2,
+          "Pts": [
+            {
+              "X": 100,
+              "Y": 100
+            },
+            {
+              "X": 8100,
+              "Y": 100
+            },
+            {
+              "X": 8100,
+              "Y": 8100
+            },
+            {
+              "X": 100,
+              "Y": 8100
+            }
+          ],
+          "PtsNum": 4
+        },
+        "RuleType": 1
+      },
+      {
+        "Enable": false,
+        "RuleLine": {
+          "AlarmDirect": 2,
+          "Pts": {
+            "StartX": 100,
+            "StartY": 100,
+            "StopX": 8100,
+            "StopY": 8100
+          }
+        },
+        "RuleRegion": {
+          "AlarmDirect": 2,
+          "Pts": [
+            {
+              "X": 100,
+              "Y": 100
+            },
+            {
+              "X": 8100,
+              "Y": 100
+            },
+            {
+              "X": 8100,
+              "Y": 8100
+            },
+            {
+              "X": 100,
+              "Y": 8100
+            }
+          ],
+          "PtsNum": 4
+        },
+        "RuleType": 1
+      }
+    ],
+    "PushInterval": 3000,
+    "Sensitivity": 1,
+    "ShowRule": false,
+    "ShowTrack": false
+  },
+  "Name": "Detect.HumanDetection.[0]",
+  "Ret": 100,
+  "SessionID": "0x00000002"
+}

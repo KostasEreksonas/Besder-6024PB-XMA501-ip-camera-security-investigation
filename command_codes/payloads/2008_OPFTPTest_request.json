@@ -1,0 +1,18 @@
+2008
+{
+  "Name": "OPFTPTest",
+  "OPFTPTest": {
+    "Directory": "",
+    "Enable": false,
+    "MaxFileLen": 128,
+    "Server": {
+      "Address": "0x00000000",
+      "Anonymity": false,
+      "Name": "FTP",
+      "Password": "",
+      "Port": 21,
+      "UserName": ""
+    }
+  },
+  "SessionID": "0xb"
+}

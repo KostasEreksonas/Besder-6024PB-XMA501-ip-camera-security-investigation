@@ -1,0 +1,12 @@
+1040
+{
+  "Name": "NetWork.TranCommData",
+  "NetWork.TranCommData": {
+    "SerialType": 1,
+    "ServerAddr": "127.0.0.1",
+    "ServerPort": 12901,
+    "ServerType": 0,
+    "bEnable": true
+  },
+  "SessionID": "0xb"
+}

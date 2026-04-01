@@ -1,0 +1,11 @@
+1040
+{
+  "Name": "Storage.StoragePosition",
+  "SessionID": "0xb",
+  "Storage.StoragePosition": {
+    "DVD": false,
+    "SATA": true,
+    "SD": false,
+    "USB": false
+  }
+}

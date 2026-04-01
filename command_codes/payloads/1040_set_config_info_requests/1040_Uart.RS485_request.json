@@ -1,0 +1,19 @@
+1040
+{
+  "Name": "Uart.RS485",
+  "SessionID": "0xb",
+  "Uart.RS485": [
+    {
+      "Attribute": [
+        9600,
+        "None",
+        8,
+        1
+      ],
+      "DeviceNo": 1,
+      "NumberInMatrixs": 0,
+      "PortNo": 1,
+      "ProtocolName": "NONE"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+1043
+{
+  "Name": "NetWork.OnlineUpgrade",
+  "NetWork.OnlineUpgrade": {
+    "AutoCheck": true,
+    "AutoUpgradeImp": true,
+    "Enable": true,
+    "IgnoreAllVersion": true,
+    "IgnoreCurTime": "0x00000000",
+    "IgnoreCurVersion": false,
+    "JustImpVersion": false,
+    "ServerAddr": "upgrade.secu100.net",
+    "ServerPort": 8083
+  },
+  "Ret": 100,
+  "SessionID": "0x0000000b"
+}
