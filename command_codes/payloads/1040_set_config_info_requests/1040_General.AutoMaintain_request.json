@@ -1,0 +1,10 @@
+1040
+{
+  "General.AutoMaintain": {
+    "AutoDeleteFilesDays": 0,
+    "AutoRebootDay": "Tuesday",
+    "AutoRebootHour": 3
+  },
+  "Name": "General.AutoMaintain",
+  "SessionID": "0xb"
+}

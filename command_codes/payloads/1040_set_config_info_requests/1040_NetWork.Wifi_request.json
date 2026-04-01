@@ -1,0 +1,18 @@
+1040
+{
+  "Name": "NetWork.Wifi",
+  "NetWork.Wifi": {
+    "Auth": "WPAPSK",
+    "Channel": 0,
+    "Enable": true,
+    "EncrypType": "TKIP",
+    "GateWay": "0x0101A8C0",
+    "HostIP": "0x6601A8C0",
+    "KeyType": 1,
+    "Keys": "<redacted>",
+    "NetType": "Infra",
+    "SSID": "<redacted>",
+    "Submask": "0x00FFFFFF"
+  },
+  "SessionID": "0xb"
+}

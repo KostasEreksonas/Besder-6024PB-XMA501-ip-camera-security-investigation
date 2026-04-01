@@ -1,0 +1,11 @@
+1040
+{
+  "Name": "NetWork.PMS",
+  "NetWork.PMS": {
+    "BoxID": "",
+    "Enable": true,
+    "Port": 80,
+    "ServName": "push.umeye.cn"
+  },
+  "SessionID": "0xb"
+}

@@ -1,0 +1,11 @@
+1040
+{
+  "AVEnc.EncodeStaticParam": [
+    {
+      "Level": 40,
+      "Profile": 3
+    }
+  ],
+  "Name": "AVEnc.EncodeStaticParam",
+  "SessionID": "0xb"
+}

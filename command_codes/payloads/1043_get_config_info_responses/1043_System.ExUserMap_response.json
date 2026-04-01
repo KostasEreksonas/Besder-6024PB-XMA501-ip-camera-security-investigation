@@ -1,0 +1,55 @@
+1043
+{
+  "Name": "System.ExUserMap",
+  "Ret": 100,
+  "SessionID": "0x0000000b",
+  "System.ExUserMap": {
+    "User": [
+      {
+        "AuthorityList": null,
+        "Group": "",
+        "Memo": "",
+        "Name": "admin",
+        "Password": "0001SM5Rd2VydFkuNg==",
+        "Reserved": false,
+        "Sharable": false
+      },
+      {
+        "AuthorityList": [
+          "ShutDown",
+          "ChannelTitle",
+          "DefaultConfig",
+          "Talk_01",
+          "IPCCamera",
+          "ImExport",
+          "Monitor_01",
+          "EncodeConfig",
+          "Account",
+          "SysInfo",
+          "QueryLog",
+          "DelLog",
+          "SysUpgrade",
+          "AutoMaintain",
+          "GeneralConfig",
+          "NetConfig",
+          "AlarmConfig",
+          "VideoConfig",
+          "RecordConfig",
+          "StorageManager",
+          "Replay_01",
+          "CommConfig",
+          "PtzConfig",
+          "PTZControl",
+          "ElecPTZControl"
+        ],
+        "Group": "admin",
+        "Memo": "asd",
+        "Name": "nameuser",
+        "Password": "1215cGFzc3dvcmQx=jMM",
+        "Reserved": false,
+        "Sharable": true
+      }
+    ],
+    "UserNum": 2
+  }
+}

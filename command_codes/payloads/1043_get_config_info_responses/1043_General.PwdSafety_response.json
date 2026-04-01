@@ -1,0 +1,28 @@
+1043
+{
+  "General.PwdSafety": {
+    "PwdReset": [
+      {
+        "QuestionAnswer": "",
+        "QuestionIndex": 0
+      },
+      {
+        "QuestionAnswer": "",
+        "QuestionIndex": 0
+      },
+      {
+        "QuestionAnswer": "",
+        "QuestionIndex": 0
+      },
+      {
+        "QuestionAnswer": "",
+        "QuestionIndex": 0
+      }
+    ],
+    "SecurityEmail": "",
+    "TipPageHide": false
+  },
+  "Name": "General.PwdSafety",
+  "Ret": 100,
+  "SessionID": "0x0000000b"
+}

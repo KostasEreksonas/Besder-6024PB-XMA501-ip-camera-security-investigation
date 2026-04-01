@@ -1,0 +1,14 @@
+1043
+{
+  "Name": "NetWork.Nat",
+  "NetWork.Nat": {
+    "Addr": "secu100.net",
+    "DnsServer1": "0xBC007C70",
+    "DnsServer2": "0xEC845436",
+    "NatEnable": true,
+    "Port": 8765,
+    "XMeyeMTU": 1280
+  },
+  "Ret": 100,
+  "SessionID": "0x0000000b"
+}

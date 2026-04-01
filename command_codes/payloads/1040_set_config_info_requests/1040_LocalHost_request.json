@@ -1,0 +1,14 @@
+1040
+{
+  "General.General": {
+    "AutoLogout": 0,
+    "FontSize": 24,
+    "IranCalendarEnable": 0,
+    "LocalNo": 0,
+    "MachineName": "LocalHost",
+    "OverWrite": "OverWrite",
+    "VideoOutPut": "Auto"
+  },
+  "Name": "General.General",
+  "SessionID": "0xb"
+}

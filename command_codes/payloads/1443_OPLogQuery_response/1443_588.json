@@ -1,0 +1,904 @@
+1443
+{
+  "Name": "OPLogQuery",
+  "OPLogQuery": [
+    {
+      "Data": "2026-01-27 16:55:56(6)",
+      "Position": 413,
+      "Time": "2026-01-27 16:56:21",
+      "Type": "SaveSystemState",
+      "User": "System"
+    },
+    {
+      "Data": "2026-01-27 18:55:07(UTC)",
+      "Position": 414,
+      "Time": "2026-01-27 16:56:38",
+      "Type": "SetTime",
+      "User": "System"
+    },
+    {
+      "Data": "admin,DVRIP-Server:192.168.0.105",
+      "Position": 415,
+      "Time": "2026-01-27 19:32:58",
+      "Type": "LogIn",
+      "User": "admin"
+    },
+    {
+      "Data": "admin,DVRIP-Server:192.168.0.105",
+      "Position": 416,
+      "Time": "2026-01-27 19:32:59",
+      "Type": "LogOut",
+      "User": "admin"
+    },
+    {
+      "Data": "admin,DVRIP-Web:192.168.0.105",
+      "Position": 417,
+      "Time": "2026-01-27 19:39:22",
+      "Type": "LogIn",
+      "User": "admin"
+    },
+    {
+      "Data": "OSDInfo",
+      "Position": 418,
+      "Time": "2026-01-27 19:39:23",
+      "Type": "SaveConfig",
+      "User": "System"
+    },
+    {
+      "Data": "admin,DVRIP-Web:192.168.0.105",
+      "Position": 419,
+      "Time": "2026-01-27 19:39:28",
+      "Type": "LogOut",
+      "User": "admin"
+    },
+    {
+      "Data": "admin,DVRIP-Web:192.168.0.105",
+      "Position": 420,
+      "Time": "2026-01-27 19:41:54",
+      "Type": "LogIn",
+      "User": "admin"
+    },
+    {
+      "Data": "admin,DVRIP-Web:192.168.0.105",
+      "Position": 421,
+      "Time": "2026-01-27 19:41:56",
+      "Type": "LogOut",
+      "User": "admin"
+    },
+    {
+      "Data": "admin,DVRIP-Web:192.168.0.105",
+      "Position": 422,
+      "Time": "2026-01-27 20:05:40",
+      "Type": "LogIn",
+      "User": "admin"
+    },
+    {
+      "Data": "TranCommData",
+      "Position": 423,
+      "Time": "2026-01-27 20:07:25",
+      "Type": "SaveConfig",
+      "User": "System"
+    },
+    {
+      "Data": "TranCommData",
+      "Position": 424,
+      "Time": "2026-01-27 20:11:21",
+      "Type": "SaveConfig",
+      "User": "System"
+    },
+    {
+      "Data": "TranCommData",
+      "Position": 425,
+      "Time": "2026-01-27 20:11:53",
+      "Type": "SaveConfig",
+      "User": "System"
+    },
+    {
+      "Data": "2026- 1-27 20:12:51(1)",
+      "Position": 426,
+      "Time": "2026-01-27 20:12:51",
+      "Type": "ShutDown",
+      "User": "System"
+    },
+    {
+      "Data": "2026-01-27 20:13:16",
+      "Position": 427,
+      "Time": "2026-01-27 20:13:16",
+      "Type": "RecoverTime",
+      "User": "System"
+    },
+    {
+      "Data": "2026-01-27 20:12:51",
+      "Position": 428,
+      "Time": "2026-01-27 20:13:16",
+      "Type": "Reboot",
+      "User": "System"
+    },
+    {
+      "Data": "admin,DVRIP-Web:192.168.0.105",
+      "Position": 429,
+      "Time": "2026-01-27 20:15:15",
+      "Type": "LogIn",
+      "User": "admin"
+    },
+    {
+      "Data": "2026-01-27 20:15:10",
+      "Position": 430,
+      "Time": "2026-01-27 20:15:17",
+      "Type": "SetTime",
+      "User": "System"
+    },
+    {
+      "Data": "TranCommData",
+      "Position": 431,
+      "Time": "2026-01-27 20:15:35",
+      "Type": "SaveConfig",
+      "User": "System"
+    },
+    {
+      "Data": "TranCommData",
+      "Position": 432,
+      "Time": "2026-01-27 20:17:43",
+      "Type": "SaveConfig",
+      "User": "System"
+    },
+    {
+      "Data": "TranCommData",
+      "Position": 433,
+      "Time": "2026-01-27 20:18:42",
+      "Type": "SaveConfig",
+      "User": "System"
+    },
+    {
+      "Data": "Comm",
+      "Position": 434,
+      "Time": "2026-01-27 20:18:49",
+      "Type": "SaveConfig",
+      "User": "System"
+    },
+    {
+      "Data": "Comm",
+      "Position": 435,
+      "Time": "2026-01-27 20:20:03",
+      "Type": "SaveConfig",
+      "User": "System"
+    },
+    {
+      "Data": "TranCommData",
+      "Position": 436,
+      "Time": "2026-01-27 20:21:14",
+      "Type": "SaveConfig",
+      "User": "System"
+    },
+    {
+      "Data": "admin,DVRIP-Web:192.168.0.105",
+      "Position": 437,
+      "Time": "2026-01-27 20:29:14",
+      "Type": "LogOut",
+      "User": "admin"
+    },
+    {
+      "Data": "2026-01-27 20:27:53",
+      "Position": 438,
+      "Time": "2026-01-27 20:27:53",
+      "Type": "RecoverTime",
+      "User": "System"
+    },
+    {
+      "Data": "2026-01-27 20:27:28(6)",
+      "Position": 439,
+      "Time": "2026-01-27 20:27:53",
+      "Type": "SaveSystemState",
+      "User": "System"
+    },
+    {
+      "Data": "2026-01-27 21:11:20(UTC)",
+      "Position": 440,
+      "Time": "2026-01-27 20:28:10",
+      "Type": "SetTime",
+      "User": "System"
+    },
+    {
+      "Data": "admin,DVRIP-Server:192.168.0.105",
+      "Position": 441,
+      "Time": "2026-01-27 21:18:06",
+      "Type": "LogIn",
+      "User": "admin"
+    },
+    {
+      "Data": "admin,DVRIP-Server:192.168.0.105",
+      "Position": 442,
+      "Time": "2026-01-27 21:18:07",
+      "Type": "LogOut",
+      "User": "admin"
+    },
+    {
+      "Data": "admin,DVRIP-Server:192.168.0.105",
+      "Position": 443,
+      "Time": "2026-01-27 21:42:37",
+      "Type": "LogIn",
+      "User": "admin"
+    },
+    {
+      "Data": "admin,DVRIP-Server:192.168.0.105",
+      "Position": 444,
+      "Time": "2026-01-27 21:42:38",
+      "Type": "LogOut",
+      "User": "admin"
+    },
+    {
+      "Data": "admin,DVRIP-Server:192.168.0.105",
+      "Position": 445,
+      "Time": "2026-01-27 21:42:44",
+      "Type": "LogIn",
+      "User": "admin"
+    },
+    {
+      "Data": "admin,DVRIP-Server:192.168.0.105",
+      "Position": 446,
+      "Time": "2026-01-27 21:42:45",
+      "Type": "LogOut",
+      "User": "admin"
+    },
+    {
+      "Data": "admin,DVRIP-Server:192.168.0.105",
+      "Position": 447,
+      "Time": "2026-01-27 21:42:54",
+      "Type": "LogIn",
+      "User": "admin"
+    },
+    {
+      "Data": "admin,DVRIP-Server:192.168.0.105",
+      "Position": 448,
+      "Time": "2026-01-27 21:42:55",
+      "Type": "LogOut",
+      "User": "admin"
+    },
+    {
+      "Data": "admin,DVRIP-Server:192.168.0.105",
+      "Position": 449,
+      "Time": "2026-01-27 21:43:09",
+      "Type": "LogIn",
+      "User": "admin"
+    },
+    {
+      "Data": "admin,DVRIP-Server:192.168.0.105",
+      "Position": 450,
+      "Time": "2026-01-27 21:43:10",
+      "Type": "LogOut",
+      "User": "admin"
+    },
+    {
+      "Data": "2026-01-27 21:46:20",
+      "Position": 451,
+      "Time": "2026-01-27 21:46:20",
+      "Type": "RecoverTime",
+      "User": "System"
+    },
+    {
+      "Data": "2026-01-27 21:45:55(6)",
+      "Position": 452,
+      "Time": "2026-01-27 21:46:20",
+      "Type": "SaveSystemState",
+      "User": "System"
+    },
+    {
+      "Data": "2026-01-28 08:50:50(UTC)",
+      "Position": 453,
+      "Time": "2026-01-27 21:47:01",
+      "Type": "SetTime",
+      "User": "System"
+    },
+    {
+      "Data": "2026-01-28 09:09:01",
+      "Position": 454,
+      "Time": "2026-01-28 09:09:01",
+      "Type": "RecoverTime",
+      "User": "System"
+    },
+    {
+      "Data": "2026-01-28 09:08:36(0)",
+      "Position": 455,
+      "Time": "2026-01-28 09:09:01",
+      "Type": "SaveSystemState",
+      "User": "System"
+    },
+    {
+      "Data": "2026-01-28 09:10:32(UTC)",
+      "Position": 456,
+      "Time": "2026-01-28 09:09:13",
+      "Type": "SetTime",
+      "User": "System"
+    },
+    {
+      "Data": "2026-01-28 09:21:00",
+      "Position": 457,
+      "Time": "2026-01-28 09:21:00",
+      "Type": "RecoverTime",
+      "User": "System"
+    },
+    {
+      "Data": "2026-01-28 09:20:35(0)",
+      "Position": 458,
+      "Time": "2026-01-28 09:21:00",
+      "Type": "SaveSystemState",
+      "User": "System"
+    },
+    {
+      "Data": "2026-01-28 09:21:26",
+      "Position": 459,
+      "Time": "2026-01-28 09:21:26",
+      "Type": "RecoverTime",
+      "User": "System"
+    },
+    {
+      "Data": "2026-01-28 09:21:01(0)",
+      "Position": 460,
+      "Time": "2026-01-28 09:21:26",
+      "Type": "SaveSystemState",
+      "User": "System"
+    },
+    {
+      "Data": "2026-01-28 09:24:37(UTC)",
+      "Position": 461,
+      "Time": "2026-01-28 09:21:38",
+      "Type": "SetTime",
+      "User": "System"
+    },
+    {
+      "Data": "2026-01-28 09:25:02",
+      "Position": 462,
+      "Time": "2026-01-28 09:25:02",
+      "Type": "RecoverTime",
+      "User": "System"
+    },
+    {
+      "Data": "2026-01-28 09:24:37(0)",
+      "Position": 463,
+      "Time": "2026-01-28 09:25:02",
+      "Type": "SaveSystemState",
+      "User": "System"
+    },
+    {
+      "Data": "2026-01-28 09:27:29(UTC)",
+      "Position": 464,
+      "Time": "2026-01-28 09:25:13",
+      "Type": "SetTime",
+      "User": "System"
+    },
+    {
+      "Data": "2026-01-28 09:31:47",
+      "Position": 465,
+      "Time": "2026-01-28 09:31:47",
+      "Type": "RecoverTime",
+      "User": "System"
+    },
+    {
+      "Data": "2026-01-28 09:31:22(0)",
+      "Position": 466,
+      "Time": "2026-01-28 09:31:47",
+      "Type": "SaveSystemState",
+      "User": "System"
+    },
+    {
+      "Data": "2026-01-28 09:33:21(UTC)",
+      "Position": 467,
+      "Time": "2026-01-28 09:31:59",
+      "Type": "SetTime",
+      "User": "System"
+    },
+    {
+      "Data": "admin,DVRIP-Web:192.168.0.105",
+      "Position": 468,
+      "Time": "2026-01-28 10:26:39",
+      "Type": "LogIn",
+      "User": "admin"
+    },
+    {
+      "Data": "admin,DVRIP-Web:192.168.0.105",
+      "Position": 469,
+      "Time": "2026-01-28 10:26:41",
+      "Type": "LogOut",
+      "User": "admin"
+    },
+    {
+      "Data": "admin,DVRIP-Web:192.168.0.105",
+      "Position": 470,
+      "Time": "2026-01-28 10:26:49",
+      "Type": "LogIn",
+      "User": "admin"
+    },
+    {
+      "Data": "admin,DVRIP-Web:192.168.0.105",
+      "Position": 471,
+      "Time": "2026-01-28 10:26:51",
+      "Type": "LogOut",
+      "User": "admin"
+    },
+    {
+      "Data": "admin,DVRIP-Web:192.168.0.105",
+      "Position": 472,
+      "Time": "2026-01-28 10:36:51",
+      "Type": "LogIn",
+      "User": "admin"
+    },
+    {
+      "Data": "admin,DVRIP-Web:192.168.0.105",
+      "Position": 473,
+      "Time": "2026-01-28 10:37:00",
+      "Type": "LogOut",
+      "User": "admin"
+    },
+    {
+      "Data": "ONVIF:192.168.0.105",
+      "Position": 474,
+      "Time": "2026-01-28 10:46:01",
+      "Type": "Login",
+      "User": "System"
+    },
+    {
+      "Data": "ONVIF:192.168.0.105",
+      "Position": 475,
+      "Time": "2026-01-28 10:46:07",
+      "Type": "Logout",
+      "User": "System"
+    },
+    {
+      "Data": "2026-01-28 11:03:50",
+      "Position": 476,
+      "Time": "2026-01-28 11:03:50",
+      "Type": "RecoverTime",
+      "User": "System"
+    },
+    {
+      "Data": "2026-01-28 11:03:25(6)",
+      "Position": 477,
+      "Time": "2026-01-28 11:03:50",
+      "Type": "SaveSystemState",
+      "User": "System"
+    },
+    {
+      "Data": "2026-01-28 17:25:35(UTC)",
+      "Position": 478,
+      "Time": "2026-01-28 11:04:32",
+      "Type": "SetTime",
+      "User": "System"
+    },
+    {
+      "Data": "admin,DVRIP-Web:192.168.0.105",
+      "Position": 479,
+      "Time": "2026-01-28 17:32:53",
+      "Type": "LogIn",
+      "User": "admin"
+    },
+    {
+      "Data": "admin,DVRIP-Web:192.168.0.105",
+      "Position": 480,
+      "Time": "2026-01-28 17:33:08",
+      "Type": "LogOut",
+      "User": "admin"
+    },
+    {
+      "Data": "admin,DVRIP-Web:192.168.0.105",
+      "Position": 481,
+      "Time": "2026-01-28 17:33:21",
+      "Type": "LogIn",
+      "User": "admin"
+    },
+    {
+      "Data": "OSDInfo",
+      "Position": 482,
+      "Time": "2026-01-28 17:33:21",
+      "Type": "SaveConfig",
+      "User": "System"
+    },
+    {
+      "Data": "admin,DVRIP-Web:192.168.0.105",
+      "Position": 483,
+      "Time": "2026-01-28 17:33:24",
+      "Type": "LogOut",
+      "User": "admin"
+    },
+    {
+      "Data": "admin,DVRIP-Web:192.168.0.105",
+      "Position": 484,
+      "Time": "2026-01-28 17:45:36",
+      "Type": "LogIn",
+      "User": "admin"
+    },
+    {
+      "Data": "admin,DVRIP-Web:192.168.0.105",
+      "Position": 485,
+      "Time": "2026-01-28 17:45:41",
+      "Type": "LogOut",
+      "User": "admin"
+    },
+    {
+      "Data": "admin,DVRIP-Web:192.168.0.105",
+      "Position": 486,
+      "Time": "2026-01-28 17:45:44",
+      "Type": "LogIn",
+      "User": "admin"
+    },
+    {
+      "Data": "admin,DVRIP-Web:192.168.0.105",
+      "Position": 487,
+      "Time": "2026-01-28 17:45:52",
+      "Type": "LogOut",
+      "User": "admin"
+    },
+    {
+      "Data": "2026-01-28 17:54:00",
+      "Position": 488,
+      "Time": "2026-01-28 17:54:00",
+      "Type": "RecoverTime",
+      "User": "System"
+    },
+    {
+      "Data": "2026-01-28 17:53:35(6)",
+      "Position": 489,
+      "Time": "2026-01-28 17:54:00",
+      "Type": "SaveSystemState",
+      "User": "System"
+    },
+    {
+      "Data": "2026-01-28 18:41:17(UTC)",
+      "Position": 490,
+      "Time": "2026-01-28 17:54:17",
+      "Type": "SetTime",
+      "User": "System"
+    },
+    {
+      "Data": "2026-01-28 19:06:01",
+      "Position": 491,
+      "Time": "2026-01-28 19:06:01",
+      "Type": "RecoverTime",
+      "User": "System"
+    },
+    {
+      "Data": "2026-01-28 19:05:36(6)",
+      "Position": 492,
+      "Time": "2026-01-28 19:06:01",
+      "Type": "SaveSystemState",
+      "User": "System"
+    },
+    {
+      "Data": "2026-01-28 19:59:15(UTC)",
+      "Position": 493,
+      "Time": "2026-01-28 19:06:13",
+      "Type": "SetTime",
+      "User": "System"
+    },
+    {
+      "Data": "admin,DVRIP-Web:192.168.0.105",
+      "Position": 494,
+      "Time": "2026-01-28 20:09:01",
+      "Type": "LogIn",
+      "User": "admin"
+    },
+    {
+      "Data": "2026-01-28 20:08:56",
+      "Position": 495,
+      "Time": "2026-01-28 20:09:03",
+      "Type": "SetTime",
+      "User": "System"
+    },
+    {
+      "Data": "TranCommData",
+      "Position": 496,
+      "Time": "2026-01-28 20:10:18",
+      "Type": "SaveConfig",
+      "User": "System"
+    },
+    {
+      "Data": "admin,DVRIP-Web:192.168.0.105",
+      "Position": 497,
+      "Time": "2026-01-28 20:13:53",
+      "Type": "LogOut",
+      "User": "admin"
+    },
+    {
+      "Data": "2026-01-28 20:13:38",
+      "Position": 498,
+      "Time": "2026-01-28 20:13:38",
+      "Type": "RecoverTime",
+      "User": "System"
+    },
+    {
+      "Data": "2026-01-28 20:13:13(6)",
+      "Position": 499,
+      "Time": "2026-01-28 20:13:38",
+      "Type": "SaveSystemState",
+      "User": "System"
+    },
+    {
+      "Data": "2026-01-28 21:55:39(UTC)",
+      "Position": 500,
+      "Time": "2026-01-28 20:13:50",
+      "Type": "SetTime",
+      "User": "System"
+    },
+    {
+      "Data": "admin,DVRIP-Web:192.168.0.105",
+      "Position": 501,
+      "Time": "2026-01-28 22:04:58",
+      "Type": "LogIn",
+      "User": "admin"
+    },
+    {
+      "Data": "2026-01-28 22:04:55",
+      "Position": 502,
+      "Time": "2026-01-28 22:05:00",
+      "Type": "SetTime",
+      "User": "System"
+    },
+    {
+      "Data": "admin,DVRIP-Web:192.168.0.105",
+      "Position": 503,
+      "Time": "2026-01-28 22:05:35",
+      "Type": "LogOut",
+      "User": "admin"
+    },
+    {
+      "Data": "admin,DVRIP-Web:192.168.0.105",
+      "Position": 504,
+      "Time": "2026-01-28 22:06:08",
+      "Type": "LogIn",
+      "User": "admin"
+    },
+    {
+      "Data": "NetFTP",
+      "Position": 505,
+      "Time": "2026-01-28 22:08:56",
+      "Type": "SaveConfig",
+      "User": "System"
+    },
+    {
+      "Data": "NetFTP",
+      "Position": 506,
+      "Time": "2026-01-28 22:10:19",
+      "Type": "SaveConfig",
+      "User": "System"
+    },
+    {
+      "Data": "TranCommData",
+      "Position": 507,
+      "Time": "2026-01-28 22:10:20",
+      "Type": "SaveConfig",
+      "User": "System"
+    },
+    {
+      "Data": "NetFTP",
+      "Position": 508,
+      "Time": "2026-01-28 22:10:45",
+      "Type": "SaveConfig",
+      "User": "System"
+    },
+    {
+      "Data": "NetFTP",
+      "Position": 509,
+      "Time": "2026-01-28 22:11:14",
+      "Type": "SaveConfig",
+      "User": "System"
+    },
+    {
+      "Data": "admin,DVRIP-Web:192.168.0.105",
+      "Position": 510,
+      "Time": "2026-01-28 22:12:48",
+      "Type": "LogOut",
+      "User": "admin"
+    },
+    {
+      "Data": "2026-01-28 22:14:12",
+      "Position": 511,
+      "Time": "2026-01-28 22:14:12",
+      "Type": "RecoverTime",
+      "User": "System"
+    },
+    {
+      "Data": "2026-01-28 22:13:47(6)",
+      "Position": 512,
+      "Time": "2026-01-28 22:14:12",
+      "Type": "SaveSystemState",
+      "User": "System"
+    },
+    {
+      "Data": "2026-01-29 19:09:15(UTC)",
+      "Position": 513,
+      "Time": "2026-01-28 22:14:29",
+      "Type": "SetTime",
+      "User": "System"
+    },
+    {
+      "Data": "admin,DVRIP-Web:192.168.0.105",
+      "Position": 514,
+      "Time": "2026-01-29 19:10:50",
+      "Type": "LogIn",
+      "User": "admin"
+    },
+    {
+      "Data": "admin,DVRIP-Web:192.168.0.105",
+      "Position": 515,
+      "Time": "2026-01-29 19:10:56",
+      "Type": "LogOut",
+      "User": "admin"
+    },
+    {
+      "Data": "admin,DVRIP-Web:192.168.0.105",
+      "Position": 516,
+      "Time": "2026-01-29 19:40:37",
+      "Type": "LogIn",
+      "User": "admin"
+    },
+    {
+      "Data": "2026-01-29 19:40:33",
+      "Position": 517,
+      "Time": "2026-01-29 19:40:39",
+      "Type": "SetTime",
+      "User": "System"
+    },
+    {
+      "Data": "get_timeout(state:0)",
+      "Position": 518,
+      "Time": "2026-01-29 19:42:08",
+      "Type": "ZeroBitrate",
+      "User": "System"
+    },
+    {
+      "Data": "get_timeout(state:0)",
+      "Position": 519,
+      "Time": "2026-01-29 19:42:28",
+      "Type": "ZeroBitrate",
+      "User": "System"
+    },
+    {
+      "Data": "admin,DVRIP-Web:192.168.0.105",
+      "Position": 520,
+      "Time": "2026-01-29 19:43:58",
+      "Type": "LogIn",
+      "User": "admin"
+    },
+    {
+      "Data": "admin,DVRIP-Web:192.168.0.105",
+      "Position": 521,
+      "Time": "2026-01-29 19:44:52",
+      "Type": "LogIn",
+      "User": "admin"
+    },
+    {
+      "Data": "admin,DVRIP-Web:192.168.0.105",
+      "Position": 522,
+      "Time": "2026-01-29 19:44:57",
+      "Type": "LogOut",
+      "User": "admin"
+    },
+    {
+      "Data": "admin,DVRIP-Web:192.168.0.105",
+      "Position": 523,
+      "Time": "2026-01-29 19:44:57",
+      "Type": "LogOut",
+      "User": "admin"
+    },
+    {
+      "Data": "Manual(netip)",
+      "Position": 524,
+      "Time": "2026-01-29 19:48:10",
+      "Type": "RestoreConfig",
+      "User": "System"
+    },
+    {
+      "Data": "MotionDetect",
+      "Position": 525,
+      "Time": "2026-01-29 19:48:10",
+      "Type": "SaveConfig",
+      "User": "System"
+    },
+    {
+      "Data": "Comm",
+      "Position": 526,
+      "Time": "2026-01-29 19:48:10",
+      "Type": "SaveConfig",
+      "User": "System"
+    },
+    {
+      "Data": "Encode",
+      "Position": 527,
+      "Time": "2026-01-29 19:48:10",
+      "Type": "SaveConfig",
+      "User": "System"
+    },
+    {
+      "Data": "Location",
+      "Position": 528,
+      "Time": "2026-01-29 19:48:10",
+      "Type": "SaveConfig",
+      "User": "System"
+    },
+    {
+      "Data": "TimeZone",
+      "Position": 529,
+      "Time": "2026-01-30 01:48:10",
+      "Type": "SaveConfig",
+      "User": "System"
+    },
+    {
+      "Data": "AppBindFlag",
+      "Position": 530,
+      "Time": "2026-01-30 01:48:10",
+      "Type": "SaveConfig",
+      "User": "System"
+    },
+    {
+      "Data": "NetFTP",
+      "Position": 531,
+      "Time": "2026-01-30 01:48:10",
+      "Type": "SaveConfig",
+      "User": "System"
+    },
+    {
+      "Data": "Record",
+      "Position": 532,
+      "Time": "2026-01-30 01:48:10",
+      "Type": "SaveConfig",
+      "User": "System"
+    },
+    {
+      "Data": "eth0:192.168.1.10 255.255.255.0 192.168.1.1",
+      "Position": 533,
+      "Time": "2026-01-30 01:48:10",
+      "Type": "SaveConfig",
+      "User": "System"
+    },
+    {
+      "Data": "NetCommon",
+      "Position": 534,
+      "Time": "2026-01-30 01:48:10",
+      "Type": "SaveConfig",
+      "User": "System"
+    },
+    {
+      "Data": "NetDNS",
+      "Position": 535,
+      "Time": "2026-01-30 01:48:11",
+      "Type": "SaveConfig",
+      "User": "System"
+    },
+    {
+      "Data": "ExUserMap",
+      "Position": 536,
+      "Time": "2026-01-30 01:48:11",
+      "Type": "SaveConfig",
+      "User": "System"
+    },
+    {
+      "Data": "Manual",
+      "Position": 537,
+      "Time": "2026-01-30 01:48:11",
+      "Type": "AccountRestore",
+      "User": "System"
+    },
+    {
+      "Data": "OSDInfo",
+      "Position": 538,
+      "Time": "2026-01-30 01:48:11",
+      "Type": "SaveConfig",
+      "User": "System"
+    },
+    {
+      "Data": "VideoWidget",
+      "Position": 539,
+      "Time": "2026-01-30 01:48:11",
+      "Type": "SaveConfig",
+      "User": "System"
+    },
+    {
+      "Data": "2026- 1-30 01:48:13(8)",
+      "Position": 540,
+      "Time": "2026-01-30 01:48:13",
+      "Type": "ShutDown",
+      "User": "System"
+    }
+  ],
+  "Ret": 100,
+  "SessionID": "0x0000000b"
+}

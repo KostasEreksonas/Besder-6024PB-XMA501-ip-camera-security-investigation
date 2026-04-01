@@ -1,0 +1,12 @@
+1040
+{
+  "Name": "NetWork.Upnp",
+  "NetWork.Upnp": {
+    "Enable": true,
+    "HTTPPort": 80,
+    "MediaPort": 34567,
+    "MobilePort": 0,
+    "State": true
+  },
+  "SessionID": "0xb"
+}

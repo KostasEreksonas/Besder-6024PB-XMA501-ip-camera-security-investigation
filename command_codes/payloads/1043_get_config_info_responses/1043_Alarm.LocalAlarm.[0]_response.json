@@ -1,0 +1,359 @@
+1043
+{
+  "Alarm.LocalAlarm.[0]": {
+    "Enable": false,
+    "EventHandler": {
+      "AlarmInfo": "",
+      "AlarmOutEnable": false,
+      "AlarmOutLatch": 10,
+      "AlarmOutMask": "0x00000000000000000000000B0000000A",
+      "BeepEnable": false,
+      "Dejitter": 0,
+      "EventLatch": 2,
+      "FTPEnable": false,
+      "LogEnable": false,
+      "MMSEnable": false,
+      "MailEnable": false,
+      "MatrixEnable": false,
+      "MatrixMask": "0x00000000000000000000000000000000",
+      "MessageEnable": false,
+      "MsgtoNetEnable": false,
+      "MultimediaMsgEnable": false,
+      "PtzEnable": true,
+      "PtzLink": [
+        [
+          "None",
+          0
+        ],
+        [
+          "None",
+          0
+        ],
+        [
+          "None",
+          0
+        ],
+        [
+          "None",
+          0
+        ],
+        [
+          "None",
+          0
+        ],
+        [
+          "None",
+          0
+        ],
+        [
+          "None",
+          0
+        ],
+        [
+          "None",
+          0
+        ],
+        [
+          "None",
+          0
+        ],
+        [
+          "None",
+          0
+        ],
+        [
+          "None",
+          0
+        ],
+        [
+          "None",
+          0
+        ],
+        [
+          "None",
+          0
+        ],
+        [
+          "None",
+          0
+        ],
+        [
+          "None",
+          0
+        ],
+        [
+          "None",
+          0
+        ],
+        [
+          "Pattern",
+          0
+        ],
+        [
+          "Pattern",
+          0
+        ],
+        [
+          "Pattern",
+          0
+        ],
+        [
+          "Pattern",
+          0
+        ],
+        [
+          "Pattern",
+          0
+        ],
+        [
+          "Pattern",
+          0
+        ],
+        [
+          "Pattern",
+          0
+        ],
+        [
+          "Pattern",
+          0
+        ],
+        [
+          "Pattern",
+          0
+        ],
+        [
+          "Pattern",
+          0
+        ],
+        [
+          "Pattern",
+          0
+        ],
+        [
+          "Pattern",
+          0
+        ],
+        [
+          "Pattern",
+          0
+        ],
+        [
+          "Pattern",
+          0
+        ],
+        [
+          "Pattern",
+          0
+        ],
+        [
+          "Pattern",
+          0
+        ],
+        [
+          "Pattern",
+          0
+        ],
+        [
+          "Pattern",
+          0
+        ],
+        [
+          "Pattern",
+          0
+        ],
+        [
+          "Pattern",
+          0
+        ],
+        [
+          "Pattern",
+          0
+        ],
+        [
+          "Pattern",
+          0
+        ],
+        [
+          "Pattern",
+          0
+        ],
+        [
+          "Pattern",
+          0
+        ],
+        [
+          "Pattern",
+          0
+        ],
+        [
+          "Pattern",
+          0
+        ],
+        [
+          "Pattern",
+          0
+        ],
+        [
+          "Pattern",
+          0
+        ],
+        [
+          "Pattern",
+          0
+        ],
+        [
+          "Pattern",
+          0
+        ],
+        [
+          "Pattern",
+          0
+        ],
+        [
+          "Pattern",
+          0
+        ],
+        [
+          "Pattern",
+          0
+        ],
+        [
+          "Pattern",
+          0
+        ],
+        [
+          "Pattern",
+          0
+        ],
+        [
+          "Pattern",
+          0
+        ],
+        [
+          "Pattern",
+          0
+        ],
+        [
+          "Pattern",
+          0
+        ],
+        [
+          "Pattern",
+          0
+        ],
+        [
+          "Pattern",
+          0
+        ],
+        [
+          "Pattern",
+          0
+        ],
+        [
+          "Pattern",
+          0
+        ],
+        [
+          "Pattern",
+          0
+        ],
+        [
+          "Pattern",
+          0
+        ],
+        [
+          "Pattern",
+          0
+        ],
+        [
+          "Pattern",
+          0
+        ],
+        [
+          "Pattern",
+          0
+        ],
+        [
+          "Pattern",
+          0
+        ]
+      ],
+      "RecordEnable": false,
+      "RecordLatch": 10,
+      "RecordMask": "0x0000000000000000000000000000000A",
+      "ShortMsgEnable": false,
+      "ShowInfo": false,
+      "ShowInfoMask": "0x0000000000000000000000000000000C",
+      "SnapEnable": false,
+      "SnapShotMask": "0x00000000000000000000000000000000",
+      "TimeSection": [
+        [
+          "1 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00"
+        ],
+        [
+          "1 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00"
+        ],
+        [
+          "1 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00"
+        ],
+        [
+          "1 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00"
+        ],
+        [
+          "1 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00"
+        ],
+        [
+          "1 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00"
+        ],
+        [
+          "1 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00",
+          "0 00:00:00-24:00:00"
+        ]
+      ],
+      "TipEnable": true,
+      "TourEnable": false,
+      "TourMask": "0x00000000000000000000000000000000",
+      "VoiceEnable": false,
+      "VoiceTipInterval": 0,
+      "VoiceType": 520
+    },
+    "SensorType": "NO"
+  },
+  "Name": "Alarm.LocalAlarm.[0]",
+  "Ret": 100,
+  "SessionID": "0x0000000b"
+}

@@ -1,0 +1,25 @@
+1040
+{
+  "Name": "NetWork.RTSP",
+  "NetWork.RTSP": {
+    "Client": {
+      "Address": "0x00000000",
+      "Anonymity": false,
+      "Name": "",
+      "Password": "",
+      "Port": 554,
+      "UserName": ""
+    },
+    "IsClient": false,
+    "IsServer": true,
+    "Server": {
+      "Address": "0x00000000",
+      "Anonymity": false,
+      "Name": "",
+      "Password": "",
+      "Port": 554,
+      "UserName": ""
+    }
+  },
+  "SessionID": "0xb"
+}

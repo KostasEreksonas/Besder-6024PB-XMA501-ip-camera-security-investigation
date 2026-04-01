@@ -1,0 +1,9 @@
+1040
+{
+  "Name": "System.TimeZone",
+  "SessionID": "0xb",
+  "System.TimeZone": {
+    "FirstUserTimeZone": 0,
+    "timeMin": -120
+  }
+}

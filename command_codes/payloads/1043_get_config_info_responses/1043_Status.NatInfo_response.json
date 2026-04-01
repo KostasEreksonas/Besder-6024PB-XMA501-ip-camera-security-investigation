@@ -1,0 +1,10 @@
+1043
+{
+  "Name": "Status.NatInfo",
+  "Ret": 100,
+  "SessionID": "0x0000000b",
+  "Status.NatInfo": {
+    "NaInfoCode": "0:\\/0\\/0\\/+111",
+    "NatStatus": "Probing"
+  }
+}

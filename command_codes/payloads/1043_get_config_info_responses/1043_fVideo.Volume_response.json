@@ -1,0 +1,13 @@
+1043
+{
+  "Name": "fVideo.Volume",
+  "Ret": 100,
+  "SessionID": "0x00000002",
+  "fVideo.Volume": [
+    {
+      "AudioMode": "Single",
+      "LeftVolume": 100,
+      "RightVolume": 100
+    }
+  ]
+}

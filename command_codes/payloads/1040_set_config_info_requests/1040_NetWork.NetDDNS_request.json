@@ -1,0 +1,77 @@
+1040
+{
+  "Name": "NetWork.NetDDNS",
+  "NetWork.NetDDNS": [
+    {
+      "DDNSKey": "CN99",
+      "Enable": false,
+      "HostName": "your.3322.org",
+      "Online": false,
+      "Server": {
+        "Address": "0x0100060A",
+        "Anonymity": false,
+        "Name": "members.3322.org",
+        "Password": "",
+        "Port": 80,
+        "UserName": ""
+      }
+    },
+    {
+      "DDNSKey": "DynDns",
+      "Enable": false,
+      "HostName": "your.dyndns.org",
+      "Online": false,
+      "Server": {
+        "Address": "0x0100060A",
+        "Anonymity": false,
+        "Name": "members.dyndns.org",
+        "Password": "",
+        "Port": 80,
+        "UserName": ""
+      }
+    },
+    {
+      "DDNSKey": "Oray",
+      "Enable": false,
+      "HostName": "your.gicp.net",
+      "Online": false,
+      "Server": {
+        "Address": "0x0100060A",
+        "Anonymity": false,
+        "Name": "hphwebservice.oray.net",
+        "Password": "",
+        "Port": 80,
+        "UserName": ""
+      }
+    },
+    {
+      "DDNSKey": "NO-IP",
+      "Enable": false,
+      "HostName": "your.no-ip.com",
+      "Online": false,
+      "Server": {
+        "Address": "0x0100060A",
+        "Anonymity": false,
+        "Name": "dynupdate.no-ip.com",
+        "Password": "",
+        "Port": 80,
+        "UserName": ""
+      }
+    },
+    {
+      "DDNSKey": "MYQ-SEE",
+      "Enable": false,
+      "HostName": "your.myq-see.com",
+      "Online": false,
+      "Server": {
+        "Address": "0x0100060A",
+        "Anonymity": false,
+        "Name": "myq-see.com",
+        "Password": "",
+        "Port": 80,
+        "UserName": ""
+      }
+    }
+  ],
+  "SessionID": "0xb"
+}

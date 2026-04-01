@@ -1,0 +1,19 @@
+1040
+{
+  "Name": "System.ExUserMap",
+  "SessionID": "0xb",
+  "System.ExUserMap": {
+    "User": [
+      {
+        "AuthorityList": null,
+        "Group": "",
+        "Memo": "",
+        "Name": "admin",
+        "Password": "0001SM5Rd2VydFkuNg==",
+        "Reserved": false,
+        "Sharable": false
+      }
+    ],
+    "UserNum": 1
+  }
+}

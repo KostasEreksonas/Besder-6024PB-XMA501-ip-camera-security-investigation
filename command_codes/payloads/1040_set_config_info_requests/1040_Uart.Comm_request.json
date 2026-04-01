@@ -1,0 +1,27 @@
+1040
+{
+  "Name": "Uart.Comm",
+  "SessionID": "0xb",
+  "Uart.Comm": [
+    {
+      "Attribute": [
+        115200,
+        "None",
+        8,
+        1
+      ],
+      "PortNo": 1,
+      "ProtocolName": "NONE"
+    },
+    {
+      "Attribute": [
+        115200,
+        "None",
+        8,
+        1
+      ],
+      "PortNo": 1,
+      "ProtocolName": "NONE"
+    }
+  ]
+}

@@ -1,0 +1,193 @@
+1043
+{
+  "AVEnc.Encode": [
+    {
+      "EncodeStaticParam": [
+        {
+          "Level": 41,
+          "Profile": 2
+        }
+      ],
+      "ExtraFormat": [
+        {
+          "Audio": {
+            "BitRate": 10,
+            "MaxVolume": 10,
+            "SampleRate": 10
+          },
+          "AudioEnable": true,
+          "Video": {
+            "BitRate": 1024,
+            "BitRateControl": "VBR",
+            "Compression": "H.264",
+            "FPS": 12,
+            "GOP": 1,
+            "Quality": 3,
+            "Resolution": "D1",
+            "VirtualGOP": 1
+          },
+          "VideoEnable": true
+        },
+        {
+          "Audio": {
+            "BitRate": 10,
+            "MaxVolume": 10,
+            "SampleRate": 10
+          },
+          "AudioEnable": false,
+          "Video": {
+            "BitRate": 1024,
+            "BitRateControl": "CBR",
+            "Compression": "H.264",
+            "FPS": 25,
+            "GOP": 2,
+            "Quality": 3,
+            "Resolution": "WSVGA",
+            "VirtualGOP": 1
+          },
+          "VideoEnable": true
+        },
+        {
+          "Audio": {
+            "BitRate": 10,
+            "MaxVolume": 10,
+            "SampleRate": 10
+          },
+          "AudioEnable": false,
+          "Video": {
+            "BitRate": 1024,
+            "BitRateControl": "CBR",
+            "Compression": "H.264",
+            "FPS": 25,
+            "GOP": 2,
+            "Quality": 3,
+            "Resolution": "WSVGA",
+            "VirtualGOP": 1
+          },
+          "VideoEnable": true
+        }
+      ],
+      "MainFormat": [
+        {
+          "Audio": {
+            "BitRate": 10,
+            "MaxVolume": 10,
+            "SampleRate": 10
+          },
+          "AudioEnable": true,
+          "Video": {
+            "BitRate": 2560,
+            "BitRateControl": "VBR",
+            "Compression": "H.264",
+            "FPS": 12,
+            "GOP": 1,
+            "Quality": 3,
+            "Resolution": "5M",
+            "VirtualGOP": 5
+          },
+          "VideoEnable": true
+        },
+        {
+          "Audio": {
+            "BitRate": 10,
+            "MaxVolume": 10,
+            "SampleRate": 10
+          },
+          "AudioEnable": true,
+          "Video": {
+            "BitRate": 2560,
+            "BitRateControl": "VBR",
+            "Compression": "H.264",
+            "FPS": 12,
+            "GOP": 1,
+            "Quality": 3,
+            "Resolution": "5M",
+            "VirtualGOP": 5
+          },
+          "VideoEnable": false
+        },
+        {
+          "Audio": {
+            "BitRate": 10,
+            "MaxVolume": 10,
+            "SampleRate": 10
+          },
+          "AudioEnable": true,
+          "Video": {
+            "BitRate": 2560,
+            "BitRateControl": "VBR",
+            "Compression": "H.264",
+            "FPS": 12,
+            "GOP": 1,
+            "Quality": 3,
+            "Resolution": "5M",
+            "VirtualGOP": 5
+          },
+          "VideoEnable": false
+        }
+      ],
+      "SnapFormat": [
+        {
+          "Audio": {
+            "BitRate": 512,
+            "MaxVolume": 10,
+            "SampleRate": 10
+          },
+          "AudioEnable": false,
+          "Video": {
+            "BitRate": 512,
+            "BitRateControl": "VBR",
+            "Compression": "H.264",
+            "FPS": -3600,
+            "GOP": 2,
+            "Quality": 4,
+            "Resolution": "D1",
+            "VirtualGOP": 1
+          },
+          "VideoEnable": true
+        },
+        {
+          "Audio": {
+            "BitRate": 512,
+            "MaxVolume": 10,
+            "SampleRate": 10
+          },
+          "AudioEnable": false,
+          "Video": {
+            "BitRate": 512,
+            "BitRateControl": "VBR",
+            "Compression": "H.264",
+            "FPS": 1,
+            "GOP": 2,
+            "Quality": 4,
+            "Resolution": "D1",
+            "VirtualGOP": 1
+          },
+          "VideoEnable": false
+        },
+        {
+          "Audio": {
+            "BitRate": 512,
+            "MaxVolume": 10,
+            "SampleRate": 10
+          },
+          "AudioEnable": false,
+          "Video": {
+            "BitRate": 512,
+            "BitRateControl": "VBR",
+            "Compression": "H.264",
+            "FPS": 1,
+            "GOP": 2,
+            "Quality": 4,
+            "Resolution": "D1",
+            "VirtualGOP": 1
+          },
+          "VideoEnable": false
+        }
+      ]
+    }
+  ],
+  "Name": "AVEnc.Encode",
+  "Ret": 100,
+  "SessionID": "0x0000000b"
+}

@@ -1,0 +1,77 @@
+1040
+{
+  "Name": "NetWork.AlarmServer",
+  "NetWork.AlarmServer": [
+    {
+      "Alarm": true,
+      "Enable": false,
+      "Log": false,
+      "Protocol": "GENERAL",
+      "Server": {
+        "Address": "0x00000000",
+        "Anonymity": false,
+        "Name": "AlarmServer",
+        "Password": "",
+        "Port": 15002,
+        "UserName": ""
+      }
+    },
+    {
+      "Alarm": true,
+      "Enable": false,
+      "Log": false,
+      "Protocol": "NONE",
+      "Server": {
+        "Address": "0x00000000",
+        "Anonymity": false,
+        "Name": "AlarmServer",
+        "Password": "",
+        "Port": 15002,
+        "UserName": ""
+      }
+    },
+    {
+      "Alarm": true,
+      "Enable": false,
+      "Log": false,
+      "Protocol": "NONE",
+      "Server": {
+        "Address": "0x00000000",
+        "Anonymity": false,
+        "Name": "AlarmServer",
+        "Password": "",
+        "Port": 15002,
+        "UserName": ""
+      }
+    },
+    {
+      "Alarm": true,
+      "Enable": false,
+      "Log": false,
+      "Protocol": "NONE",
+      "Server": {
+        "Address": "0x00000000",
+        "Anonymity": false,
+        "Name": "AlarmServer",
+        "Password": "",
+        "Port": 15002,
+        "UserName": ""
+      }
+    },
+    {
+      "Alarm": true,
+      "Enable": false,
+      "Log": false,
+      "Protocol": "NONE",
+      "Server": {
+        "Address": "0x00000000",
+        "Anonymity": false,
+        "Name": "AlarmServer",
+        "Password": "",
+        "Port": 15002,
+        "UserName": ""
+      }
+    }
+  ],
+  "SessionID": "0xb"
+}

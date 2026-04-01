@@ -1,0 +1,22 @@
+1043
+{
+  "Camera.ParamEx.[0]": {
+    "AeMeansure": 0,
+    "AutomaticAdjustment": 3,
+    "BroadTrends": {
+      "AutoGain": 0,
+      "Gain": 50
+    },
+    "CorridorMode": 0,
+    "Dis": 0,
+    "ExposureTime": "0x00000100",
+    "Ldc": 0,
+    "LowLuxMode": 1,
+    "PreventOverExpo": 0,
+    "SoftPhotosensitivecontrol": 0,
+    "Style": "type1"
+  },
+  "Name": "Camera.ParamEx.[0]",
+  "Ret": 100,
+  "SessionID": "0x0000000b"
+}

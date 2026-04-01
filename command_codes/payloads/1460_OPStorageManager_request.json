@@ -1,0 +1,11 @@
+1460
+{
+  "Name": "OPStorageManager",
+  "OPStorageManager": {
+    "Action": "SetType",
+    "PartNo": 0,
+    "SerialNo": 0,
+    "Type": "ReadWrite"
+  },
+  "SessionID": "0xb"
+}

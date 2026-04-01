@@ -1,0 +1,43 @@
+1040
+{
+  "Name": "Simplify.Encode.[0]",
+  "SessionID": "0xb",
+  "Simplify.Encode.[0]": {
+    "ExtraFormat": {
+      "Audio": {
+        "BitRate": 0,
+        "MaxVolume": 0,
+        "SampleRate": 0
+      },
+      "AudioEnable": true,
+      "Video": {
+        "BitRate": 632,
+        "BitRateControl": "VBR",
+        "Compression": "H.264",
+        "FPS": 12,
+        "GOP": 2,
+        "Quality": 3,
+        "Resolution": "D1"
+      },
+      "VideoEnable": true
+    },
+    "MainFormat": {
+      "Audio": {
+        "BitRate": 0,
+        "MaxVolume": 0,
+        "SampleRate": 0
+      },
+      "AudioEnable": true,
+      "Video": {
+        "BitRate": 2529,
+        "BitRateControl": "VBR",
+        "Compression": "H.264",
+        "FPS": 12,
+        "GOP": 2,
+        "Quality": 3,
+        "Resolution": "5M"
+      },
+      "VideoEnable": true
+    }
+  }
+}

@@ -1,0 +1,12 @@
+1043
+{
+  "Alarm.AlarmOut": [
+    {
+      "AlarmOutStatus": "OPEN",
+      "AlarmOutType": "AUTO"
+    }
+  ],
+  "Name": "Alarm.AlarmOut",
+  "Ret": 100,
+  "SessionID": "0x0000000b"
+}

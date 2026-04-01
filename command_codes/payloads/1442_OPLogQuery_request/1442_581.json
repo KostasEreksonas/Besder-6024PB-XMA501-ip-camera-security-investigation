@@ -1,0 +1,11 @@
+1442
+{
+  "Name": "OPLogQuery",
+  "OPLogQuery": {
+    "BeginTime": "2000-00-00 00:00:00",
+    "EndTime": "2126-04-01 13:51:42",
+    "LogPosition": 0,
+    "Type": "LogAll"
+  },
+  "SessionID": "0xb"
+}

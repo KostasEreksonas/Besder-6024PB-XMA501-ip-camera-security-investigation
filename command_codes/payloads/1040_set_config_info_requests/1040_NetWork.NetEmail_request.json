@@ -1,0 +1,30 @@
+1040
+{
+  "Name": "NetWork.NetEmail",
+  "NetWork.NetEmail": {
+    "Enable": false,
+    "MailServer": {
+      "Address": "0x00000000",
+      "Anonymity": false,
+      "Name": "Your SMTP Server",
+      "Password": "",
+      "Port": 25,
+      "UserName": ""
+    },
+    "Recievers": [
+      "none",
+      "none",
+      "none",
+      "none",
+      "none"
+    ],
+    "Schedule": [
+      "0 00:00:00-24:00:00",
+      "0 00:00:00-24:00:00"
+    ],
+    "SendAddr": "",
+    "Title": "Alarm Message",
+    "UseSSL": 0
+  },
+  "SessionID": "0xb"
+}

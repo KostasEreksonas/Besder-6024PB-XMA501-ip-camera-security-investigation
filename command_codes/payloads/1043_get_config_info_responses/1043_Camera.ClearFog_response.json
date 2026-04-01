@@ -1,0 +1,12 @@
+1043
+{
+  "Camera.ClearFog": [
+    {
+      "enable": false,
+      "level": 50
+    }
+  ],
+  "Name": "Camera.ClearFog",
+  "Ret": 100,
+  "SessionID": "0x0000000b"
+}

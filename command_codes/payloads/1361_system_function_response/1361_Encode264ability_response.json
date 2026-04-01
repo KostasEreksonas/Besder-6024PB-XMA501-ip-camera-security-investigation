@@ -1,0 +1,16 @@
+1361
+{
+  "Encode264ability": {
+    "uIntel264": [
+      "0x00000001",
+      "0x00000001"
+    ],
+    "uIntel264Plus": [
+      "0x00000001",
+      "0x00000001"
+    ]
+  },
+  "Name": "Encode264ability",
+  "Ret": 100,
+  "SessionID": "0x0000000b"
+}
