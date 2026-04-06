@@ -43,46 +43,46 @@ local tcp_dissect_pdus = Dissector.get("tcp_dissect_pdus")
 XM_proto = Proto("dvrip", "Xiongmai DVRIP Protocol")
 
 -- DVRIP/Sofia packet header fields
-DVRIP_header = ProtoField.uint8("dvrip.header", "Header", base.HEX_DEC)
-DVRIP_req_resp = ProtoField.uint8("dvrip.req_resp", "Request/response", base.HEX_DEC)
-DVRIP_header_unknown = ProtoField.uint8("dvrip.header_unknown", "Unknown", base.HEX_DEC)
-DVRIP_session_id = ProtoField.uint32("dvrip.session_id", "Session ID", base.HEX_DEC)
-DVRIP_sequence_id = ProtoField.uint32("dvrip.sequence_id", "Sequence ID", base.HEX_DEC)
-DVRIP_unknown = ProtoField.uint16("dvrip.unknown", "Unknown", base.HEX_DEC)
-DVRIP_command_code = ProtoField.uint16("dvrip.command_code", "Command Code", base.HEX_DEC)
-DVRIP_payload_length = ProtoField.uint32("dvrip.payload_length", "Payload Length", base.HEX_DEC)
+DVRIP_header = ProtoField.uint8("dvrip.header", "Header", base.DEC_HEX)
+DVRIP_req_resp = ProtoField.uint8("dvrip.req_resp", "Request/response", base.DEC_HEX)
+DVRIP_header_unknown = ProtoField.uint8("dvrip.header_unknown", "Unknown", base.DEC_HEX)
+DVRIP_session_id = ProtoField.uint32("dvrip.session_id", "Session ID", base.DEC_HEX)
+DVRIP_sequence_id = ProtoField.uint32("dvrip.sequence_id", "Sequence ID", base.DEC_HEX)
+DVRIP_unknown = ProtoField.uint16("dvrip.unknown", "Unknown", base.DEC_HEX)
+DVRIP_command_code = ProtoField.uint16("dvrip.command_code", "Command Code", base.DEC_HEX)
+DVRIP_payload_length = ProtoField.uint32("dvrip.payload_length", "Payload Length", base.DEC_HEX)
 
 -- DVRIP/Sofia JSON payload fields
 DVRIP_payload_JSON_RAW = ProtoField.string("dvrip.data", "Raw JSON Message")
-DVRIP_newline = ProtoField.uint16("dvrip.newline", "Newline", base.HEX_DEC)
+DVRIP_newline = ProtoField.uint16("dvrip.newline", "Newline", base.DEC_HEX)
 
 -- I-Frame fields
-DVRIP_iframe_signature = ProtoField.uint32("dvrip.iframe_signature", "I-Frame signature", base.HEX_DEC)
-DVRIP_iframe_unknown_1 = ProtoField.uint32("dvrip.iframe_unknown_1", "Unknown 1", base.HEX_DEC)
-DVRIP_iframe_unknown_2 = ProtoField.uint32("dvrip.iframe_unknown_2", "Unknown 2", base.HEX_DEC)
-DVRIP_iframe_payload_size = ProtoField.uint32("dvrip.iframe_payload_size", "Payload size", base.HEX_DEC)
-DVRIP_iframe_unknown_3 = ProtoField.uint32("dvrip.iframe_unknown_3", "Unknown 3", base.HEX_DEC)
+DVRIP_iframe_signature = ProtoField.uint32("dvrip.iframe_signature", "I-Frame signature", base.DEC_HEX)
+DVRIP_iframe_unknown_1 = ProtoField.uint32("dvrip.iframe_unknown_1", "Unknown 1", base.DEC_HEX)
+DVRIP_iframe_unknown_2 = ProtoField.uint32("dvrip.iframe_unknown_2", "Unknown 2", base.DEC_HEX)
+DVRIP_iframe_payload_size = ProtoField.uint32("dvrip.iframe_payload_size", "Payload size", base.DEC_HEX)
+DVRIP_iframe_unknown_3 = ProtoField.uint32("dvrip.iframe_unknown_3", "Unknown 3", base.DEC_HEX)
 
 -- P-Frame fields
-DVRIP_pframe_signature = ProtoField.uint16("dvrip.pframe_signature", "P-Frame signature", base.HEX_DEC)
-DVRIP_pframe_payload_length = ProtoField.uint16("dvrip.pframe_payload_length", "P-frame payload length", base.HEX_DEC)
-DVRIP_pframe_unknown_1 = ProtoField.uint16("dvrip.pframe_unknown_1", "Unknown 1", base.HEX_DEC)
-DVRIP_pframe_unknown_2 = ProtoField.uint32("dvrip.pframe_unknown_2", "Unknown 2", base.HEX_DEC)
+DVRIP_pframe_signature = ProtoField.uint16("dvrip.pframe_signature", "P-Frame signature", base.DEC_HEX)
+DVRIP_pframe_payload_length = ProtoField.uint16("dvrip.pframe_payload_length", "P-frame payload length", base.DEC_HEX)
+DVRIP_pframe_unknown_1 = ProtoField.uint16("dvrip.pframe_unknown_1", "Unknown 1", base.DEC_HEX)
+DVRIP_pframe_unknown_2 = ProtoField.uint32("dvrip.pframe_unknown_2", "Unknown 2", base.DEC_HEX)
 
 -- A-Frame (Audio) packet fields
-DVRIP_audio_signature = ProtoField.uint32("dvrip.audio_signature", "Audio signature", base.HEX_DEC)
-DVRIP_audio_unknown = ProtoField.uint16("dvrip.audio_unknown", "Audio unknown", base.HEX_DEC)
-DVRIP_audio_payload_length = ProtoField.uint16("dvrip.audio_payload_length", "Audio payload length", base.HEX_DEC)
+DVRIP_audio_signature = ProtoField.uint32("dvrip.audio_signature", "Audio signature", base.DEC_HEX)
+DVRIP_audio_unknown = ProtoField.uint16("dvrip.audio_unknown", "Audio unknown", base.DEC_HEX)
+DVRIP_audio_payload_length = ProtoField.uint16("dvrip.audio_payload_length", "Audio payload length", base.DEC_HEX)
 
 -- E-Frame (Encoding) packet fields
-DVRIP_eframe_signature = ProtoField.uint32("dvrip.eframe_signature", "Encoding signature", base.HEX_DEC)
-DVRIP_eframe_unknown_1 = ProtoField.uint32("dvrip.eframe_unknown_1", "Unknown Field 1", base.HEX_DEC)
-DVRIP_eframe_sequence_id = ProtoField.uint8("dvrip.eframe_sequence_id", "E-Frame sequence ID", base.HEX_DEC)
-DVRIP_eframe_unknown_2 = ProtoField.uint32("dvrip.eframe_unknown_2", "Unknown Field 2", base.HEX_DEC)
-DVRIP_eframe_unknown_3 = ProtoField.uint16("dvrip.eframe_unknown_3", "Unknown Field 3", base.HEX_DEC)
-DVRIP_eframe_unknown_4 = ProtoField.uint16("dvrip.eframe_unknown_4", "Unknown Field 4", base.HEX_DEC)
-DVRIP_eframe_unknown_5 = ProtoField.uint32("dvrip.eframe_unknown_5", "Unknown Field 5", base.HEX_DEC)
-DVRIP_eframe_unknown_6 = ProtoField.uint32("dvrip.eframe_unknown_6", "Unknown Field 6", base.HEX_DEC)
+DVRIP_eframe_signature = ProtoField.uint32("dvrip.eframe_signature", "Encoding signature", base.DEC_HEX)
+DVRIP_eframe_unknown_1 = ProtoField.uint32("dvrip.eframe_unknown_1", "Unknown Field 1", base.DEC_HEX)
+DVRIP_eframe_sequence_id = ProtoField.uint8("dvrip.eframe_sequence_id", "E-Frame sequence ID", base.DEC_HEX)
+DVRIP_eframe_unknown_2 = ProtoField.uint32("dvrip.eframe_unknown_2", "Unknown Field 2", base.DEC_HEX)
+DVRIP_eframe_unknown_3 = ProtoField.uint16("dvrip.eframe_unknown_3", "Unknown Field 3", base.DEC_HEX)
+DVRIP_eframe_unknown_4 = ProtoField.uint16("dvrip.eframe_unknown_4", "Unknown Field 4", base.DEC_HEX)
+DVRIP_eframe_unknown_5 = ProtoField.uint32("dvrip.eframe_unknown_5", "Unknown Field 5", base.DEC_HEX)
+DVRIP_eframe_unknown_6 = ProtoField.uint32("dvrip.eframe_unknown_6", "Unknown Field 6", base.DEC_HEX)
 
 -- List of DVRIP/Sofia protocol fields
 XM_proto.fields = {
