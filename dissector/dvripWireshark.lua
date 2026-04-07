@@ -56,33 +56,37 @@ DVRIP_payload_length = ProtoField.uint32("dvrip.payload_length", "Payload Length
 DVRIP_payload_JSON_RAW = ProtoField.string("dvrip.data", "Raw JSON Message")
 DVRIP_newline = ProtoField.uint16("dvrip.newline", "Newline", base.DEC_HEX)
 
--- I-Frame fields
-DVRIP_iframe_signature = ProtoField.uint32("dvrip.iframe_signature", "I-Frame signature", base.DEC_HEX)
-DVRIP_iframe_unknown_1 = ProtoField.uint32("dvrip.iframe_unknown_1", "Unknown 1", base.DEC_HEX)
-DVRIP_iframe_unknown_2 = ProtoField.uint32("dvrip.iframe_unknown_2", "Unknown 2", base.DEC_HEX)
+-- DVRIP media signature field
+DVRIP_signature = ProtoField.uint32("dvrip.signature", "Signature", base.HEX_DEC)
+
+-- Stream type
+DVRIP_stream_type = ProtoField.uint8("dvrip.stream_type", "Stream Type", base.HEX_DEC)
+
+-- Framereate
+DVRIP_framerate = ProtoField.uint8("dvrip._framerate", "Framerate", base.DEC_HEX)
+
+-- DVRIP image dimensions - used both for I-Frames (FC) and snapshots (FE)
+DVRIP_width = ProtoField.uint8("dvrip.width", "Width", base.DEC_HEX)
+DVRIP_height = ProtoField.uint8("dvrip.height", "Height", base.DEC_HEX)
+
+-- Start date of a stream
+DVRIP_datetime = ProtoField.uint32("dvrip.datetime", "Datetime", base.DEC_HEX)
+
+-- I-Frame (FC) fields
 DVRIP_iframe_payload_size = ProtoField.uint32("dvrip.iframe_payload_size", "Payload size", base.DEC_HEX)
-DVRIP_iframe_unknown_3 = ProtoField.uint32("dvrip.iframe_unknown_3", "Unknown 3", base.DEC_HEX)
+DVRIP_iframe_unknown = ProtoField.uint32("dvrip.iframe_unknown", "Unknown Field", base.DEC_HEX)
 
--- P-Frame fields
-DVRIP_pframe_signature = ProtoField.uint16("dvrip.pframe_signature", "P-Frame signature", base.DEC_HEX)
-DVRIP_pframe_payload_length = ProtoField.uint16("dvrip.pframe_payload_length", "P-frame payload length", base.DEC_HEX)
-DVRIP_pframe_unknown_1 = ProtoField.uint16("dvrip.pframe_unknown_1", "Unknown 1", base.DEC_HEX)
-DVRIP_pframe_unknown_2 = ProtoField.uint32("dvrip.pframe_unknown_2", "Unknown 2", base.DEC_HEX)
+-- P-Frame (FD) fields
+DVRIP_pframe_payload_length = ProtoField.uint32("dvrip.pframe_payload_length", "Payload Length", base.DEC_HEX)
+DVRIP_pframe_unknown = ProtoField.uint32("dvrip.pframe_unknown", "Unknown Field", base.DEC_HEX)
 
--- A-Frame (Audio) packet fields
-DVRIP_audio_signature = ProtoField.uint32("dvrip.audio_signature", "Audio signature", base.DEC_HEX)
-DVRIP_audio_unknown = ProtoField.uint16("dvrip.audio_unknown", "Audio unknown", base.DEC_HEX)
+-- A-Frame (Audio - FA) packet fields
+DVRIP_sampling_rate = ProtoField.uint8("dvrip.sampling_rate", "Audio sampling rate", base.DEC_HEX)
 DVRIP_audio_payload_length = ProtoField.uint16("dvrip.audio_payload_length", "Audio payload length", base.DEC_HEX)
 
--- E-Frame (Encoding) packet fields
-DVRIP_eframe_signature = ProtoField.uint32("dvrip.eframe_signature", "Encoding signature", base.DEC_HEX)
-DVRIP_eframe_unknown_1 = ProtoField.uint32("dvrip.eframe_unknown_1", "Unknown Field 1", base.DEC_HEX)
-DVRIP_eframe_sequence_id = ProtoField.uint8("dvrip.eframe_sequence_id", "E-Frame sequence ID", base.DEC_HEX)
-DVRIP_eframe_unknown_2 = ProtoField.uint32("dvrip.eframe_unknown_2", "Unknown Field 2", base.DEC_HEX)
-DVRIP_eframe_unknown_3 = ProtoField.uint16("dvrip.eframe_unknown_3", "Unknown Field 3", base.DEC_HEX)
-DVRIP_eframe_unknown_4 = ProtoField.uint16("dvrip.eframe_unknown_4", "Unknown Field 4", base.DEC_HEX)
-DVRIP_eframe_unknown_5 = ProtoField.uint32("dvrip.eframe_unknown_5", "Unknown Field 5", base.DEC_HEX)
-DVRIP_eframe_unknown_6 = ProtoField.uint32("dvrip.eframe_unknown_6", "Unknown Field 6", base.DEC_HEX)
+-- Information Frame (F9) packet fields
+DVRIP_unused_field = ProtoField.uint8("dvrip.unused_field", "Unused Field", base.DEC_HEX)
+DVRIP_information_frame_payload_length = ProtoField.uint16("dvrip.information_frame_payload_length", "Payload Length", base.DEC_HEX)
 
 -- List of DVRIP/Sofia protocol fields
 XM_proto.fields = {
@@ -98,30 +102,30 @@ XM_proto.fields = {
 	-- DVRIP JSON payload fields
 	DVRIP_payload_JSON_RAW,
 	DVRIP_newline,
+	-- DVRIP media signature
+	DVRIP_signature,
+	-- Stream type
+	DVRIP_stream_type,
+	-- Framerate
+	DVRIP_framerate,
+	-- Image dimensions
+	DVRIP_width,
+	DVRIP_height,
+	-- Stream start date
+	DVRIP_datetime,
 	-- DVRIP I-Frame fields
-	DVRIP_iframe_signature,
-	DVRIP_iframe_unknown_1,
-	DVRIP_iframe_unknown_2,
+	DVRIP_iframe_encoded_framerate,
 	DVRIP_iframe_payload_size,
-	DVRIP_iframe_unknown_3,
+	DVRIP_iframe_unknown,
 	-- DVRIP P-Frame fields
-	DVRIP_pframe_signature,
 	DVRIP_pframe_payload_length,
-	DVRIP_pframe_unknown_1,
-	DVRIP_pframe_unknown_2,
+	DVRIP_pframe_unknown,
 	-- DVRIP A-Frame (audio) fields
-	DVRIP_audio_signature,
-	DVRIP_audio_unknown,
+	DVRIP_sampling_rate,
 	DVRIP_audio_payload_length,
 	-- DVRIP E-Frame (encoding) fields
-	DVRIP_eframe_signature,
-	DVRIP_eframe_unknown_1,
-	DVRIP_eframe_sequence_id,
-	DVRIP_eframe_unknown_2,
-	DVRIP_eframe_unknown_3,
-	DVRIP_eframe_unknown_4,
-	DVRIP_eframe_unknown_5,
-	DVRIP_eframe_unknown_6,
+	DVRIP_unused_field,
+	DVRIP_information_frame_payload_length
 }
 
 local function dvrip_get_len(tvb, pinfo, offset)
@@ -183,15 +187,17 @@ local function dvrip_dissect_one_pdu(tvb, pinfo, tree)
 			local signature = tvb(HEADER_LEN, 4):uint()
 			if signature == 0x000001fa then -- Audio
 				local atree = subtree:add(XM_proto, tvb(HEADER_LEN, tvb:len() - HEADER_LEN), "DVRIP Audio")
-				local atree_header = atree:add(XM_proto, tvb(HEADER_LEN, 8), "Audio Header")
+				local atree_header = atree:add(XM_proto, tvb(HEADER_LEN, 8), "Header")
 				-- Audio frame payload reconstruction
 				local aframe_length = tvb(HEADER_LEN + 6, 2):le_uint()
 				-- Populate Audio Frame header fields
-				atree_header:add(DVRIP_audio_signature, tvb(HEADER_LEN, 4))
-				atree_header:add_le(DVRIP_audio_unknown, tvb(HEADER_LEN + 4, 2))
+				atree_header:add(DVRIP_signature, tvb(HEADER_LEN, 4))
+				atree_header:add_le(DVRIP_stream_type, tvb(HEADER_LEN + 4, 1))
+				atree_header:add_le(DVRIP_sampling_rate, tvb(HEADER_LEN + 5, 1))
 				atree_header:add_le(DVRIP_audio_payload_length, tvb(HEADER_LEN + 6, 2))
 				-- Audio Frame payload
-				atree:add(XM_proto, tvb(HEADER_LEN, tvb:len() - HEADER_LEN), "A-Frame")
+				local audio_length = tvb(HEADER_LEN + 6, 2):le_uint()
+				atree:add(XM_proto, tvb(HEADER_LEN + 8, audio_length), "Payload")
 				-- Save reconstructed frame in /tmp directory
 				local file_name = string.format("/tmp/%d_%d_%s", timestamp, pinfo.number, "A-Frame")
 				local file = io.open(file_name, "wb")
@@ -202,11 +208,14 @@ local function dvrip_dissect_one_pdu(tvb, pinfo, tree)
 				local itree = subtree:add(XM_proto, tvb(HEADER_LEN, tvb:len() - HEADER_LEN), "DVRIP I-Frame")
 				local itree_header = itree:add(XM_proto, tvb(HEADER_LEN, 20), "I-Frame Header")
 				-- Populate I-Frame header fields
-				itree_header:add(DVRIP_iframe_signature, tvb(HEADER_LEN, 4))
-				itree_header:add_le(DVRIP_iframe_unknown_1, tvb(HEADER_LEN + 4, 4))
-				itree_header:add_le(DVRIP_iframe_unknown_2, tvb(HEADER_LEN + 8, 4))
+				itree_header:add(DVRIP_signature, tvb(HEADER_LEN, 4))
+				itree_header:add_le(DVRIP_stream_type, tvb(HEADER_LEN + 4, 1))
+				itree_header:add_le(DVRIP_framerate, tvb(HEADER_LEN + 5, 1))
+				itree_header:add_le(DVRIP_width, tvb(HEADER_LEN + 6, 1))
+				itree_header:add_le(DVRIP_height, tvb(HEADER_LEN + 7, 1))
+				itree_header:add_le(DVRIP_datetime, tvb(HEADER_LEN + 8, 4))
 				itree_header:add_le(DVRIP_iframe_payload_size, tvb(HEADER_LEN + 12, 4))
-				itree_header:add(DVRIP_iframe_unknown_3, tvb(HEADER_LEN + 16, 4))
+				itree_header:add(DVRIP_iframe_unknown, tvb(HEADER_LEN + 16, 4))
 				-- I-Frame payload
 				itree:add(XM_proto, tvb(HEADER_LEN, tvb:len() - HEADER_LEN), "I-Frame")
 				-- Reconstruct I-Frame spanning multiple DVRIP/Sofia messages
@@ -234,10 +243,9 @@ local function dvrip_dissect_one_pdu(tvb, pinfo, tree)
 				-- P-Frame payload reconstruction
 				local pframe_length = tvb(HEADER_LEN + 4, 2):le_uint()
 				-- Populate P-Frame header fields
-				ptree_header:add(DVRIP_pframe_signature, tvb(HEADER_LEN, 4))
-				ptree_header:add_le(DVRIP_pframe_payload_length, tvb(HEADER_LEN + 4, 2))
-				ptree_header:add_le(DVRIP_pframe_unknown_1, tvb(HEADER_LEN + 6, 2))
-				ptree_header:add(DVRIP_pframe_unknown_2, tvb(HEADER_LEN + 8, 4))
+				ptree_header:add(DVRIP_signature, tvb(HEADER_LEN, 4))
+				ptree_header:add_le(DVRIP_pframe_payload_length, tvb(HEADER_LEN + 4, 4))
+				ptree_header:add(DVRIP_pframe_unknown, tvb(HEADER_LEN + 8, 4))
 				-- P-Frame payload
 				ptree:add(XM_proto, tvb(HEADER_LEN, tvb:len() - HEADER_LEN), "P-Frame")
 				-- Reconstruct P-Frame spanning multiple DVRIP/Sofia messages
@@ -258,21 +266,20 @@ local function dvrip_dissect_one_pdu(tvb, pinfo, tree)
 					file:write(frame.payload:raw())
 					file:close()
 				end
-			elseif signature == 0x000001f9 then
-				-- Add E-Frame to general tree
-				local etree = subtree:add(XM_proto, tvb(HEADER_LEN, tvb:len() - HEADER_LEN), "DVRIP E-Frame")
-				local etree_header = etree:add(XM_proto, tvb(HEADER_LEN, 24), "E-Frame Header")
-				-- Populate E-Frame header fields
-				etree_header:add(DVRIP_eframe_signature, tvb(HEADER_LEN, 4))
-				etree_header:add(DVRIP_eframe_unknown_1, tvb(HEADER_LEN + 4, 4))
-				etree_header:add(DVRIP_eframe_sequence_id, tvb(HEADER_LEN + 8, 1))
-				etree_header:add(DVRIP_eframe_unknown_2, tvb(HEADER_LEN + 9, 3))
-				etree_header:add(DVRIP_eframe_unknown_3, tvb(HEADER_LEN + 12, 2))
-				etree_header:add(DVRIP_eframe_unknown_4, tvb(HEADER_LEN + 14, 2))
-				etree_header:add(DVRIP_eframe_unknown_5, tvb(HEADER_LEN + 16, 4))
-				etree_header:add(DVRIP_eframe_unknown_6, tvb(HEADER_LEN + 20, 4))
+			elseif signature == 0x000001f9 then -- Information Frame
+				-- Add Information Frame to general tree
+				local infotree = subtree:add(XM_proto, tvb(HEADER_LEN, tvb:len() - HEADER_LEN), "DVRIP Information Frame")
+				local infotree_header = infotree:add(XM_proto, tvb(HEADER_LEN, 8), "Header")
+				-- Populate Information Frame header fields
+				infotree_header:add(DVRIP_signature, tvb(HEADER_LEN, 4))
+				infotree_header:add_le(DVRIP_stream_type, tvb(HEADER_LEN + 4, 1))
+				infotree_header:add_le(DVRIP_unused_field, tvb(HEADER_LEN + 5, 1))
+				infotree_header:add_le(DVRIP_information_frame_payload_length, tvb(HEADER_LEN + 6, 2))
+				-- Information frame payload
+				local infoframe_payload_length = tvb(HEADER_LEN + 6, 2):le_uint()
+				infotree:add(XM_proto, tvb(HEADER_LEN + 8, infoframe_payload_length), "Payload")
 				-- Save reconstructed frame in /tmp directory
-				local file_name = string.format("/tmp/%d_%d_%s", timestamp, pinfo.number, "E-Frame")
+				local file_name = string.format("/tmp/%d_%d_%s", timestamp, pinfo.number, "Information-Frame")
 				local file = io.open(file_name, "wb")
 				file:write(tvb:raw(HEADER_LEN, tvb:len() - HEADER_LEN))
 				file:close()

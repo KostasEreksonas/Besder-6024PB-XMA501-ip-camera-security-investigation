@@ -1,5 +1,6 @@
 # DVRIP_analysis
 A Wireshark dissector for DVRIP/Sofia protocol found in Xiongmai based IP cameras
+Full writeup of a sample IP camera is available at [Besder 6024PB-XMA501 IP camera security investigation](https://github.com/KostasEreksonas/Besder-6024PB-XMA501-ip-camera-security-investigation) repository.
 
 Table of Contents
 =================
@@ -23,6 +24,10 @@ Firmware version: V5.00.R02.00030747.10010.349f17
 
 Media frames are saved as bytes in `/tmp` directory (file format: 'pinfo.number'_'frame_name').
 
+DVRIP/Sofia media payloads have their own headers. All media payload header fields (except signature) are reordered to little-endian (LE) to extract their exact value.
+
+Media payload headers were reconstructed based on [Xiongmai bitstream frame format document](https://www.scribd.com/document/669666260/%E7%A0%81%E6%B5%81%E5%B8%A7%E6%A0%BC%E5%BC%8F%E6%96%87%E6%A1%A3).
+
 # DVRIP/Sofia Command Message
 
 ![DVRIP header](images/DVRIP_header.png)
@@ -35,11 +40,27 @@ Media frames are saved as bytes in `/tmp` directory (file format: 'pinfo.number'
 
 ![DVRIP audio header in Wireshark](images/Audio_header_wireshark.png)
 
+1. BIT 0-3 - signature
+2. BIT 4 - audio codec (0x0e = G711A)
+3. BIT 5 - sampling rate (0x02 = 8kHz sampling)
+4. BIT 6-7 - length of audio payload
+
 # I-Frame Header
 
 ![DVRIP I-Frame header](images/Iframe_header.png)
 
 ![DVRIP I-Frame in Wireshark](images/Iframe_header_wireshark.png)
+
+1. BIT 0-3 - signature
+2. BIT 4 - video codec (0x01 = MPEG4, 0x02 = H.264, 0x12 = H.265)
+3. BIT 5 - encoded framerate (variable; 1-25 for PAL, 1-30 for NTSC)
+4. BIT 6 - low 8 bits of image width; the value is actual width divided by 8
+5. BIT 7 - low 8 bits of image height; the value is actual height divided by 8
+6. BIT 8-11 - datetime of the capture
+7. BIT 12-15 - length of I-Frame payload
+8. BIT 16-19 - unknown value, observed to always be equal to 1
+
+Same exact header fields are shared between I-Frames (FC) and snapshots (FE).
 
 # P-Frame Header
 
@@ -47,8 +68,20 @@ Media frames are saved as bytes in `/tmp` directory (file format: 'pinfo.number'
 
 ![DVRIP P-Frame in Wireshark](images/Pframe_header_wireshark.png)
 
+Extension of I-Frames.
+
+1. BIT 0-3 - signature
+2. BIT 4-7 - length of P-Frame payload
+3. BIT 8-11 - unknown value, always observed to be equal to 1
+
 # E-Frame Header
 
 ![DVRIP E-Frame header](images/Eframe_header.png)
 
 ![DVRIP E-Frame in Wireshark](images/Eframe_header_wireshark.png)
+
+
+Used for information transmission. First byte after signature (byte 4):
+
+1. 0x01 - general information.
+2. 0x06 - unknown value.
