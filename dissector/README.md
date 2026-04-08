@@ -74,11 +74,11 @@ Extension of I-Frames.
 2. BIT 4-7 - length of P-Frame payload
 3. BIT 8-11 - unknown value, always observed to be equal to 1
 
-# E-Frame Header
+# Information Frame Header
 
-![DVRIP E-Frame header](images/Eframe_header.png)
+![DVRIP information frame header](images/Information_frame_header.png)
 
-![DVRIP E-Frame in Wireshark](images/Eframe_header_wireshark.png)
+![DVRIP information frame in Wireshark](images/Information_frame_header_wireshark.png)
 
 
 Used for information transmission. First byte after signature (byte 4):
