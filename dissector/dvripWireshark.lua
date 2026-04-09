@@ -200,6 +200,12 @@ local function dvrip_dissect_one_pdu(tvb, pinfo, tree)
 				-- Audio Frame payload
 				local audio_length = tvb(HEADER_LEN + 6, 2):le_uint()
 				atree:add(XM_proto, tvb(HEADER_LEN + 8, audio_length), "Payload")
+				-- Save message as raw audio file
+				local file_name = string.format("/tmp/%d_%s.raw", pinfo.number, "g711a_audio")
+				local file = io.open(file_name, "wb")
+				file = io.open(file_name, "wb")
+				file:write(tvb(HEADER_LEN + 8, audio_length):raw())
+				file:close()
 			elseif signature == 0x000001fc then -- I-Frame
 				-- Add I-Frame to general tree
 				local itree = subtree:add(XM_proto, tvb(HEADER_LEN, tvb:len() - HEADER_LEN), "DVRIP I-Frame")
@@ -309,7 +315,6 @@ local function dvrip_dissect_one_pdu(tvb, pinfo, tree)
 	-- Save video stream to /tmp
 	local file_name = string.format("/tmp/%d_%s", timestamp, "video_stream.h265")
 	local file = io.open(file_name, "wb")
-	print(video_stream:len())
 	file = io.open(file_name, "wb")
 	file:write(video_stream:raw())
 	file:close()
