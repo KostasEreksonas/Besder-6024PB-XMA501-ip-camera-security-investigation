@@ -33,6 +33,9 @@ frame = {
 	sequence_packet_last = 0,
 }
 
+-- Reconstruct video stream
+video_stream = ByteArray.new()
+
 -- Time of capture start / open
 timestamp = os.time(os.date("!*t"))
 
@@ -45,7 +48,7 @@ XM_proto = Proto("dvrip", "Xiongmai DVRIP Protocol")
 -- DVRIP/Sofia packet header fields
 DVRIP_header = ProtoField.uint8("dvrip.header", "Header", base.DEC_HEX)
 DVRIP_req_resp = ProtoField.uint8("dvrip.req_resp", "Request/response", base.DEC_HEX)
-DVRIP_header_unknown = ProtoField.uint8("dvrip.header_unknown", "Unknown", base.DEC_HEX)
+DVRIP_header_unknown = ProtoField.uint16("dvrip.header_unknown", "Unknown", base.DEC_HEX)
 DVRIP_session_id = ProtoField.uint32("dvrip.session_id", "Session ID", base.DEC_HEX)
 DVRIP_sequence_id = ProtoField.uint32("dvrip.sequence_id", "Sequence ID", base.DEC_HEX)
 DVRIP_unknown = ProtoField.uint16("dvrip.unknown", "Unknown", base.DEC_HEX)
@@ -114,7 +117,6 @@ XM_proto.fields = {
 	-- Stream start date
 	DVRIP_datetime,
 	-- DVRIP I-Frame fields
-	DVRIP_iframe_encoded_framerate,
 	DVRIP_iframe_payload_size,
 	DVRIP_iframe_unknown,
 	-- DVRIP P-Frame fields
@@ -198,11 +200,6 @@ local function dvrip_dissect_one_pdu(tvb, pinfo, tree)
 				-- Audio Frame payload
 				local audio_length = tvb(HEADER_LEN + 6, 2):le_uint()
 				atree:add(XM_proto, tvb(HEADER_LEN + 8, audio_length), "Payload")
-				-- Save reconstructed frame in /tmp directory
-				local file_name = string.format("/tmp/%d_%d_%s", timestamp, pinfo.number, "A-Frame")
-				local file = io.open(file_name, "wb")
-				file:write(tvb:raw(HEADER_LEN, tvb:len() - HEADER_LEN))
-				file:close()
 			elseif signature == 0x000001fc then -- I-Frame
 				-- Add I-Frame to general tree
 				local itree = subtree:add(XM_proto, tvb(HEADER_LEN, tvb:len() - HEADER_LEN), "DVRIP I-Frame")
@@ -230,11 +227,7 @@ local function dvrip_dissect_one_pdu(tvb, pinfo, tree)
 					frame.sequence_packet_first = sequence_id
 					frame.sequence_packet_last = sequence_id + packets_needed
 				else
-					-- Save reconstructed frame in /tmp directory
-					local file_name = string.format("/tmp/%d_%d_%s", timestamp, pinfo.number, "I-Frame")
-					local file = io.open(file_name, "wb")
-					file:write(frame.payload:raw())
-					file:close()
+					video_stream:append(tvb(HEADER_LEN + 16, iframe_payload - 16):bytes())
 				end
 			elseif signature == 0x000001fd then -- P-Frame
 				-- Add P-Frame to general tree
@@ -260,11 +253,7 @@ local function dvrip_dissect_one_pdu(tvb, pinfo, tree)
 					frame.sequence_packet_first = sequence_id
 					frame.sequence_packet_last = sequence_id + packets_needed
 				else
-					-- Save reconstructed frame in /tmp directory
-					local file_name = string.format("/tmp/%d_%d_%s", timestamp, pinfo.number, "P-Frame")
-					local file = io.open(file_name, "wb")
-					file:write(frame.payload:raw())
-					file:close()
+					video_stream:append(tvb(HEADER_LEN + 8, pframe_payload - 8):bytes())
 				end
 			elseif signature == 0x000001f9 then -- Information Frame
 				-- Add Information Frame to general tree
@@ -278,15 +267,10 @@ local function dvrip_dissect_one_pdu(tvb, pinfo, tree)
 				-- Information frame payload
 				local infoframe_payload_length = tvb(HEADER_LEN + 6, 2):le_uint()
 				infotree:add(XM_proto, tvb(HEADER_LEN + 8, infoframe_payload_length), "Payload")
-				-- Save reconstructed frame in /tmp directory
-				local file_name = string.format("/tmp/%d_%d_%s", timestamp, pinfo.number, "Information-Frame")
-				local file = io.open(file_name, "wb")
-				file:write(tvb:raw(HEADER_LEN, tvb:len() - HEADER_LEN))
-				file:close()
 			elseif signature == 0xffd8ffe0 then -- JPEG file
 				subtree:add(XM_proto, tvb(HEADER_LEN, tvb:len() - HEADER_LEN), "DVRIP JPEG Image")
 				-- Save reconstructed image in /tmp directory
-				local file_name = string.format("/tmp/%d_%d_%s", timestamp, pinfo.number, "JPEG-Image")
+				local file_name = string.format("/tmp/%d_%d.%s", timestamp, pinfo.number, "jpeg")
 				local file = io.open(file_name, "wb")
 				file:write(tvb:raw(HEADER_LEN, tvb:len() - HEADER_LEN))
 				file:close()
@@ -294,12 +278,15 @@ local function dvrip_dissect_one_pdu(tvb, pinfo, tree)
 				if (frame.key == "I-Frame" or frame.key == "P-Frame") and pinfo.visited ~= true then
 					frame.bytes_collected = frame.bytes_collected + payload_length
 					frame.payload:append(tvb(HEADER_LEN, payload_length):bytes())
-					if frame.bytes_collected == frame.bytes_needed then
-						-- Save reconstructed frame in /tmp directory
-						local file_name = string.format("/tmp/%d_%d_%s", timestamp, pinfo.number, frame.key)
-						local file = io.open(file_name, "wb")
-						file:write(frame.payload:raw())
-						file:close()
+					if frame.bytes_collected >= frame.bytes_needed then
+						-- Add frame to reconstructed video
+						if frame.key == "I-Frame" then
+							-- Cut I-Frame header from media payload
+							video_stream:append(frame.payload:subset(16, frame.payload:len() - 16))
+						elseif frame.key == "P-Frame" then
+							-- Cut P-Frame header from media payload
+							video_stream:append(frame.payload:subset(8, frame.payload:len() - 8))
+						end
 						-- Reset variables in frame table
 						frame.key = nil
 						frame.bytes_needed = 0
@@ -318,6 +305,16 @@ local function dvrip_dissect_one_pdu(tvb, pinfo, tree)
 			end
 		end
 	end
+
+	-- Save video stream to /tmp
+	local file_name = string.format("/tmp/%d_%s", timestamp, "video_stream.h265")
+	local file = io.open(file_name, "wb")
+	print(video_stream:len())
+	file = io.open(file_name, "wb")
+	file:write(video_stream:raw())
+	file:close()
+	-- video_stream = ByteArray.new()
+
 	return tvb:len() -- amount of bytes consumed
 end
 
