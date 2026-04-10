@@ -36,6 +36,9 @@ frame = {
 -- Reconstruct video stream
 video_stream = ByteArray.new()
 
+-- Reconstruct audio stream
+audio_stream = ByteArray.new()
+
 -- Time of capture start / open
 timestamp = os.time(os.date("!*t"))
 
@@ -47,11 +50,13 @@ XM_proto = Proto("dvrip", "Xiongmai DVRIP Protocol")
 
 -- DVRIP/Sofia packet header fields
 DVRIP_header = ProtoField.uint8("dvrip.header", "Header", base.DEC_HEX)
-DVRIP_req_resp = ProtoField.uint8("dvrip.req_resp", "Request/response", base.DEC_HEX)
-DVRIP_header_unknown = ProtoField.uint16("dvrip.header_unknown", "Unknown", base.DEC_HEX)
+DVRIP_req_resp = ProtoField.uint8("dvrip.req_resp", "Request/Response", base.DEC_HEX)
+DVRIP_reserved_1 = ProtoField.uint8("dvrip.reserved_1", "Reserved Field No.1", base.DEC_HEX)
+DVRIP_reserved_2 = ProtoField.uint8("dvrip.reserved_2", "Reserved Field No.2", base.DEC_HEX)
 DVRIP_session_id = ProtoField.uint32("dvrip.session_id", "Session ID", base.DEC_HEX)
 DVRIP_sequence_id = ProtoField.uint32("dvrip.sequence_id", "Sequence ID", base.DEC_HEX)
-DVRIP_unknown = ProtoField.uint16("dvrip.unknown", "Unknown", base.DEC_HEX)
+DVRIP_total_packets = ProtoField.uint8("dvrip.total_packets", "Total Packets", base.DEC_HEX)
+DVRIP_current_packet = ProtoField.uint8("dvrip.current_packet", "Current Packet", base.DEC_HEX)
 DVRIP_command_code = ProtoField.uint16("dvrip.command_code", "Command Code", base.DEC_HEX)
 DVRIP_payload_length = ProtoField.uint32("dvrip.payload_length", "Payload Length", base.DEC_HEX)
 
@@ -96,10 +101,12 @@ XM_proto.fields = {
 	-- DVRIP header fields
 	DVRIP_header,
 	DVRIP_req_resp,
-	DVRIP_header_unknown,
+	DVRIP_reserved_1,
+	DVRIP_reserved_2,
 	DVRIP_session_id,
 	DVRIP_sequence_id,
-	DVRIP_unknown,
+	DVRIP_total_packets,
+	DVRIP_current_packet,
 	DVRIP_command_code,
 	DVRIP_payload_length,
 	-- DVRIP JSON payload fields
@@ -130,6 +137,39 @@ XM_proto.fields = {
 	DVRIP_information_frame_payload_length
 }
 
+function reset_frame_table()
+	frame.key = nil
+	frame.bytes_needed = 0
+	frame.bytes_collected = 0
+	frame.sequence_packet_first = 0
+	frame.sequence_packet_last  = 0
+	frame.payload = ByteArray.new()
+end
+
+function save_stream(stream_name, stream_buffer)
+	local file_name = string.format("/tmp/%d_%s", timestamp, stream_name)
+	local file = io.open(file_name, "wb")
+	file:write(stream_buffer)
+	file:close()
+end
+
+function collect_media_payload(name, payload, length, initial_payload, sequence_id)
+	frame.key = name
+	frame.bytes_needed = payload
+	frame.bytes_collected = length
+	frame.payload:append(initial_payload)
+	local packets_needed = frame.bytes_needed // length + 1
+	frame.sequence_packet_first = sequence_id
+	frame.sequence_packet_last = sequence_id + packets_needed
+end
+
+function save_image(timestamp, number, extension)
+	local file_name = string.format("/tmp/%d_%d.%s", timestamp, number, extension)
+	local file = io.open(file_name, "wb")
+	file:write(image_buffer)
+	file:close()
+end
+
 local function dvrip_get_len(tvb, pinfo, offset)
 	-- if header is truncated, get subsequent TCP packet
 	if tvb:len() - offset < HEADER_LEN then
@@ -153,10 +193,12 @@ local function dvrip_dissect_one_pdu(tvb, pinfo, tree)
 
 	header:add_le(DVRIP_header, tvb(0, 1))
 	header:add_le(DVRIP_req_resp, tvb(1, 1))
-	header:add_le(DVRIP_header_unknown, tvb(2, 2))
+	header:add_le(DVRIP_reserved_1, tvb(2, 1))
+	header:add_le(DVRIP_reserved_2, tvb(3, 1))
 	header:add_le(DVRIP_session_id, tvb(4, 4))
 	header:add_le(DVRIP_sequence_id, tvb(8, 4))
-	header:add_le(DVRIP_unknown, tvb(12, 2))
+	header:add_le(DVRIP_total_packets, tvb(12, 1))
+	header:add_le(DVRIP_current_packet, tvb(13, 1))
 	header:add_le(DVRIP_command_code, tvb(14, 2))
 	header:add_le(DVRIP_payload_length, tvb(16, 4))
 
@@ -201,11 +243,7 @@ local function dvrip_dissect_one_pdu(tvb, pinfo, tree)
 				local audio_length = tvb(HEADER_LEN + 6, 2):le_uint()
 				atree:add(XM_proto, tvb(HEADER_LEN + 8, audio_length), "Payload")
 				-- Save message as raw audio file
-				local file_name = string.format("/tmp/%d_%s.raw", pinfo.number, "g711a_audio")
-				local file = io.open(file_name, "wb")
-				file = io.open(file_name, "wb")
-				file:write(tvb(HEADER_LEN + 8, audio_length):raw())
-				file:close()
+				audio_stream:append(tvb(HEADER_LEN + 8, audio_length):bytes())
 			elseif signature == 0x000001fc then -- I-Frame
 				-- Add I-Frame to general tree
 				local itree = subtree:add(XM_proto, tvb(HEADER_LEN, tvb:len() - HEADER_LEN), "DVRIP I-Frame")
@@ -224,14 +262,9 @@ local function dvrip_dissect_one_pdu(tvb, pinfo, tree)
 				-- Reconstruct I-Frame spanning multiple DVRIP/Sofia messages
 				local iframe_payload = tvb(HEADER_LEN + 12, 4):le_uint() + 16
 				if iframe_payload > payload_length then
-					frame.key = "I-Frame"
-					frame.bytes_needed = iframe_payload
-					frame.bytes_collected = payload_length
-					frame.payload:append(tvb(HEADER_LEN, payload_length):bytes())
-					local packets_needed = frame.bytes_needed // payload_length + 1
+					local initial_payload = tvb(HEADER_LEN, payload_length):bytes()
 					local sequence_id = tvb(8, 4):le_uint()
-					frame.sequence_packet_first = sequence_id
-					frame.sequence_packet_last = sequence_id + packets_needed
+					collect_media_payload("I-Frame", iframe_payload, payload_length, initial_payload, sequence_id)
 				else
 					video_stream:append(tvb(HEADER_LEN + 16, iframe_payload - 16):bytes())
 				end
@@ -250,14 +283,9 @@ local function dvrip_dissect_one_pdu(tvb, pinfo, tree)
 				-- Reconstruct P-Frame spanning multiple DVRIP/Sofia messages
 				local pframe_payload = tvb(HEADER_LEN + 4, 2):le_uint() + 8
 				if pframe_payload > payload_length then
-					frame.key = "P-Frame"
-					frame.bytes_needed = pframe_payload
-					frame.bytes_collected = payload_length
-					frame.payload:append(tvb(HEADER_LEN, payload_length):bytes())
-					local packets_needed = frame.bytes_needed // payload_length + 1
+					local initial_payload = tvb(HEADER_LEN, payload_length):bytes()
 					local sequence_id = tvb(8, 4):le_uint()
-					frame.sequence_packet_first = sequence_id
-					frame.sequence_packet_last = sequence_id + packets_needed
+					collect_media_payload("P-Frame", pframe_payload, payload_length, initial_payload, sequence_id)
 				else
 					video_stream:append(tvb(HEADER_LEN + 8, pframe_payload - 8):bytes())
 				end
@@ -270,16 +298,14 @@ local function dvrip_dissect_one_pdu(tvb, pinfo, tree)
 				infotree_header:add_le(DVRIP_stream_type, tvb(HEADER_LEN + 4, 1))
 				infotree_header:add_le(DVRIP_unused_field, tvb(HEADER_LEN + 5, 1))
 				infotree_header:add_le(DVRIP_information_frame_payload_length, tvb(HEADER_LEN + 6, 2))
-				-- Information frame payload
+				-- Add information frame payload to the general tree
 				local infoframe_payload_length = tvb(HEADER_LEN + 6, 2):le_uint()
 				infotree:add(XM_proto, tvb(HEADER_LEN + 8, infoframe_payload_length), "Payload")
 			elseif signature == 0xffd8ffe0 then -- JPEG file
 				subtree:add(XM_proto, tvb(HEADER_LEN, tvb:len() - HEADER_LEN), "DVRIP JPEG Image")
 				-- Save reconstructed image in /tmp directory
-				local file_name = string.format("/tmp/%d_%d.%s", timestamp, pinfo.number, "jpeg")
-				local file = io.open(file_name, "wb")
-				file:write(tvb:raw(HEADER_LEN, tvb:len() - HEADER_LEN))
-				file:close()
+				local image_buffer = tvb:raw(HEADER_LEN, tvb:len() - HEADER_LEN)
+				save_image(timestamp, pinfo.number, "jpeg", image_buffer)
 			else
 				if (frame.key == "I-Frame" or frame.key == "P-Frame") and pinfo.visited ~= true then
 					frame.bytes_collected = frame.bytes_collected + payload_length
@@ -294,12 +320,7 @@ local function dvrip_dissect_one_pdu(tvb, pinfo, tree)
 							video_stream:append(frame.payload:subset(8, frame.payload:len() - 8))
 						end
 						-- Reset variables in frame table
-						frame.key = nil
-						frame.bytes_needed = 0
-						frame.bytes_collected = 0
-						frame.sequence_packet_first = 0
-						frame.sequence_packet_last  = 0
-						frame.payload = ByteArray.new()
+						reset_frame_table()
 					end
 				end
 				local sequence_id_current = tvb(8, 4):le_uint()
@@ -313,12 +334,10 @@ local function dvrip_dissect_one_pdu(tvb, pinfo, tree)
 	end
 
 	-- Save video stream to /tmp
-	local file_name = string.format("/tmp/%d_%s", timestamp, "video_stream.h265")
-	local file = io.open(file_name, "wb")
-	file = io.open(file_name, "wb")
-	file:write(video_stream:raw())
-	file:close()
-	-- video_stream = ByteArray.new()
+	save_stream("video_stream.h265", video_stream:raw())
+
+	-- Save audio stream to /tmp
+	save_stream("audio_stream.bin", audio_stream:raw())
 
 	return tvb:len() -- amount of bytes consumed
 end

@@ -30,9 +30,22 @@ Media payload headers were reconstructed based on [Xiongmai bitstream frame form
 
 # DVRIP/Sofia Command Message
 
+Header description of a single DVRIP/Sofia message is based on [Digital Video Recorder Interface Protocol document](https://github.com/OpenIPC/python-dvr/blob/master/doc/%E9%9B%84%E8%BF%88%E6%95%B0%E5%AD%97%E8%A7%86%E9%A2%91%E5%BD%95%E5%83%8F%E6%9C%BA%E6%8E%A5%E5%8F%A3%E5%8D%8F%E8%AE%AE_V1.0.0.pdf), the actual diagram being on page 7.
+
 ![DVRIP header](images/DVRIP_header.png)
 
 ![DVRIP header in Wireshark](images/DVRIP_header_wireshark.png)
+
+1. BIT 0 - message header byte, fixed as 0xFF.
+2. BIT 1 - observed to equalt 0 for requests and equal to 1 for responses from the IP camera.
+3. BIT 2 - reserved byte 1. Observed to be either 0 or 1.
+4. BIT 3 - reserved byte 2. Observed to be either 0 or 128.
+5. BIT 4-7 - session ID. Assigned by the camera after successful login. Needs to be present in every subsequent message.
+6. BIT 8-11 - sequence number. Increments from 0 after startup, and after reaching the (unknown) maximum, starts from 0 again.
+7. BIT 12 - total number of packets in a single message. Value of 0 or 1 indicate a single message per packet. 
+8. BIT 13 - number of a current packet in message. Meaningful only when the value of total packets (bit 12) is greater than 1.
+9. BIT 14-15 - command code (also called message id). The code defines what action to perform.
+10. BIT 16-19 - data (payload) length. Length of a JSON payload, which starts immediately after DVRIP/Sofia header.
 
 # Audio Header
 
