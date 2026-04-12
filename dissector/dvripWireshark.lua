@@ -26,6 +26,22 @@ local SIG_IFRAME  = 0x000001fc
 local SIG_PFRAME  = 0x000001fd
 local SIG_INFOFRAME = 0x000001f9
 
+-- Collect video stream
+video_stream = ByteArray.new()
+
+-- Collect audio stream
+audio_stream = ByteArray.new()
+
+-- Table to collect media frame data from multiple DVRIP/Sofia packets
+local frame = {
+    key = nil,
+    bytes_needed = 0,
+    bytes_collected = 0,
+	payload = ByteArray.new(),
+	sequence_packet_first = 0,
+	sequence_packet_last = 0,
+}
+
 -- Load JSON dissector
 local json = Dissector.get("json")
 
@@ -124,7 +140,21 @@ local function dvrip_get_len(tvb, pinfo, offset)
 	return total_len
 end
 
-function build_protocol_tree(tvb, pinfo, subtree, payload_length, json)
+function build_message_header(tvb, header)
+	-- Build DVRIP message header into the protocol tree
+	header:add_le(DVRIP_header, tvb(0, 1))
+	header:add_le(DVRIP_req_resp, tvb(1, 1))
+	header:add_le(DVRIP_reserved_1, tvb(2, 1))
+	header:add_le(DVRIP_reserved_2, tvb(3, 1))
+	header:add_le(DVRIP_session_id, tvb(4, 4))
+	header:add_le(DVRIP_sequence_id, tvb(8, 4))
+	header:add_le(DVRIP_total_packets, tvb(12, 1))
+	header:add_le(DVRIP_current_packet, tvb(13, 1))
+	header:add_le(DVRIP_command_code, tvb(14, 2))
+	header:add_le(DVRIP_payload_size, tvb(16, 4))
+end
+
+function build_protocol_tree(tvb, pinfo, subtree, payload_length)
 	-- Handle trailing newline (last 1 or 2 bytes of a payload)
 	local json_tvb
 	if tvb(HEADER_LEN + payload_length - 1, 1):le_uint() ~= 0x0a then
@@ -214,19 +244,104 @@ function populate_infoframe_tree(tvb, subtree)
 end
 
 function build_protocol_media_tree(tvb, pinfo, subtree)
-	local signature = tvb(HEADER_LEN, 4):uint()
-	pinfo.cols.info = "Media signature = " .. string.format("%08x", signature) .. " "
-	if signature == SIG_AUDIO then -- Audio
-		populate_audio_tree(tvb, subtree)
-	elseif signature == SIG_IFRAME then -- I-Frame
-		populate_iframe_tree(tvb, subtree)
-	elseif signature == SIG_PFRAME then -- P-Frame
-		populate_pframe_tree(tvb, subtree)
-	elseif signature == SIG_INFOFRAME then -- Information Frame
-		populate_infoframe_tree(tvb, subtree)
+	-- Check whether enough bytes are present to form a media signature
+	if tvb():len() >= 24 then
+		-- Signature of media payload
+		local signature = tvb(HEADER_LEN, 4):uint()
+		-- Update pinfo description
+		pinfo.cols.info = "Media signature = " .. string.format("%08x", signature) .. " "
+		-- If no signature matches, treat it as media continuation packet in a protocol tree
+		-- If signature matches, build a protocol tree for the media frame and save payload to a byte buffer 
+		if signature == SIG_AUDIO or signature == SIG_IFRAME or signature == SIG_PFRAME or signature == SIG_INFOFRAME then
+			if signature == SIG_AUDIO then -- Audio
+				populate_audio_tree(tvb, subtree)
+			elseif signature == SIG_IFRAME then -- I-Frame
+				populate_iframe_tree(tvb, subtree)
+			elseif signature == SIG_PFRAME then -- P-Frame
+				populate_pframe_tree(tvb, subtree)
+			elseif signature == SIG_INFOFRAME then -- Information Frame
+				populate_infoframe_tree(tvb, subtree)
+			else
+				subtree:add(XM_proto, tvb(HEADER_LEN, tvb:len() - HEADER_LEN), "DVRIP Media (Continuation)")
+			end
+		else
+			subtree:add(XM_proto, tvb(HEADER_LEN, tvb:len() - HEADER_LEN), "DVRIP Media (Continuation)")
+		end
 	else
 		subtree:add(XM_proto, tvb(HEADER_LEN, tvb:len() - HEADER_LEN), "DVRIP Media (Continuation)")
 	end
+end
+
+function collect_frames(key, message_length, sequence_id, frame_length, initial_payload)
+	if frame_length <= message_length then
+		video_stream:append(initial_payload)
+	else
+		frame.key = key
+		frame.bytes_needed = frame_length
+		frame.bytes_collected = message_length
+		frame.payload:append(initial_payload)
+		local packets_needed = frame_length // message_length + 1
+		frame.sequence_packet_first = sequence_id
+		frame.sequence_packet_last = sequence_id + packets_needed
+	end
+end
+
+function reset_frame_table()
+    frame.key = nil
+    frame.bytes_needed = 0
+    frame.bytes_collected = 0
+    frame.sequence_packet_first = 0
+    frame.sequence_packet_last  = 0
+    frame.payload = ByteArray.new()
+end
+
+function reconstruct_long_media_frames(message_length, tvb)
+	frame.bytes_collected = frame.bytes_collected + message_length
+	frame.payload:append(tvb(HEADER_LEN, message_length):bytes())
+	if frame.bytes_collected >= frame.bytes_needed then
+		-- Add frame to reconstructed video stream
+		video_stream:append(frame.payload)
+		-- Reset variables in frame table
+		reset_frame_table()
+	end
+end
+
+function reconstruct_audio_video_streams(tvb)
+	local signature = ""
+	if tvb:len() >= 24 then
+		signature = tvb(HEADER_LEN, 4):uint()
+	end
+	local message_length = tvb(16, 4):le_uint()
+	local sequence_id = tvb(8, 4):le_uint()
+	if signature == SIG_AUDIO then
+		local audio_payload_length = tvb(26, 2):le_uint()
+		-- Append audio payload to audio stream
+		audio_stream:append(tvb(HEADER_LEN + 8, audio_payload_length):bytes())
+	elseif signature == SIG_IFRAME then
+		local iframe_length = tvb(32, 4):le_uint()
+		local initial_payload = tvb(HEADER_LEN + 16, message_length - 16):bytes()
+		-- Collect I-Frames to video stream
+		-- Initialize long I-Frames spanning multiple DVRIP/Sofia messages
+		collect_frames("I-Frame", message_length, sequence_id, iframe_length, initial_payload)
+	elseif signature == SIG_PFRAME then
+		local pframe_length = tvb(24, 4):le_uint()
+		local initial_payload = tvb(HEADER_LEN + 8, message_length - 8):bytes()
+		-- Collect I-Frames to video stream
+		-- Initialize long I-Frames spanning multiple DVRIP/Sofia messages
+		collect_frames("P-Frame", message_length, sequence_id, pframe_length, initial_payload)
+	else
+		reconstruct_long_media_frames(message_length, tvb)
+	end
+end
+
+function save_streams()
+	local f_video = io.open("/tmp/video.h265", "wb")
+	f_video:write(video_stream:raw())
+	f_video:close()
+
+	local f_audio = io.open("/tmp/audio.g711", "wb")
+	f_audio:write(audio_stream:raw())
+	f_audio:close()
 end
 
 local function dvrip_dissect_one_pdu(tvb, pinfo, tree)
@@ -235,16 +350,7 @@ local function dvrip_dissect_one_pdu(tvb, pinfo, tree)
 	local subtree = tree:add(XM_proto, tvb(), "Xiongmai DVRIP Protocol")
 	local header = subtree:add(XM_proto, tvb(0, 20), "DVRIP Header")
 
-	header:add_le(DVRIP_header, tvb(0, 1))
-	header:add_le(DVRIP_req_resp, tvb(1, 1))
-	header:add_le(DVRIP_reserved_1, tvb(2, 1))
-	header:add_le(DVRIP_reserved_2, tvb(3, 1))
-	header:add_le(DVRIP_session_id, tvb(4, 4))
-	header:add_le(DVRIP_sequence_id, tvb(8, 4))
-	header:add_le(DVRIP_total_packets, tvb(12, 1))
-	header:add_le(DVRIP_current_packet, tvb(13, 1))
-	header:add_le(DVRIP_command_code, tvb(14, 2))
-	header:add_le(DVRIP_payload_size, tvb(16, 4))
+	build_message_header(tvb, header)
 
 	if tvb:len() > HEADER_LEN then
 		-- Lenght of a DVRIP/Sofia message (without 20-bit header)
@@ -252,9 +358,14 @@ local function dvrip_dissect_one_pdu(tvb, pinfo, tree)
 
 		-- Build protocol tree with control flow messages (JSON-based) and media payloads
 		if tvb(HEADER_LEN, 1):uint() == 0x7b and tvb(14, 2):le_uint() ~= 0x0584 then -- 0x7b = {; 0x0584 = 1412
-			build_protocol_tree(tvb, pinfo, subtree, payload_length, json)
+			build_protocol_tree(tvb, pinfo, subtree, payload_length)
 		else
 			build_protocol_media_tree(tvb, pinfo, subtree)
+
+			-- Reconstruct DVRIP/Sofia media frames into byte buffers ready for export
+			if not pinfo.visited then
+				reconstruct_audio_video_streams(tvb)
+			end
 		end
 	end
 
@@ -267,6 +378,8 @@ function XM_proto.dissector(tvb, pinfo, tree)
 	end
 
 	dissect_tcp_pdus(tvb, tree, 20, dvrip_get_len, dvrip_dissect_one_pdu, true)
+	-- Save audio and video streams
+	save_streams()
 end
 
 -- assigning protocol to port
