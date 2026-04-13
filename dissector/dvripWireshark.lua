@@ -414,8 +414,6 @@ local function dvrip_dissect_one_pdu(tvb, pinfo, tree)
 
 			-- Reconstruct DVRIP/Sofia media frames into byte buffers ready for export
 			if not pinfo.visited then
-				print(tostring(pinfo.src) .. ":" .. tostring(pinfo.src_port) ..
-           "->" .. tostring(pinfo.dst) .. ":" .. tostring(pinfo.dst_port))
 				local stream_key = tostring(pinfo.src)
 				reconstruct_streams(tvb, stream_key)
 			end
