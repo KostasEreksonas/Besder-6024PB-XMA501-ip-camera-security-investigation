@@ -129,7 +129,6 @@ XM_proto.fields = {
 }
 
 local function dvrip_get_len(tvb, pinfo, offset)
-	pinfo.cols.info = "JSON command code = " .. string.format("%04d", tvb(offset + 14,2):le_uint()) .. " "
 	-- if header is truncated, get subsequent TCP packet
 	if tvb:len() - offset < HEADER_LEN then
 		return 0
@@ -361,19 +360,18 @@ local function reconstruct_streams(tvb, stream_key)
 	if signature == SIG_IMAGE then
 		save_image(sequence_id, tvb(HEADER_LEN, message_length):bytes())
 	elseif signature == SIG_AUDIO then
-		local audio_payload_length = tvb(HEADER_LEN + 6, 2):le_uint()
 		-- Append audio payload to audio stream
 		local audio_stream = get_audio_stream(stream_key)
-		audio_stream.payload:append(tvb(HEADER_LEN + 8, audio_payload_length):bytes())
+		audio_stream.payload:append(tvb(HEADER_LEN + AFRAME_HEADER_LEN, message_length - AFRAME_HEADER_LEN):bytes())
 	elseif signature == SIG_IFRAME then
 		local iframe_length = tvb(HEADER_LEN + 12, 4):le_uint()
-		local initial_payload = tvb(HEADER_LEN + 16, message_length - 16):bytes()
+		local initial_payload = tvb(HEADER_LEN + IFRAME_HEADER_LEN, message_length - IFRAME_HEADER_LEN):bytes()
 		-- Collect I-Frames to video stream
 		-- Initialize long I-Frames spanning multiple DVRIP/Sofia messages
 		collect_frames(stream_key, message_length, sequence_id, iframe_length, initial_payload, frame)
 	elseif signature == SIG_PFRAME then
 		local pframe_length = tvb(HEADER_LEN + 4, 4):le_uint()
-		local initial_payload = tvb(HEADER_LEN + 8, message_length - 8):bytes()
+		local initial_payload = tvb(HEADER_LEN + PFRAME_HEADER_LEN, message_length - PFRAME_HEADER_LEN):bytes()
 		-- Collect P-Frames to video stream
 		-- Initialize long P-Frames spanning multiple DVRIP/Sofia messages
 		collect_frames(stream_key, message_length, sequence_id, pframe_length, initial_payload, frame)
@@ -387,7 +385,7 @@ local function save_streams()
 	for stream_key, value in pairs(video_streams) do
 		local file_name = string.format("/tmp/%s_video.h265", stream_key)
 		local f_video, f_video_err = io.open(file_name, "wb")
-		if not file then
+		if not f_video then
   			-- log the error or silently skip
   			print(f_video_err)
 			return
@@ -399,7 +397,7 @@ local function save_streams()
 	for stream_key, value in pairs(audio_streams) do
 		local file_name = string.format("/tmp/%s_audio.g711", stream_key)
 		local f_audio, f_audio_err = io.open(file_name, "wb")
-		if not file then
+		if not f_audio then
   			-- log the error or silently skip
   			print(f_audio_err)
 			return
@@ -411,6 +409,7 @@ end
 
 local function dvrip_dissect_one_pdu(tvb, pinfo, tree)
 	pinfo.cols.protocol = XM_proto.name
+	pinfo.cols.info = "JSON command code = " .. string.format("%04d", tvb(14,2):le_uint()) .. " "
 
 	local subtree = tree:add(XM_proto, tvb(), "Xiongmai DVRIP Protocol")
 	local header = subtree:add(XM_proto, tvb(0, 20), "DVRIP Header")
