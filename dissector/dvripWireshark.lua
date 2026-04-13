@@ -340,7 +340,12 @@ end
 
 local function save_image(sequence_id, image_buffer)
 	local file_name = string.format("/tmp/%d.jpeg", sequence_id)
-	local file = io.open(file_name, "wb")
+	local file, err = io.open(file_name, "wb")
+	if not file then
+  		-- log the error or silently skip
+  		print(err)
+		return
+	end
 	file:write(image_buffer:raw())
 	file:close()
 end
@@ -381,14 +386,24 @@ local function save_streams()
 	-- Save video
 	for stream_key, value in pairs(video_streams) do
 		local file_name = string.format("/tmp/%s_video.h265", stream_key)
-		local f_video = io.open(file_name, "wb")
+		local f_video, f_video_err = io.open(file_name, "wb")
+		if not file then
+  			-- log the error or silently skip
+  			print(f_video_err)
+			return
+		end
 		f_video:write(value.payload:raw())
 		f_video:close()
 	end
 	-- Save audio
 	for stream_key, value in pairs(audio_streams) do
 		local file_name = string.format("/tmp/%s_audio.g711", stream_key)
-		local f_audio = io.open(file_name, "wb")
+		local f_audio, f_audio_err = io.open(file_name, "wb")
+		if not file then
+  			-- log the error or silently skip
+  			print(f_audio_err)
+			return
+		end
 		f_audio:write(value.payload:raw())
 		f_audio:close()
 	end
