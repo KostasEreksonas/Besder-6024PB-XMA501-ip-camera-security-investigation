@@ -75,7 +75,8 @@ Header description of a single DVRIP/Sofia message is based on [Digital Video Re
 5. BIT 7 - low 8 bits of image height; the value is actual height divided by 8
 6. BIT 8-11 - datetime of the capture
 7. BIT 12-15 - length of I-Frame payload
-8. BIT 16-19 - first 4 bits of an I-Frame payload
+
+First 4 bits of an I-Frame payload (BITS 16-19) are equal to `0x00000001`
 
 Same exact header fields are shared between I-Frames (FC) and snapshots (FE).
 
@@ -89,7 +90,8 @@ Extension of I-Frames.
 
 1. BIT 0-3 - signature
 2. BIT 4-7 - length of P-Frame payload
-3. BIT 8-11 - first 4 bits of a P-Frame payload
+
+First 4 bits of a P-Frame payload (BITS 8-11) are equal to `0x00000001`
 
 # Information Frame Header
 
