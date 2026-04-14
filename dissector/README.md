@@ -9,7 +9,7 @@ Table of Contents
 * [Audio Header](#audio-header)
 * [I-Frame Header](#i-frame-header)
 * [P-Frame Header](#p-frame-header)
-* [E-Frame Header](#e-frame-header)
+* [Information Frame Header](#information-frame-header)
 
 # Test Device
 
@@ -36,20 +36,20 @@ Header description of a single DVRIP/Sofia message is based on [Digital Video Re
 
 ![DVRIP header in Wireshark](images/DVRIP_header_wireshark.png)
 
-1. BIT 0 - message header byte, fixed as 0xFF.
-2. BIT 1 - observed to be equal to 0 for requests and equal to 1 for responses from the IP camera.
-3. BIT 2 - reserved byte 1:
-    * Equals `0` when H.264 video codec is used (BIT4 = 0x02 on I-Frame header).
-    * Equals `1` when H.265 video codec is used (BIT4 = 0x12 on I-Frame header).
-4. BIT 3 - reserved byte 2:
+1. BIT 0: message header byte, fixed as 0xFF.
+2. BIT 1: observed to be equal to 0 for requests and equal to 1 for responses from the IP camera.
+3. BIT 2: reserved byte 1:
+    * Equals `0` when H.264 video codec is used (BIT4 = `0x02` on I-Frame header).
+    * Equals `1` when H.265 video codec is used (BIT4 = `0x12` on I-Frame header).
+4. BIT 3: reserved byte 2:
     * Equals `128` when DVRIP message contains audio frames.
     * Equals `0` otherwise.
-5. BIT 4-7 - session ID. Assigned by the camera after successful login. Needs to be present in every subsequent message.
-6. BIT 8-11 - sequence number. Increments from 0 after startup, and after reaching the (unknown) maximum, starts from 0 again.
-7. BIT 12 - total number of packets in a single message. Value of 0 or 1 indicate a single message per packet. 
-8. BIT 13 - number of a current packet in message. Meaningful only when the value of total packets (BIT 12) is greater than 1.
-9. BIT 14-15 - command code (also called message id). The code defines what action to perform.
-10. BIT 16-19 - data (payload) length. Length of a JSON payload, which starts immediately after DVRIP/Sofia header.
+5. BIT 4-7: session ID. Assigned by the camera after successful login. Needs to be present in every subsequent message.
+6. BIT 8-11: sequence number. Increments from 0 after startup, and after reaching the (unknown) maximum, starts from 0 again.
+7. BIT 12: total number of packets in a single message. Value of 0 or 1 indicate a single message per packet. 
+8. BIT 13: number of a current packet in message. Meaningful only when the value of total packets (BIT 12) is greater than 1.
+9. BIT 14-15: command code (also called message id). The code defines what action to perform.
+10. BIT 16-19: data (payload) length. Length of a JSON payload, which starts immediately after DVRIP/Sofia header.
 
 # Audio Header
 
@@ -57,10 +57,10 @@ Header description of a single DVRIP/Sofia message is based on [Digital Video Re
 
 ![DVRIP audio header in Wireshark](images/Audio_header_wireshark.png)
 
-1. BIT 0-3 - signature
-2. BIT 4 - audio codec (0x0e = G711A)
-3. BIT 5 - sampling rate (0x02 = 8kHz sampling)
-4. BIT 6-7 - length of audio payload
+1. BIT 0-3: signature
+2. BIT 4: audio codec (0x0e = G711A)
+3. BIT 5: sampling rate (0x02 = 8kHz sampling)
+4. BIT 6-7: length of audio payload
 
 # I-Frame Header
 
@@ -68,13 +68,13 @@ Header description of a single DVRIP/Sofia message is based on [Digital Video Re
 
 ![DVRIP I-Frame in Wireshark](images/Iframe_header_wireshark.png)
 
-1. BIT 0-3 - signature
-2. BIT 4 - video codec (0x01 = MPEG4, 0x02 = H.264, 0x12 = H.265)
-3. BIT 5 - encoded framerate (variable; 1-25 for PAL, 1-30 for NTSC)
-4. BIT 6 - low 8 bits of image width; the value is actual width divided by 8
-5. BIT 7 - low 8 bits of image height; the value is actual height divided by 8
-6. BIT 8-11 - datetime of the capture
-7. BIT 12-15 - length of I-Frame payload
+1. BIT 0-3: signature
+2. BIT 4: video codec (0x01 = MPEG4, 0x02 = H.264, 0x12 = H.265)
+3. BIT 5: encoded framerate (variable; 1-25 for PAL, 1-30 for NTSC)
+4. BIT 6: low 8 bits of image width; the value is actual width divided by 8
+5. BIT 7: low 8 bits of image height; the value is actual height divided by 8
+6. BIT 8-11: datetime of the capture
+7. BIT 12-15: length of I-Frame payload
 
 First 4 bits of an I-Frame payload (BITS 16-19) are equal to `0x00000001`
 
@@ -88,8 +88,8 @@ Same exact header fields are shared between I-Frames (FC) and snapshots (FE).
 
 Extension of I-Frames.
 
-1. BIT 0-3 - signature
-2. BIT 4-7 - length of P-Frame payload
+1. BIT 0-3: signature
+2. BIT 4-7: length of P-Frame payload
 
 First 4 bits of a P-Frame payload (BITS 8-11) are equal to `0x00000001`
 
@@ -99,12 +99,12 @@ First 4 bits of a P-Frame payload (BITS 8-11) are equal to `0x00000001`
 
 ![DVRIP information frame in Wireshark](images/Information_frame_header_wireshark.png)
 
+1. BIT 0-3: signature
+2. BIT 4: general information (unconfirmed)
+3. BIT 5: unused value
+4. BIT 6-7: payload length
 
 Used for information transmission. First byte after signature (byte 4):
 
 1. 0x01 - general information.
 2. 0x06 - unknown value.
-
-# To Do
-
-1. Implement frame keys, so that separate audio/video streams could be saved for data from multiple IP cameras / data stream sessions on the same Wireshark capture file.
