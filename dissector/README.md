@@ -39,11 +39,11 @@ Header description of a single DVRIP/Sofia message is based on [Digital Video Re
 1. BIT 0 - message header byte, fixed as 0xFF.
 2. BIT 1 - observed to be equal to 0 for requests and equal to 1 for responses from the IP camera.
 3. BIT 2 - reserved byte 1:
-    * When H.265 video codec is used (BIT4 = 0x12 on I-Frame header), this value is equal to 1.
-    * When H.264 video codec is used (BIT4 = 0x02 on I-Frame header), this value is equal to 0.
+    * Equals `0` when H.264 video codec is used (BIT4 = 0x02 on I-Frame header).
+    * Equals `1` when H.265 video codec is used (BIT4 = 0x12 on I-Frame header).
 4. BIT 3 - reserved byte 2:
-    * When H.264 video codec is used, value of this BIT is equal to 128 on DVRIP messages containing audio frames.
-    * Otherwise, BIT 3 value is equal to 0. 
+    * Equals `128` when DVRIP message contains audio frames.
+    * Equals `0` otherwise.
 5. BIT 4-7 - session ID. Assigned by the camera after successful login. Needs to be present in every subsequent message.
 6. BIT 8-11 - sequence number. Increments from 0 after startup, and after reaching the (unknown) maximum, starts from 0 again.
 7. BIT 12 - total number of packets in a single message. Value of 0 or 1 indicate a single message per packet. 
