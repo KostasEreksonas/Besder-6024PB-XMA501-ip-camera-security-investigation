@@ -160,10 +160,12 @@ end
 local function build_protocol_tree(tvb, pinfo, subtree, payload_length)
 	-- Handle trailing newline (last 1 or 2 bytes of a payload)
 	local json_tvb
-	if tvb(HEADER_LEN + payload_length - 1, 1):le_uint() ~= 0x0a then
+	if tvb(HEADER_LEN + payload_length - 2, 1):le_uint() == 0x7d then
+		json_tvb = tvb(HEADER_LEN, payload_length - 1) -- last byte is newline
+	elseif tvb(HEADER_LEN + payload_length - 1, 1):le_uint() ~= 0x0a then
 		json_tvb = tvb(HEADER_LEN, payload_length - 2) -- last 2 bytes are newline
 	else
-		json_tvb = tvb(HEADER_LEN, payload_length - 1) -- last byte is newline
+		json_tvb = tvb(HEADER_LEN, payload_length)
 	end
 
 	-- Raw JSON text
@@ -245,7 +247,7 @@ local function build_protocol_media_tree(tvb, pinfo, subtree)
 		-- Signature of media payload
 		local signature = tvb(HEADER_LEN, 4):uint()
 		-- Update pinfo description
-		pinfo.cols.info = "Media signature = " .. string.format("%08x", signature) .. " "
+		pinfo.cols.info = "DVRIP media signature = " .. string.format("%08x", signature) .. " "
 		-- If no signature matches, treat it as media continuation packet in a protocol tree
 		-- If signature matches, build a protocol tree for the media frame and save payload to a byte buffer
 		if signature == SIG_IMAGE then -- JPEG image
@@ -260,9 +262,11 @@ local function build_protocol_media_tree(tvb, pinfo, subtree)
 			populate_infoframe_tree(tvb, subtree)
 		else
 			subtree:add(XM_proto, tvb(HEADER_LEN, tvb:len() - HEADER_LEN), "DVRIP Media (Continuation)")
+			pinfo.cols.info = "DVRIP media continuation message "
 		end
 	else
 		subtree:add(XM_proto, tvb(HEADER_LEN, tvb:len() - HEADER_LEN), "DVRIP Media (Continuation)")
+		pinfo.cols.info = "DVRIP media continuation message "
 	end
 end
 
@@ -409,7 +413,7 @@ end
 
 local function dvrip_dissect_one_pdu(tvb, pinfo, tree)
 	pinfo.cols.protocol = XM_proto.name
-	pinfo.cols.info = "JSON command code = " .. string.format("%04d", tvb(14,2):le_uint()) .. " "
+	pinfo.cols.info = "Command code = " .. string.format("%04d", tvb(14,2):le_uint()) .. " "
 
 	local subtree = tree:add(XM_proto, tvb(), "Xiongmai DVRIP Protocol")
 	local header = subtree:add(XM_proto, tvb(0, 20), "DVRIP Header")
@@ -431,6 +435,9 @@ local function dvrip_dissect_one_pdu(tvb, pinfo, tree)
 				local stream_key = tostring(pinfo.src) .. "_" .. tvb(2, 1):le_uint().. "_" .. tvb(3, 1):le_uint() 
 				reconstruct_streams(tvb, stream_key)
 			end
+		end
+		if pinfo.number == 73569 then
+			print(tvb:len())
 		end
 	end
 
