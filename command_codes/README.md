@@ -27,6 +27,7 @@ Table of Contents
     * [Serial Port Controls (C27 message number)](#serial-port-controls-c27-message-number)
     * [Time Synchronization](#time-synchronization)
     * [Screenshot Upload Message](#screenshot-upload-message)
+    * [Get Random User](#get-random-user)
     * [Version List](#version-list)
     * [FTP test](#ftp-test)
 
@@ -266,7 +267,7 @@ Table of Contents
 |Name|Code|Description|Payload|
 |----|----|-----------|-------|
 |IPSEARCH_REQ|1530|IP auto search request|Not yet observed|
-|IPSEARCH_RSP|1531|IP auto search response|Not yet observed|
+|IPSEARCH_RSP|1531|IP auto search response|[IP auto search response](payloads/1531_IPSEARCH_RSP_response.json)|
 |IP_SET_REQ|1532|IP set request|Not yet observed|
 |IP_SET_RSP|1533|IP set response|Not yet observed|
 
@@ -329,6 +330,13 @@ Table of Contents
 |----|----|-----------|-------|
 |PHOTO_GET_REQ|1600|Screenshot upload request|Not yet observed|
 |PHOTO_GET_RSP|1601|Screenshot upload response|Not yet observed|
+
+## Get Random User
+
+|Name|Code|Description|Payload|
+|----|----|-----------|-------|
+|GetRandomUser_REQ|1660|Get random user request|[Get random user request](payloads/1660_GetRandomUser_request.json)|
+|GetRandomUser_RESP|1661|Get random user response|[Get random user response](payloads/1661_GetRandomUser_response.json)|
 
 ## Version List
 

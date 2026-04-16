@@ -1,0 +1,26 @@
+{
+    "NetWork.NetCommon" :
+    {
+        "BuildDate" : "2020-11-24 16:47:14",
+        "ChannelNum" : 1,
+        "DeviceType" : 24,
+        "GateWay" : "0x0101A8C0",
+        "HostIP" : "0x6701A8C0",
+        "HostName" : "camera_743c",
+        "HttpPort" : 80,
+        "MAC" : "dc:29:19:e2:74:3c",
+        "MonMode" : "TCP",
+        "NetConnectState" : 1,
+        "OtherFunction" : "D=2026-04-15 19:43:27 V=6cda3ed5d320dc8",
+        "SN" : "09d53d540f99b818",
+        "SSLPort" : 8443,
+        "Submask" : "0x00FFFFFF",
+        "TCPMaxConn" : 10,
+        "TCPPort" : 34567,
+        "UDPPort" : 34568,
+        "UseHSDownLoad" : false,
+        "Version" : "V5.00.R02.00030747.10010.349f17.0000000"
+    },
+    "Ret" : 100,
+    "SessionID" : "0x00000000"
+}
