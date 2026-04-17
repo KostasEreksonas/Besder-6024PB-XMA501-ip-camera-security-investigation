@@ -167,24 +167,29 @@ end
 local function build_protocol_tree(tvb, pinfo, subtree, payload_length)
 	-- Handle trailing newline (last 1 or 2 bytes of a payload)
 	local json_tvb
-	if tvb(HEADER_LEN + payload_length - 2, 1):le_uint() == 0x7d then
-		json_tvb = tvb(HEADER_LEN, payload_length - 1) -- last byte is newline
-	elseif tvb(HEADER_LEN + payload_length - 1, 1):le_uint() ~= 0x0a then
-		json_tvb = tvb(HEADER_LEN, payload_length - 2) -- last 2 bytes are newline
+	if tvb:len() < payload_length then
+		json_tvb = tvb(HEADER_LEN, tvb:len() - HEADER_LEN)
+		subtree:add(DVRIP_payload_JSON_RAW, json_tvb, "Incomplete JSON Payload")
 	else
-		json_tvb = tvb(HEADER_LEN, payload_length)
-	end
+		if tvb(HEADER_LEN + payload_length - 2, 1):le_uint() == 0x7d then
+			json_tvb = tvb(HEADER_LEN, payload_length - 1) -- last byte is newline
+		elseif tvb(HEADER_LEN + payload_length - 1, 1):le_uint() ~= 0x0a then
+			json_tvb = tvb(HEADER_LEN, payload_length - 2) -- last 2 bytes are newline
+		else
+			json_tvb = tvb(HEADER_LEN, payload_length)
+		end
 
-	-- Raw JSON text
-	subtree:add(DVRIP_payload_JSON_RAW, json_tvb)
+		-- Raw JSON text
+		subtree:add(DVRIP_payload_JSON_RAW, json_tvb)
 
-	-- Decode JSON object using built-in dissector
-	json:call(json_tvb:tvb(), pinfo, subtree)
+		-- Decode JSON object using built-in dissector
+		json:call(json_tvb:tvb(), pinfo, subtree)
 
-	-- Add newline as a separate protocol subtree entry
-	local trailing = HEADER_LEN + json_tvb:len()
-	if tvb:len() > trailing then
-		subtree:add_le(DVRIP_newline, tvb(trailing, tvb:len() - trailing))
+		-- Add newline as a separate protocol subtree entry
+		local trailing = HEADER_LEN + json_tvb:len()
+		if tvb:len() > trailing then
+			subtree:add_le(DVRIP_newline, tvb(trailing, tvb:len() - trailing))
+		end
 	end
 end
 
@@ -260,7 +265,7 @@ local function get_frame_context(stream_key)
     return frames[stream_key]
 end
 
-local function check_encryption(stream_key, subtree, tvb, pinfo)
+local function check_encryption(stream_key, message_length, subtree, tvb, pinfo)
 	-- Check if DVRIP/Sofia control message is encrypted
 	if (tvb(14, 2):le_uint() ~= 1412) then
 		subtree:add(XM_proto, tvb(HEADER_LEN, message_length), "Encrypted Payload")
@@ -293,11 +298,11 @@ local function build_protocol_media_tree(tvb, pinfo, subtree, stream_key)
 			populate_infoframe_tree(tvb, subtree)
 		else
 			-- Distinguish between encrypted DVRIP/Sofia message and media continuation packet
-			check_encryption(stream_key, subtree, tvb, pinfo)
+			check_encryption(stream_key, message_length, subtree, tvb, pinfo)
 		end
 	else
 		-- Distinguish between encrypted DVRIP/Sofia message and media continuation packet
-		check_encryption(stream_key, subtree, tvb, pinfo)
+		check_encryption(stream_key, message_length, subtree, tvb, pinfo)
 	end
 end
 
@@ -349,7 +354,7 @@ local function check_frame_length(frame_length, message_length, stream_key, payl
 	end
 end
 
-local function reconstruct_long_media_frames(message_length, tvb, stream_key, frame)
+local function reconstruct_long_media_frames(message_length, tvb, stream_key, frame, pinfo)
 	frame.bytes_collected = frame.bytes_collected + message_length
 	frame.payload:append(tvb(HEADER_LEN, message_length):bytes())
 	if frame.bytes_collected >= frame.bytes_needed then
@@ -374,10 +379,10 @@ local function save_image(sequence_id, image_buffer)
 end
 
 local function reconstruct_streams(tvb, stream_key, pinfo, subtree, message_length)
+	local frame = get_frame_context(stream_key)
 	if tvb:len() >= 24 then
 		local signature = tvb(HEADER_LEN, 4):uint()
 		local sequence_id = tvb(8, 4):le_uint()
-		local frame = get_frame_context(stream_key)
 		if signature == SIG_IMAGE then
 			save_image(sequence_id, tvb(HEADER_LEN, message_length):bytes())
 		elseif signature == SIG_AUDIO then
@@ -398,12 +403,12 @@ local function reconstruct_streams(tvb, stream_key, pinfo, subtree, message_leng
 			check_frame_length(pframe_length, message_length, stream_key, payload, frame)
 		else
 			if frame.payload:len() ~= 0 and signature ~= SIG_INFOFRAME then
-				reconstruct_long_media_frames(message_length, tvb, stream_key, frame)
+				reconstruct_long_media_frames(message_length, tvb, stream_key, frame, pinfo)
 			end
 		end
 	else
-		if frame.payload:len() ~= 0 and signature ~= SIG_INFOFRAME then
-			reconstruct_long_media_frames(message_length, tvb, stream_key, frame)
+		if frame.payload:len() ~= 0 then
+			reconstruct_long_media_frames(message_length, tvb, stream_key, frame, pinfo)
 		end
 	end
 end
@@ -454,7 +459,7 @@ local function dvrip_dissect_one_pdu(tvb, pinfo, tree)
 		if tvb(HEADER_LEN, 1):uint() == JSON_OPEN_BRACE and tvb(14, 2):le_uint() ~= CMD_MEDIA_STREAM then
 			build_protocol_tree(tvb, pinfo, subtree, payload_length)
 		else
-			local stream_key = tostring(pinfo.src) .. "_" .. tvb(2, 1):le_uint().. "_" .. tvb(3, 1):le_uint() 
+			local stream_key = tostring(pinfo.src) .. "_" .. tvb(2, 1):le_uint().. "_" .. tvb(3, 1):le_uint()
 			
 			build_protocol_media_tree(tvb, pinfo, subtree, stream_key)
 
@@ -472,6 +477,7 @@ function XM_proto.dissector(tvb, pinfo, tree)
 	if tvb:len() == 0 then
 		return
 	end
+	
 	dissect_tcp_pdus(tvb, tree, HEADER_LEN, dvrip_get_len, dvrip_dissect_one_pdu, true)
 end
 
