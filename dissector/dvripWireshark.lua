@@ -277,7 +277,7 @@ local function check_encryption(stream_key, message_length, subtree, tvb, pinfo)
 	end
 end
 
-local function build_protocol_media_tree(tvb, pinfo, subtree, stream_key)
+local function build_protocol_media_tree(tvb, pinfo, subtree, stream_key, message_length)
 	-- Check whether enough bytes are present to form a media signature
 	if tvb:len() >= 24 then
 		-- Signature of media payload
@@ -413,10 +413,11 @@ local function reconstruct_streams(tvb, stream_key, pinfo, subtree, message_leng
 	end
 end
 
-local function save_streams()
+local function save_streams(save_dir)
 	-- Save video
 	for stream_key, value in pairs(video_streams) do
-		local file_name = string.format("/tmp/%s_video.h265", stream_key)
+		local file_name = string.format("/%s/%s_video.h265", save_dir, stream_key)
+		print(file_name)
 		local f_video, f_video_err = io.open(file_name, "wb")
 		if not f_video then
   			-- log the error or silently skip
@@ -428,7 +429,7 @@ local function save_streams()
 	end
 	-- Save audio
 	for stream_key, value in pairs(audio_streams) do
-		local file_name = string.format("/tmp/%s_audio.g711", stream_key)
+		local file_name = string.format("/%s/%s_audio.g711", save_dir, stream_key)
 		local f_audio, f_audio_err = io.open(file_name, "wb")
 		if not f_audio then
   			-- log the error or silently skip
@@ -438,6 +439,23 @@ local function save_streams()
 		f_audio:write(value.payload:raw())
 		f_audio:close()
 	end
+end
+
+-- Define menu entry to save DVRIP/Sofia streams to a file
+local function dialog_stream_save()
+	local function dialog_window(save_dir)
+		-- Remove leading forward slash (/) from the provided save directory
+		if save_dir:sub(0, 1) == "/" then
+			save_dir = save_dir:sub(2)
+		end
+
+		-- Create new dialog on success
+		local window = TextWindow.new("DVRIP Save Streams");
+		local message = string.format("DVRIP streams saved at /%s.", save_dir);
+        window:set(message);
+		save_streams(save_dir)
+	end
+	new_dialog("DVRIP Save Streams", dialog_window, "Save Directory:")
 end
 
 local function dvrip_dissect_one_pdu(tvb, pinfo, tree)
@@ -461,12 +479,12 @@ local function dvrip_dissect_one_pdu(tvb, pinfo, tree)
 		else
 			local stream_key = tostring(pinfo.src) .. "_" .. tvb(2, 1):le_uint().. "_" .. tvb(3, 1):le_uint()
 			
-			build_protocol_media_tree(tvb, pinfo, subtree, stream_key)
-
 			-- Reconstruct DVRIP/Sofia media frames into byte buffers ready for export
-			if not pinfo.visited then
+			if not pinfo.visited and tvb(14,2):le_uint() == 1412 then
 				reconstruct_streams(tvb, stream_key, pinfo, subtree, payload_length)
 			end
+
+			build_protocol_media_tree(tvb, pinfo, subtree, stream_key, payload_length)
 		end
 	end
 
@@ -477,7 +495,7 @@ function XM_proto.dissector(tvb, pinfo, tree)
 	if tvb:len() == 0 then
 		return
 	end
-	
+
 	dissect_tcp_pdus(tvb, tree, HEADER_LEN, dvrip_get_len, dvrip_dissect_one_pdu, true)
 end
 
@@ -487,14 +505,5 @@ tcp_table:add(34567, XM_proto)
 local udp_table = DissectorTable.get("udp.port")
 udp_table:add(34569, XM_proto)
 
--- Save audio and video streams
-local tap = Listener.new(nil, "tcp.port == 34567 or udp.port == 34569")
-
-function tap.draw()
-	save_streams()
-end
-
-function tap.reset()
-	video_streams = {}
-	audio_streams = {}
-end
+-- Create the menu entry for saving DVRIP/Sofia media streams
+register_menu("DVRIP Save Streams", dialog_stream_save, MENU_TOOLS_UNSORTED)
