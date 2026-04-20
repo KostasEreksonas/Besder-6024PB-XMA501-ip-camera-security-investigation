@@ -135,6 +135,25 @@ XM_proto.fields = {
 	DVRIP_unused_field
 }
 
+local function udp_get_len(tvb)
+	return tvb(4, 2):uint()
+end
+
+local function udp_dissect_one_pdu(tvb, pinfo, tree)
+	local json_tvb
+	local subtree = tree:add(XM_proto, tvb(), "DVRIP Configuration Message")
+
+	subtree:add(DVRIP_payload_JSON_RAW, tvb(0, tvb:len()))
+
+	-- Decode JSON object using built-in dissector
+	json:call(tvb, pinfo, subtree)
+	
+	pinfo.cols.protocol = "DVRIP/JSON"
+    pinfo.cols.info = "DVRIP Configuration Message"
+    
+	return tvb:len()
+end
+
 local function dvrip_get_len(tvb, pinfo, offset)
 	-- if header is truncated, get subsequent TCP packet
 	if tvb:len() - offset < HEADER_LEN then
@@ -171,9 +190,9 @@ local function build_protocol_tree(tvb, pinfo, subtree, payload_length)
 		json_tvb = tvb(HEADER_LEN, tvb:len() - HEADER_LEN)
 		subtree:add(DVRIP_payload_JSON_RAW, json_tvb, "Incomplete JSON Payload")
 	else
-		if tvb(HEADER_LEN + payload_length - 2, 1):le_uint() == 0x7d then
+		if tvb(HEADER_LEN + payload_length - 2, 1):uint() == 0x7d then
 			json_tvb = tvb(HEADER_LEN, payload_length - 1) -- last byte is newline
-		elseif tvb(HEADER_LEN + payload_length - 1, 1):le_uint() ~= 0x0a then
+		elseif tvb(HEADER_LEN + payload_length - 1, 1):uint() ~= 0x0a then
 			json_tvb = tvb(HEADER_LEN, payload_length - 2) -- last 2 bytes are newline
 		else
 			json_tvb = tvb(HEADER_LEN, payload_length)
@@ -496,7 +515,11 @@ function XM_proto.dissector(tvb, pinfo, tree)
 		return
 	end
 
-	dissect_tcp_pdus(tvb, tree, HEADER_LEN, dvrip_get_len, dvrip_dissect_one_pdu, true)
+	if tvb(0, 1):uint() == JSON_OPEN_BRACE then
+		dissect_tcp_pdus(tvb, tree, 0, udp_get_len, udp_dissect_one_pdu, true)
+	else
+		dissect_tcp_pdus(tvb, tree, HEADER_LEN, dvrip_get_len, dvrip_dissect_one_pdu, true)
+	end
 end
 
 -- assigning protocol to port
@@ -504,6 +527,7 @@ local tcp_table = DissectorTable.get("tcp.port")
 tcp_table:add(34567, XM_proto)
 local udp_table = DissectorTable.get("udp.port")
 udp_table:add(34569, XM_proto)
+udp_table:add(34571, XM_proto)
 
 -- Create the menu entry for saving DVRIP/Sofia media streams
 register_menu("DVRIP Save Streams", dialog_stream_save, MENU_TOOLS_UNSORTED)
