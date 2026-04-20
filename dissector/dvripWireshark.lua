@@ -144,18 +144,26 @@ XM_proto.fields = {
 
 local function udp_get_len(tvb)
 	-- Return length of UDP packet
-	return tvb(4, 2):uint()
+	return tvb:len()
 end
 
 local function udp_dissect_bind_pdu(tvb, pinfo, tree)
 	local signature = tvb(0, 4):uint()
+	local signature_2
+	if tvb:len() >= 5 then signature_2 = tvb(0, 5):bytes():tohex() end
 	local subtree = tree:add(XM_proto, tvb(), "Cloud Binding Message")
-	
-	subtree:add(DVRIP_signature, signature)
-
-	if signature == 0x1420f505 then -- IP camera -> cloud server
+	if signature == 0x1420f505 then -- IP camera -> cloud server (port 7999/UDP)
+		subtree:add(DVRIP_signature, tvb(0, 4))
 		subtree:add(DVRIP_cloud_ip, tvb(4, tvb:len() - 4))
-	elseif signature == 0x1420f405 then -- Cloud server -> IP camera
+	elseif signature_2 == "1220F10503" then -- IP camera -> cloud server (port 8765/UDP)
+		subtree:add(DVRIP_signature, tvb(0, 5))
+		-- Split IPs by /0 and add them to protocol subtree
+		for split in tvb:raw():gmatch("([^%z]+)") do
+			for ip in split:gmatch("(%d+%.%d+%.%d+%.%d+)") do
+				subtree:add(DVRIP_cloud_ip, ip)
+			end
+		end
+	elseif signature == 0x1420f405 or signature == 0x1220ea03 then -- Cloud server -> IP camera
 		subtree:add(DVRIP_device_id, tvb(4, tvb:len() - 4))
 	end
 
@@ -539,7 +547,7 @@ function XM_proto.dissector(tvb, pinfo, tree)
 		return
 	end
 
-	if tvb(0, 4):uint() == 0x1420f505 or tvb(0, 4):uint() == 0x1420f405 then
+	if tvb(0, 4):uint() == 0x1420f505 or tvb(0, 4):uint() == 0x1420f405 or tvb(0, 2):uint() == 0x1220 then
 		-- Dissect packets that bind IP camera to a cloud server for remote video stream access
 		dissect_tcp_pdus(tvb, tree, 0, udp_get_len, udp_dissect_bind_pdu, true)
 	elseif tvb(0, 1):uint() == JSON_OPEN_BRACE then
@@ -554,8 +562,9 @@ local tcp_table = DissectorTable.get("tcp.port")
 tcp_table:add(34567, XM_proto)
 local udp_table = DissectorTable.get("udp.port")
 udp_table:add(7999, XM_proto)
+udp_table:add(8765, XM_proto)
 udp_table:add(34569, XM_proto)
 udp_table:add(34571, XM_proto)
 
 -- Create the menu entry for saving DVRIP/Sofia media streams
-register_menu("DVRIP/Sofia Save Streams", dialog_stream_save, MENU_TOOLS_UNSORTED)
+register_menu("DVRIP Save Streams", dialog_stream_save, MENU_TOOLS_UNSORTED)
