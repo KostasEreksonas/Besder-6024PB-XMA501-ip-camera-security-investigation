@@ -50,11 +50,11 @@ local frames = {}
 local json = Dissector.get("json")
 
 -- Definition of the overall protocol name
-local XM_proto = Proto("dvrip", "Xiongmai DVRIP Protocol")
+local XM_proto = Proto("dvrip", "Xiongmai DVRIP/Sofia Protocol")
 
 -- DVRIP/Sofia packet header fields
-local DVRIP_header = ProtoField.bytes("dvrip.header", "DVRIP Header")
-local DVRIP_header_id = ProtoField.uint8("dvrip.header_id", "Header", base.DEC_HEX)
+local DVRIP_header = ProtoField.bytes("dvrip.header", "Header")
+local DVRIP_header_id = ProtoField.uint8("dvrip.header_id", "Header ID", base.DEC_HEX)
 local DVRIP_req_resp = ProtoField.uint8("dvrip.req_resp", "Request/Response", base.DEC_HEX)
 local DVRIP_reserved_1 = ProtoField.uint8("dvrip.reserved_1", "Reserved 1", base.DEC_HEX)
 local DVRIP_reserved_2 = ProtoField.uint8("dvrip.reserved_2", "Reserved 2", base.DEC_HEX)
@@ -68,6 +68,10 @@ local DVRIP_payload_size = ProtoField.uint32("dvrip.payload_size", "Payload Size
 -- DVRIP/Sofia JSON payload fields
 local DVRIP_payload_JSON_RAW = ProtoField.string("dvrip.data", "Raw JSON Message")
 local DVRIP_newline = ProtoField.uint16("dvrip.newline", "Newline", base.DEC_HEX)
+
+-- Info for binding DVRIP/Sofia device with a cloud relay
+local DVRIP_cloud_ip = ProtoField.string("dvrip.cloud_ip", "IP Address of Cloud Relay")
+local DVRIP_device_id = ProtoField.string("dvrip.device_id", "Device ID of IP Camera")
 
 -- DVRIP/Sofia encrypted payload field
 local DVRIP_encrypted = ProtoField.string("dvrip.encrypted", "Encrypted Message")
@@ -114,6 +118,9 @@ XM_proto.fields = {
 	-- DVRIP/Sofia JSON payload fields
 	DVRIP_payload_JSON_RAW,
 	DVRIP_newline,
+	-- Info for binding DVRIP/Sofia device with a cloud relay
+	DVRIP_cloud_ip,
+	DVRIP_device_id,
 	-- Encrypted data
 	DVRIP_encrypted,
 	-- Media frame payload size
@@ -136,12 +143,29 @@ XM_proto.fields = {
 }
 
 local function udp_get_len(tvb)
+	-- Return length of UDP packet
 	return tvb(4, 2):uint()
 end
 
-local function udp_dissect_one_pdu(tvb, pinfo, tree)
+local function udp_dissect_bind_pdu(tvb, pinfo, tree)
+	local signature = tvb(0, 4):uint()
+	local subtree = tree:add(XM_proto, tvb(), "Cloud Binding Message")
+	
+	subtree:add(DVRIP_signature, signature)
+
+	if signature == 0x1420f505 then -- IP camera -> cloud server
+		subtree:add(DVRIP_cloud_ip, tvb(4, tvb:len() - 4))
+	elseif signature == 0x1420f405 then -- Cloud server -> IP camera
+		subtree:add(DVRIP_device_id, tvb(4, tvb:len() - 4))
+	end
+
+	pinfo.cols.protocol = "DVRIP/JSON"
+    pinfo.cols.info = "Cloud Binding Message"
+end
+
+local function udp_dissect_json_pdu(tvb, pinfo, tree)
 	local json_tvb
-	local subtree = tree:add(XM_proto, tvb(), "DVRIP Configuration Message")
+	local subtree = tree:add(XM_proto, tvb(), "Configuration Message")
 
 	subtree:add(DVRIP_payload_JSON_RAW, tvb(0, tvb:len()))
 
@@ -149,8 +173,8 @@ local function udp_dissect_one_pdu(tvb, pinfo, tree)
 	json:call(tvb, pinfo, subtree)
 	
 	pinfo.cols.protocol = "DVRIP/JSON"
-    pinfo.cols.info = "DVRIP Configuration Message"
-    
+    pinfo.cols.info = "Configuration Message"
+
 	return tvb:len()
 end
 
@@ -213,7 +237,7 @@ local function build_protocol_tree(tvb, pinfo, subtree, payload_length)
 end
 
 local function populate_audio_tree(tvb, subtree)
-	local atree = subtree:add(XM_proto, tvb(HEADER_LEN, tvb:len() - HEADER_LEN), "DVRIP Audio")
+	local atree = subtree:add(XM_proto, tvb(HEADER_LEN, tvb:len() - HEADER_LEN), "Audio")
 	local atree_header = atree:add(XM_proto, tvb(HEADER_LEN, AFRAME_HEADER_LEN), "Header")
 
 	-- Populate Audio Frame header fields
@@ -228,7 +252,7 @@ end
 
 local function populate_iframe_tree(tvb, subtree)
 	-- Add I-Frame to general tree
-	local itree = subtree:add(XM_proto, tvb(HEADER_LEN, tvb:len() - HEADER_LEN), "DVRIP I-Frame")
+	local itree = subtree:add(XM_proto, tvb(HEADER_LEN, tvb:len() - HEADER_LEN), "I-Frame")
 	local itree_header = itree:add(XM_proto, tvb(HEADER_LEN, IFRAME_HEADER_LEN), "I-Frame Header")
 
 	-- Populate I-Frame header fields
@@ -246,7 +270,7 @@ end
 
 local function populate_pframe_tree(tvb, subtree)
 	-- Add P-Frame to general tree
-	local ptree = subtree:add(XM_proto, tvb(HEADER_LEN, tvb:len() - HEADER_LEN), "DVRIP P-Frame")
+	local ptree = subtree:add(XM_proto, tvb(HEADER_LEN, tvb:len() - HEADER_LEN), "P-Frame")
 	local ptree_header = ptree:add(XM_proto, tvb(HEADER_LEN, PFRAME_HEADER_LEN), "P-Frame Header")
 
 	-- Populate P-Frame header fields
@@ -259,7 +283,7 @@ end
 
 local function populate_infoframe_tree(tvb, subtree)
 	-- Add Information Frame to general tree
-	local infotree = subtree:add(XM_proto, tvb(HEADER_LEN, tvb:len() - HEADER_LEN), "DVRIP Information Frame")
+	local infotree = subtree:add(XM_proto, tvb(HEADER_LEN, tvb:len() - HEADER_LEN), "Information Frame")
 	local infotree_header = infotree:add(XM_proto, tvb(HEADER_LEN, INFOFRAME_HEADER_LEN), "Header")
 
 	-- Populate Information Frame header fields
@@ -289,10 +313,10 @@ local function check_encryption(stream_key, message_length, subtree, tvb, pinfo)
 	if (tvb(14, 2):le_uint() ~= 1412) then
 		subtree:add(XM_proto, tvb(HEADER_LEN, message_length), "Encrypted Payload")
 		subtree:add(DVRIP_encrypted, tvb(HEADER_LEN, message_length))
-		pinfo.cols.info = "Encrypted message "
+		pinfo.cols.info = "Encrypted Message "
 	else
-		subtree:add(XM_proto, tvb(HEADER_LEN, tvb:len() - HEADER_LEN), "DVRIP Media (Continuation)")
-		pinfo.cols.info = "DVRIP media continuation message "
+		subtree:add(XM_proto, tvb(HEADER_LEN, tvb:len() - HEADER_LEN), "Media Continuation Message")
+		pinfo.cols.info = "Media Continuation Message "
 	end
 end
 
@@ -515,19 +539,23 @@ function XM_proto.dissector(tvb, pinfo, tree)
 		return
 	end
 
-	if tvb(0, 1):uint() == JSON_OPEN_BRACE then
-		dissect_tcp_pdus(tvb, tree, 0, udp_get_len, udp_dissect_one_pdu, true)
+	if tvb(0, 4):uint() == 0x1420f505 or tvb(0, 4):uint() == 0x1420f405 then
+		-- Dissect packets that bind IP camera to a cloud server for remote video stream access
+		dissect_tcp_pdus(tvb, tree, 0, udp_get_len, udp_dissect_bind_pdu, true)
+	elseif tvb(0, 1):uint() == JSON_OPEN_BRACE then
+		dissect_tcp_pdus(tvb, tree, 0, udp_get_len, udp_dissect_json_pdu, true)
 	else
 		dissect_tcp_pdus(tvb, tree, HEADER_LEN, dvrip_get_len, dvrip_dissect_one_pdu, true)
 	end
 end
 
--- assigning protocol to port
+-- Assign DVRIP/Sofia protocol to relevant ports
 local tcp_table = DissectorTable.get("tcp.port")
 tcp_table:add(34567, XM_proto)
 local udp_table = DissectorTable.get("udp.port")
+udp_table:add(7999, XM_proto)
 udp_table:add(34569, XM_proto)
 udp_table:add(34571, XM_proto)
 
 -- Create the menu entry for saving DVRIP/Sofia media streams
-register_menu("DVRIP Save Streams", dialog_stream_save, MENU_TOOLS_UNSORTED)
+register_menu("DVRIP/Sofia Save Streams", dialog_stream_save, MENU_TOOLS_UNSORTED)
