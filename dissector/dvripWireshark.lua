@@ -72,6 +72,7 @@ local DVRIP_newline = ProtoField.uint16("dvrip.newline", "Newline", base.DEC_HEX
 -- Info for binding DVRIP/Sofia device with a cloud relay
 local DVRIP_cloud_ip = ProtoField.string("dvrip.cloud_ip", "IP Address of Cloud Relay")
 local DVRIP_device_id = ProtoField.string("dvrip.device_id", "Device ID of IP Camera")
+local DVRIP_device_mac = ProtoField.string("dvrip.device_mac_address", "Mac Address of IP Camera")
 
 -- DVRIP/Sofia encrypted payload field
 local DVRIP_encrypted = ProtoField.string("dvrip.encrypted", "Encrypted Message")
@@ -121,6 +122,7 @@ XM_proto.fields = {
 	-- Info for binding DVRIP/Sofia device with a cloud relay
 	DVRIP_cloud_ip,
 	DVRIP_device_id,
+	DVRIP_device_mac,
 	-- Encrypted data
 	DVRIP_encrypted,
 	-- Media frame payload size
@@ -163,8 +165,14 @@ local function udp_dissect_bind_pdu(tvb, pinfo, tree)
 				subtree:add(DVRIP_cloud_ip, ip)
 			end
 		end
-	elseif signature == 0x1420f405 or signature == 0x1220ea03 then -- Cloud server -> IP camera
+	elseif signature == 0x1420f405 or signature == 0x1220ea03 or signature == 0x1220f003 then -- Cloud server -> IP camera
+		subtree:add(DVRIP_signature, tvb(0, 4))
 		subtree:add(DVRIP_device_id, tvb(4, tvb:len() - 4))
+		for split in tvb:raw():gmatch("([^%z]+)") do
+			for mac in split:gmatch("(%x%x:%x%x:%x%x:%x%x:%x%x:%x%x)") do
+				subtree:add(DVRIP_device_mac, mac)
+			end
+		end
 	end
 
 	pinfo.cols.protocol = "DVRIP/JSON"
