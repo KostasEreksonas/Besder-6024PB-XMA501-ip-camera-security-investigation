@@ -175,7 +175,7 @@ local function udp_dissect_bind_pdu(tvb, pinfo, tree)
 		end
 	end
 
-	pinfo.cols.protocol = "DVRIP/JSON"
+	pinfo.cols.protocol = XM_proto.name
     pinfo.cols.info = "Cloud Binding Message"
 end
 
@@ -188,7 +188,7 @@ local function udp_dissect_json_pdu(tvb, pinfo, tree)
 	-- Decode JSON object using built-in dissector
 	json:call(tvb, pinfo, subtree)
 	
-	pinfo.cols.protocol = "DVRIP/JSON"
+	pinfo.cols.protocol = XM_proto.name
     pinfo.cols.info = "Configuration Message"
 
 	return tvb:len()
@@ -203,8 +203,13 @@ local function dvrip_get_len(tvb, pinfo, offset)
 	-- JSON payload length is at offset 16 (little-endian)
 	local payload_length = tvb(offset + 16, 4):le_uint()
 
-	-- total = header + JSON body
-	local total_len = HEADER_LEN + payload_length
+	local total_len
+	if tvb(0, 1):uint() ~= 0xFF then
+		total_len = tvb:len()
+	else
+		-- total = header + JSON body
+		total_len = HEADER_LEN + payload_length
+	end
 
 	return total_len
 end
@@ -329,9 +334,11 @@ local function check_encryption(stream_key, message_length, subtree, tvb, pinfo)
 	if (tvb(14, 2):le_uint() ~= 1412) then
 		subtree:add(XM_proto, tvb(HEADER_LEN, message_length), "Encrypted Payload")
 		subtree:add(DVRIP_encrypted, tvb(HEADER_LEN, message_length))
+		pinfo.cols.protocol = XM_proto.name
 		pinfo.cols.info = "Encrypted Message "
 	else
 		subtree:add(XM_proto, tvb(HEADER_LEN, tvb:len() - HEADER_LEN), "Media Continuation Message")
+		pinfo.cols.protocol = XM_proto.name
 		pinfo.cols.info = "Media Continuation Message "
 	end
 end
@@ -342,6 +349,7 @@ local function build_protocol_media_tree(tvb, pinfo, subtree, stream_key, messag
 		-- Signature of media payload
 		local signature = tvb(HEADER_LEN, 4):uint()
 		-- Update pinfo description
+		pinfo.cols.protocol = XM_proto.name
 		pinfo.cols.info = "DVRIP media signature = " .. string.format("%08x", signature) .. " "
 		-- If no signature matches, treat it as media continuation packet in a protocol tree
 		-- If signature matches, build a protocol tree for the media frame and save payload to a byte buffer
@@ -518,33 +526,40 @@ local function dialog_stream_save()
 end
 
 local function dvrip_dissect_one_pdu(tvb, pinfo, tree)
-	pinfo.cols.protocol = XM_proto.name
-	pinfo.cols.info = "Command code = " .. string.format("%04d", tvb(14,2):le_uint()) .. " "
-
 	local subtree = tree:add(XM_proto, tvb(), "Xiongmai DVRIP Protocol")
 
-	subtree:add(DVRIP_header, tvb(0, 20))
+	if tvb(0, 1):uint() == 0xFF then
+		pinfo.cols.protocol = XM_proto.name
+		pinfo.cols.info = "Command code = " .. string.format("%04d", tvb(14,2):le_uint()) .. " "
 
-	local header = subtree:add(XM_proto, tvb(0, 20), "DVRIP Header")
-	build_message_header(tvb, header)
+		subtree:add(DVRIP_header, tvb(0, 20))
 
-	if tvb:len() > HEADER_LEN then
-		-- Length of a DVRIP/Sofia message (without 20-bit header)
-		local payload_length = tvb(16, 4):le_uint()
+		local header = subtree:add(XM_proto, tvb(0, 20), "DVRIP Header")
+		build_message_header(tvb, header)
 
-		-- Build protocol tree with control flow messages (JSON-based) and media payloads
-		if tvb(HEADER_LEN, 1):uint() == JSON_OPEN_BRACE and tvb(14, 2):le_uint() ~= CMD_MEDIA_STREAM then
-			build_protocol_tree(tvb, pinfo, subtree, payload_length)
-		else
-			local stream_key = tostring(pinfo.src) .. "_" .. tvb(2, 1):le_uint().. "_" .. tvb(3, 1):le_uint()
+		if tvb:len() > HEADER_LEN then
+			-- Length of a DVRIP/Sofia message (without 20-bit header)
+			local payload_length = tvb(16, 4):le_uint()
+
+			-- Build protocol tree with control flow messages (JSON-based) and media payloads
+			if tvb(HEADER_LEN, 1):uint() == JSON_OPEN_BRACE and tvb(14, 2):le_uint() ~= CMD_MEDIA_STREAM then
+				build_protocol_tree(tvb, pinfo, subtree, payload_length)
+			else
+				local stream_key = tostring(pinfo.src) .. "_" .. tvb(2, 1):le_uint().. "_" .. tvb(3, 1):le_uint()
 			
-			-- Reconstruct DVRIP/Sofia media frames into byte buffers ready for export
-			if not pinfo.visited and tvb(14,2):le_uint() == 1412 then
-				reconstruct_streams(tvb, stream_key, pinfo, subtree, payload_length)
-			end
+				-- Reconstruct DVRIP/Sofia media frames into byte buffers ready for export
+				if not pinfo.visited and tvb(14,2):le_uint() == 1412 then
+					reconstruct_streams(tvb, stream_key, pinfo, subtree, payload_length)
+				end
 
-			build_protocol_media_tree(tvb, pinfo, subtree, stream_key, payload_length)
+				build_protocol_media_tree(tvb, pinfo, subtree, stream_key, payload_length)
+			end
 		end
+	else
+		subtree:add(DVRIP_encrypted, tvb(0, tvb:len()))
+	
+		pinfo.cols.protocol = XM_proto.name
+		pinfo.cols.info = "Encrypted Message "
 	end
 
 	return tvb:len() -- amount of bytes consumed
@@ -560,6 +575,8 @@ function XM_proto.dissector(tvb, pinfo, tree)
 		dissect_tcp_pdus(tvb, tree, 0, udp_get_len, udp_dissect_bind_pdu, true)
 	elseif tvb(0, 1):uint() == JSON_OPEN_BRACE then
 		dissect_tcp_pdus(tvb, tree, 0, udp_get_len, udp_dissect_json_pdu, true)
+	elseif tvb(0, 1):uint() ~= 0xFF then
+		dissect_tcp_pdus(tvb, tree, 0, dvrip_get_len, dvrip_dissect_one_pdu, true)
 	else
 		dissect_tcp_pdus(tvb, tree, HEADER_LEN, dvrip_get_len, dvrip_dissect_one_pdu, true)
 	end
@@ -567,7 +584,8 @@ end
 
 -- Assign DVRIP/Sofia protocol to relevant ports
 local tcp_table = DissectorTable.get("tcp.port")
-tcp_table:add(34567, XM_proto)
+tcp_table:add(6611, XM_proto) -- Cloud media stream
+tcp_table:add(34567, XM_proto) -- Local media stream
 local udp_table = DissectorTable.get("udp.port")
 udp_table:add(7999, XM_proto)
 udp_table:add(8765, XM_proto)
