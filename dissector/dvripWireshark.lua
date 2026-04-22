@@ -71,6 +71,7 @@ local DVRIP_newline = ProtoField.uint16("dvrip.newline", "Newline", base.DEC_HEX
 
 -- Info for binding DVRIP/Sofia device with a cloud relay
 local DVRIP_cloud_ip = ProtoField.string("dvrip.cloud_ip", "IP Address of Cloud Relay")
+local DVRIP_home_ip = ProtoField.string("dvrip.home_ip", "Public IP Address of Home Network")
 local DVRIP_device_id = ProtoField.string("dvrip.device_id", "Device ID of IP Camera")
 local DVRIP_device_mac = ProtoField.string("dvrip.device_mac_address", "Mac Address of IP Camera")
 
@@ -121,6 +122,7 @@ XM_proto.fields = {
 	DVRIP_newline,
 	-- Info for binding DVRIP/Sofia device with a cloud relay
 	DVRIP_cloud_ip,
+	DVRIP_home_ip,
 	DVRIP_device_id,
 	DVRIP_device_mac,
 	-- Encrypted data
@@ -149,6 +151,15 @@ local function udp_get_len(tvb)
 	return tvb:len()
 end
 
+local function match_config(tvb, subtree, protocol_field, match_string)
+	-- Match IP/MAC addresses in DVRIP/Sofia configuration packets
+	for split in tvb:raw():gmatch("([^%z]+)") do
+		for address in split:gmatch(match_string) do
+			subtree:add(protocol_field, address)
+		end
+	end
+end
+
 local function udp_dissect_bind_pdu(tvb, pinfo, tree)
 	local signature = tvb(0, 4):uint()
 	local signature_2
@@ -157,22 +168,16 @@ local function udp_dissect_bind_pdu(tvb, pinfo, tree)
 	if signature == 0x1420f505 then -- IP camera -> cloud server (port 7999/UDP)
 		subtree:add(DVRIP_signature, tvb(0, 4))
 		subtree:add(DVRIP_cloud_ip, tvb(4, tvb:len() - 4))
+	elseif signature == 0x1220e903 then
+		subtree:add(DVRIP_signature, tvb(0, 4))
+		subtree:add(DVRIP_home_ip, tvb(4, tvb:len() - 4))
 	elseif signature_2 == "1220F10503" then -- IP camera -> cloud server (port 8765/UDP)
 		subtree:add(DVRIP_signature, tvb(0, 5))
-		-- Split IPs by /0 and add them to protocol subtree
-		for split in tvb:raw():gmatch("([^%z]+)") do
-			for ip in split:gmatch("(%d+%.%d+%.%d+%.%d+)") do
-				subtree:add(DVRIP_cloud_ip, ip)
-			end
-		end
+		match_config(tvb, subtree, DVRIP_cloud_ip, "(%d+%.%d+%.%d+%.%d+)")
 	elseif signature == 0x1420f405 or signature == 0x1220ea03 or signature == 0x1220f003 then -- Cloud server -> IP camera
 		subtree:add(DVRIP_signature, tvb(0, 4))
 		subtree:add(DVRIP_device_id, tvb(4, tvb:len() - 4))
-		for split in tvb:raw():gmatch("([^%z]+)") do
-			for mac in split:gmatch("(%x%x:%x%x:%x%x:%x%x:%x%x:%x%x)") do
-				subtree:add(DVRIP_device_mac, mac)
-			end
-		end
+		match_config(tvb, subtree, DVRIP_device_mac, "(%x%x:%x%x:%x%x:%x%x:%x%x:%x%x)")
 	end
 
 	pinfo.cols.protocol = XM_proto.name

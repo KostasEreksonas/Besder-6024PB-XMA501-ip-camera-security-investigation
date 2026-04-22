@@ -5,11 +5,14 @@ Full writeup of a sample IP camera is available at [Besder 6024PB-XMA501 IP came
 Table of Contents
 =================
 * [Test Device](#test-device)
-* [DVRIP/Sofia Commnd Message](#dvripsofia-command-message)
-* [Audio Header](#audio-header)
-* [I-Frame Header](#i-frame-header)
-* [P-Frame Header](#p-frame-header)
-* [Information Frame Header](#information-frame-header)
+* [DVRIP/Sofia Headers](#dvripsofia-headers)
+    * [DVRIP/Sofia Message Header](#dvripsofia-message-header)
+    * [Audio Header](#audio-header)
+    * [I-Frame Header](#i-frame-header)
+    * [P-Frame Header](#p-frame-header)
+    * [Information Frame Header](#information-frame-header)
+* [Saving Streams](#saving-streams)
+* [Cloud Communications](#cloud-communications)
 
 # Test Device
 
@@ -22,13 +25,13 @@ Model: XM530_50X50-WG_8M
 Firmware version: V5.00.R02.00030747.10010.349f17
 ```
 
-Media frames are saved as bytes in `/tmp` directory (file format: 'pinfo.number'_'frame_name').
+# DVRIP/Sofia Headers
 
-DVRIP/Sofia media payloads have their own headers. All media payload header fields (except signature) are reordered to little-endian (LE) to extract their exact value.
+Aside from the main DVRIP/Sofia message header, protocol's media payloads have their own headers. All media payload header fields (except first 4 bits - signature that indicates the type of a media payload) are reordered to their little-endian (LE) values.
 
 Media payload headers were reconstructed based on [Xiongmai bitstream frame format document](https://www.scribd.com/document/669666260/%E7%A0%81%E6%B5%81%E5%B8%A7%E6%A0%BC%E5%BC%8F%E6%96%87%E6%A1%A3).
 
-# DVRIP/Sofia Command Message
+## DVRIP/Sofia Message Header
 
 Header description of a single DVRIP/Sofia message is based on [Digital Video Recorder Interface Protocol document](https://github.com/OpenIPC/python-dvr/blob/master/doc/%E9%9B%84%E8%BF%88%E6%95%B0%E5%AD%97%E8%A7%86%E9%A2%91%E5%BD%95%E5%83%8F%E6%9C%BA%E6%8E%A5%E5%8F%A3%E5%8D%8F%E8%AE%AE_V1.0.0.pdf), the actual diagram being on page 7.
 
@@ -36,22 +39,22 @@ Header description of a single DVRIP/Sofia message is based on [Digital Video Re
 
 ![DVRIP header in Wireshark](images/DVRIP_header_wireshark.png)
 
-1. BIT 0: message header byte, fixed as 0xFF.
+1. BIT 0: message header bit, fixed as 0xFF.
 2. BIT 1: observed to be equal to 0 for requests and equal to 1 for responses from the IP camera.
-3. BIT 2: reserved byte 1:
+3. BIT 2: reserved bit 1:
     * Equals `0` when H.264 video codec is used (BIT4 = `0x02` on I-Frame header).
     * Equals `1` when H.265 video codec is used (BIT4 = `0x12` on I-Frame header).
-4. BIT 3: reserved byte 2:
+4. BIT 3: reserved bit 2:
     * Equals `128` when DVRIP message contains audio frames.
     * Equals `0` otherwise.
 5. BIT 4-7: session ID. Assigned by the camera after successful login. Needs to be present in every subsequent message.
 6. BIT 8-11: sequence number. Increments from 0 after startup, and after reaching the (unknown) maximum, starts from 0 again.
-7. BIT 12: total number of packets in a single message. Value of 0 or 1 indicate a single message per packet. 
-8. BIT 13: number of a current packet in message. Meaningful only when the value of total packets (BIT 12) is greater than 1.
+7. BIT 12: total number of messages in a single packet. Value of 0 or 1 indicate a single message per packet. 
+8. BIT 13: number of a current message in a packet. Meaningful only when the value of total packets (BIT 12) is greater than 1.
 9. BIT 14-15: command code (also called message id). The code defines what action to perform.
 10. BIT 16-19: data (payload) length. Length of a JSON payload, which starts immediately after DVRIP/Sofia header.
 
-# Audio Header
+## Audio Header
 
 ![DVRIP audio header](images/Audio_header.png)
 
@@ -62,7 +65,7 @@ Header description of a single DVRIP/Sofia message is based on [Digital Video Re
 3. BIT 5: sampling rate (0x02 = 8kHz sampling)
 4. BIT 6-7: length of audio payload
 
-# I-Frame Header
+## I-Frame Header
 
 ![DVRIP I-Frame header](images/Iframe_header.png)
 
@@ -80,7 +83,7 @@ First 4 bits of an I-Frame payload (BITS 16-19) are equal to `0x00000001`
 
 Same exact header fields are shared between I-Frames (FC) and snapshots (FE).
 
-# P-Frame Header
+## P-Frame Header
 
 ![DVRIP P-Frame header](images/Pframe_header.png)
 
@@ -93,7 +96,7 @@ Extension of I-Frames.
 
 First 4 bits of a P-Frame payload (BITS 8-11) are equal to `0x00000001`
 
-# Information Frame Header
+## Information Frame Header
 
 ![DVRIP information frame header](images/Information_frame_header.png)
 
@@ -104,7 +107,53 @@ First 4 bits of a P-Frame payload (BITS 8-11) are equal to `0x00000001`
 3. BIT 5: unused value
 4. BIT 6-7: payload length
 
-Used for information transmission. First byte after signature (byte 4):
+Used for information transmission. First bit after signature (bit 4):
 
 1. 0x01 - general information.
 2. 0x06 - unknown value.
+
+# Saving Streams
+
+This dissector is programmed to reconstruct audio and video streams from the packet capture (.pcap) file. In Wireshark GUI, navigate to the `Tools` menu and select `DVRIP Save Streams` entry. In the pop-up dialog box, enter the desired folder to save streams in.
+
+File names of saved streams are structured as follows:
+
+`<camera-ip-address>_<reserved-bit-1>_<reserved-bit-2>_<audio|video>.<g711|h265>`
+
+# Cloud Communications
+
+Same logic is used both for local and cloud communications with the IP camera. Only observed difference is that for local communications, port `TCP/34567` is used and for cloud communications, it is port `TCP/6611`.
+
+# DVRIP/Sofia Protocol Field List
+
+DVRIP/Sofia protocol fields used in this protocol dissector:
+
+|Field Name|Filter Name|Description|
+|----------|-----------|-----------|
+|DVRIP_header|dvrip.header|Full DVRIP/Sofia header|
+|DVRIP_header_id|dvrip.header_id|First byte of DVRIP header, observed to be `0xFF`|
+|DVRIP_req_resp|dvrip.req_resp|Request/response byte. `0x00` for request and `0x01` for response|
+|DVRIP_reserved_1|dvrip.reserved_1|Reserved bit 1. Indicates video stream|
+|DVRIP_reserved_2|dvrip.reserved_2|Reserved bit 2. Indicates audio stream|
+|DVRIP_session_id|dvrip.session_id|ID of an established session|
+|DVRIP_sequence_id|dvrip.sequence_id|Sequence ID. Message number in the current session|
+|DVRIP_total_packets|dvrip.total_packets|Number of messages in a single packet. 0 or 1 indicate a single message|
+|DVRIP_current_packet|dvrip.current_packet|current message in a packet. Meaningful only when total packets > 1|
+|DVRIP_command_code|dvrip.command_code|Command code/Message ID. Identifies an action to perform|
+|DVRIP_payload_size|dvrip.payload_size|Payload size of a current message|
+|DVRIP_payload_JSON_RAW|dvrip.data|JSON data payload. Starts immediately after header|
+|DVRIP_newline|dvrip.newline|Trailin newline after JSON payload|
+|DVRIP_cloud_ip|dvrip.cloud_ip|IP address of cloud relay|
+|DVRIP_home_ip|dvrip.home_ip|Public IP address of a home network|
+|DVRIP_device_id|dvrip.device_id|Serial number of IP camera|
+|DVRIP_device_mac|dvrip.device_mac_address|MAC address of IP camera|
+|DVRIP_encrypted|dvrip.encrypted|Encrypted payload of a message|
+|DVRIP_signature|dvrip.signature|Signature of media frame|
+|DVRIP_stream_type|dvrip.stream_type|Video stream type|
+|DVRIP_framerate|dvrip.framerate|Stream framerate|
+|DVRIP_width|dvrip.width|Width of video frame (divided by 8)|
+|DVRIP_height|dvrip.height|Height of video frame (divided by 8)|
+|DVRIP_datetime|dvrip.datetime|Start date of the stream|
+|DVRIP_media_payload_size|dvrip.media_payload_size|Payload size of media frame|
+|DVRIP_sampling_rate|dvrip.sampling_rate|Audio sampling rate|
+|DVRIP_unused_field|dvrip.unused_field|Unused field in information frame header|
