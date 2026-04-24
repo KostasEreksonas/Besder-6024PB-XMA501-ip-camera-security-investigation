@@ -185,7 +185,6 @@ local function udp_dissect_bind_pdu(tvb, pinfo, tree)
 end
 
 local function udp_dissect_json_pdu(tvb, pinfo, tree)
-	local json_tvb
 	local subtree = tree:add(XM_proto, tvb(), "Configuration Message")
 
 	subtree:add(DVRIP_payload_JSON_RAW, tvb(0, tvb:len()))
