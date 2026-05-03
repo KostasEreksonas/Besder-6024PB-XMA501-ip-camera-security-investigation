@@ -4,6 +4,9 @@ Full writeup of a sample IP camera is available at [Besder 6024PB-XMA501 IP came
 
 Table of Contents
 =================
+* [Usage](#usage)
+    * [Linux](#linux)
+    * [Windows](#windows)
 * [Test Device](#test-device)
 * [DVRIP/Sofia Headers](#dvripsofia-headers)
     * [DVRIP/Sofia Message Header](#dvripsofia-message-header)
@@ -13,6 +16,18 @@ Table of Contents
     * [Information Frame Header](#information-frame-header)
 * [Saving Streams](#saving-streams)
 * [Cloud Communications](#cloud-communications)
+
+# Usage
+
+## Linux
+
+```
+cp dvripWireshark.lua /usr/lib/wireshark/plugins/
+```
+
+## Windows
+
+Copy dvripWireshark.lua to `%APPDATA%\Wireshark\plugins`
 
 # Test Device
 
