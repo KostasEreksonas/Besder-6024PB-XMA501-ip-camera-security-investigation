@@ -73,6 +73,7 @@ Table of Contents
 |214|Password is invalid|
 |215|Password does not match|
 |216|Keep account|
+|430|User not found|
 |502|The command is illegal|
 |503|Intercom is on|
 |504|Intercom is not enabled|
