@@ -1,0 +1,20 @@
+[project]
+name = "icsee"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "KostasEreksonas", email = "k.ereksonas@gmail.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "frida>=17.17.0",
+    "frida-tools>=14.10.4",
+]
+
+[project.scripts]
+icsee = "icsee:main"
+
+[build-system]
+requires = ["uv_build>=0.12.5,<0.13.0"]
+build-backend = "uv_build"
