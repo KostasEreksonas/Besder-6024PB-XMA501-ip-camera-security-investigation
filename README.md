@@ -1,7 +1,7 @@
 
 # Security Assessment of Besder 6024PB-XMA501 IP Camera
 
-Security assesment of cheap and old Chinese IP camera (Part 1)
+Security assessment of cheap and old Chinese IP camera (Part 1)
 
 Table of Contents
 =================
@@ -238,7 +238,7 @@ Main thing to look for here is to try and dig up an Uniform Resource Identifier 
 
 ### Method 1: Curl
 
-Every XML SOAP response does include it’s namespace declarations - whether or not all listed operations are supported by Besder 6024PB-XMA501 IP camera is a question of further research:
+Every XML SOAP response does include its namespace declarations - whether or not all listed operations are supported by Besder 6024PB-XMA501 IP camera is a question of further research:
 
 [Soap declarations](assets/SOAP_declarations.xml)
 
@@ -846,7 +846,7 @@ I configured a password for the camera - `1.QwertY.6` - on ICSee app during init
 
 ## Dissecting DVRIP/Sofia protocol in Wireshark
 
-Xiongmai uses a proprietary DVRIP/Sofia protocol for both controlling the camera (configuration, information probing, etc.) and receiving audio/video streams. Each packet is comprised of a header and a payload. An approximate structure of a single packet from Xiongmais proprietary protocol is based on [Dahua DVRIP dissector by Thomas Vogt](https://github.com/r4bit999/dvrip-analysis) and my own captures of traffic on port 34567.
+Xiongmai uses a proprietary DVRIP/Sofia protocol for both controlling the camera (configuration, information probing, etc.) and receiving audio/video streams. Each packet is comprised of a header and a payload. An approximate structure of a single packet from Xiongmai's proprietary protocol is based on [Dahua DVRIP dissector by Thomas Vogt](https://github.com/r4bit999/dvrip-analysis) and my own captures of traffic on port 34567.
 
 * Header - first 20 bytes of DVRIP packet. I distinguished 7 fields in the header, each field had their order reversed to little-endian before converting to decimal value:
   1. Start of DVRIP packet (Byte 1)
@@ -1101,4 +1101,4 @@ Nmap does not flag any service regarding this port and information online is sca
 
 # Conclusion
 
-In this part, a general security assesment was performed with reviewing existing vulnerabilities in Xiongmai DVRIP/Sofia binary and ONVIF implementation within a Besder 6024PB-XMA501 IP camera as well as previous efforts on reverse engineering a proprietary DVRIP/Sofia protcol. Main contributions of this article include newly created and updated exploits for existing vulnerabilities, a Sofia hash cracking tool (that supports only dictionary attacks as of now) and a Lua dissector of DVRIP/Sofia protocol for Wireshark.
+In this part, a general security assesment was performed with reviewing existing vulnerabilities in Xiongmai DVRIP/Sofia binary and ONVIF implementation within a Besder 6024PB-XMA501 IP camera as well as previous efforts on reverse engineering a proprietary DVRIP/Sofia protocol. Main contributions of this article include newly created and updated exploits for existing vulnerabilities, a Sofia hash cracking tool (that supports only dictionary attacks as of now) and a Lua dissector of DVRIP/Sofia protocol for Wireshark.
