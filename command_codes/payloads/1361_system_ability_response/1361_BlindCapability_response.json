@@ -1,9 +1,0 @@
-{
-    "BlindCapability" :
-    {
-        "BlindCoverNum" : 4
-    },
-    "Name" : "BlindCapability",
-    "Ret" : 100,
-    "SessionID" : "0x00000006"
-}

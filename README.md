@@ -5,6 +5,7 @@ Security assesment of cheap and old Chinese IP camera (Part 1)
 
 Table of Contents
 =================
+* [Additional Resources](#additional-resources)
 * [Security Assessment of Besder 6024PB-XMA501 IP Camera](#security-assessment-of-besder-6024pb-xma501-ip-camera)
 * [Setup](#setup)
 * [Device Discovery](#device-discovery)
@@ -39,6 +40,14 @@ Table of Contents
   * [Vulnerability Proof of Concepts](#vulnerability-proof-of-concepts)
   * [Other Information](#other-information)
 * [Conclusion](#conclusion)
+
+# Additional Resources
+
+List of resources that were created while analyzing Besder 6024PB-XMA501 IP Camera:
+1. DVRIP/Sofia network protocol analysis and Wireshark dissector [can be found on KostasEreksonas/DVRIP_analysis repository](https://github.com/KostasEreksonas/DVRIP_analysis)
+2. DVRIP/Sofia protocol request/response codes [can be found on KostasEreksonas/DVRIP_Sofia_reference_codes repository](https://github.com/KostasEreksonas/DVRIP_Sofia_reference_codes)
+3. Proof-of-Concept for ONVIF authentication bypass vulnerability on Xiongmai-based IP cameras [can be found on KostasEreksonas/XM_ONVIF_auth_bypass repository](https://github.com/KostasEreksonas/XM_ONVIF_auth_bypass)
+4. Proof-of-Concept code for brute-forcing DVRIP/Sofia hashes using a dictionary attack [can be found on KostasEreksonas/DVRIP_hash_cracker repository](https://github.com/KostasEreksonas/DVRIP_hash_cracker)
 
 # Setup
 
@@ -415,7 +424,7 @@ Using [python-onvif-zeep](https://github.com/FalkTannhaeuser/python-onvif-zeep) 
 3. Username (default: admin)
 4. Password (default: \<empty\>) - this field is required by Python ONVIF library, although exact value is irrelevant for the exploit as it is not being checked anywhere. 
 
-For Besder 6024PB-XMA501, default credentials are printed on the camera itself. [A sample script is provided at ONVIF_auth_bypass directory as xm_onvif_auth_bypass.py](ONVIF_auth_bypass/Python/xm_onvif_auth_bypass.py)
+For Besder 6024PB-XMA501, default credentials are printed on the camera itself. [Sample scripts (Bash and Python) on authentication bypass via ONVIF is available on a separate git repository](https://github.com/KostasEreksonas/XM_ONVIF_auth_bypass)
 
 Running the script identifies 2 RTSP streams:
 
@@ -827,7 +836,7 @@ I configured a password for the camera - `1.QwertY.6` - on ICSee app during init
 
 ### Brute Forcing Sofia Hash
 
-[A cracker.py script is used to crack the Sofia hash](cracker/xm_hash_cracker.py). It is a script that in its current state only does a simple dictionary attack against the hash. Sofia hash from the IP camera is obtained by exploiting either an aforementioned ONVIF authentication bypass vulnerability, or exploiting another authentication bypass vulnerability in the proprietary Sofia protocol itself.
+[A cracker.py script is used to crack the Sofia hash](https://github.com/KostasEreksonas/DVRIP_hash_cracker/blob/main/xm_hash_cracker.py). It is a script that in its current state only does a simple dictionary attack against the hash. Sofia hash from the IP camera is obtained by exploiting either an aforementioned ONVIF authentication bypass vulnerability, or exploiting another authentication bypass vulnerability in the proprietary Sofia protocol itself.
 
 ## CVE-2024-3765 - Unauthorized Incorrect Access Control and Command Execution
 
@@ -852,9 +861,9 @@ Xiongmai uses a proprietary DVRIP/Sofia protocol for both controlling the camera
   2. Media is being sent in DVRIP packets with payload length of 8192 bytes.
 * Camera control packets has a trailing newline character after JSON object (either `0x0a` or `0x000a`).
 
-[Xiongmai DVRIP/Sofia dissector for Wireshark (written in Lua)](dissector/dvripWireshark.lua)
+[Xiongmai DVRIP/Sofia dissector for Wireshark (written in Lua)](https://github.com/KostasEreksonas/DVRIP_analysis/blob/main/dvripWireshark.lua)
 
-The following is how this dissector looks in Wireshark:
+Sample on how this dissector parses DVRIP/Sofia messages in Wireshark is presented below:
 
 ![DVRIP/Sofia dissector in Wireshark](images/dvrip_request.png)
 
